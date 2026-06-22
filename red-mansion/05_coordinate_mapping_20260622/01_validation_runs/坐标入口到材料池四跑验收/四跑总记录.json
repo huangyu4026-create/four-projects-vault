@@ -1,0 +1,407 @@
+{
+  "boundary": "入口 -> 坐标分流 -> 查询词路 -> 人物归一强门 -> 坐标预检 -> 进坐标表/词位表取材 -> 材料候选送材料池入口 -> 停止，不写文章",
+  "case_count": 4,
+  "pass_count": 4,
+  "results": [
+    {
+      "case_id": "01_alias_distance",
+      "question": "坐标 颦儿和黄字离得最近的是哪一回",
+      "route_gate": "取材门：坐标\nrecall_gate：coordinate\n取材规则：入口词包生成后，进入坐标取材系统；不得回落到原语义取材系统。",
+      "route_context": "取材门：坐标\nrecall_gate：coordinate\n取材规则：入口词包生成后，进入坐标取材系统；不得回落到原语义取材系统。\nCodex查询词路\nCodex问题中心：坐标取材入口到材料池验收\nCodex经验路径：\nCodex库线路径：\nCodex策略理由：人物别名 + 正文颜色字 + 最近距离。\nCodex下一步指令：只生成坐标材料候选并送材料池入口，不进入写作。\nCodex词角色：主查人物=颦儿；主查词=黃；归一词=颦儿->林黛玉\nCodex材料升级条件：人物归一通过、词位/变量命中、距离或共场矩阵形成、原文句存在后，才送材料池入口。\nCodex补查方案：缺人物归一则停门；缺入口词则停门；表无命中则需补证。\nCodex查询词：颦儿、黃\nCodex强复合：颦儿 + 黃\nCodex背景锚点：最近、哪一回\nCodex优先库：全文词位材料索引库、全量变量投影库、全文字位原子段桥表\nCodex查证顺序：先触发坐标门；再人物归一强令牌；再词位穷尽；再坐标变量；再距离/共场；再提出原子段和原文句；送材料池入口后停止，不写答案。\nCodex注意事项：人物题必须先过70/72全人物归一包；坐标路不得回落语义路；缺入口词不得裸猜；材料进入材料池入口后停止",
+      "raw_terms": [
+        "颦儿",
+        "黃"
+      ],
+      "normalized_terms": [
+        "林黛玉",
+        "黃"
+      ],
+      "person_status": "已接入70/72全人物归一包",
+      "person_character_keys": [
+        "P0015"
+      ],
+      "person_canonical_names": [
+        "林黛玉"
+      ],
+      "query_types": [
+        "词位",
+        "坐标",
+        "距离",
+        "全量",
+        "原文"
+      ],
+      "preflight_ok": true,
+      "preflight_missing_required": [],
+      "bundle_status": "可答",
+      "bundle_rows": 20,
+      "pool_raw_rows": 100,
+      "pool_unique_segments": 100,
+      "pool_person_gate": {
+        "required": true,
+        "ok": true,
+        "status": "人物归一强令牌通过",
+        "character_keys": [
+          "P0015"
+        ],
+        "canonical_names": [
+          "林黛玉"
+        ],
+        "alias_expansions": {
+          "林黛玉": [
+            "林黛玉",
+            "黛玉",
+            "林姑娘",
+            "林妹妹",
+            "颦儿",
+            "潇湘妃子",
+            "潇湘[空间]"
+          ]
+        },
+        "rule": "只要题目、入口词或词角色涉及人物、名字、称谓、别名，必须先过70/72人物归一；未归一不得入材料池。"
+      },
+      "first_material": {
+        "atom_code": "C027-A0003",
+        "segment_no": "27-003",
+        "chapter_no": 27,
+        "material_status": "可答",
+        "material_query_type": "词位 / 坐标 / 距离 / 全量 / 原文",
+        "material_variables": "person=林黛玉",
+        "coordinate_pairwise_summary": "same_atom=1",
+        "source_sentence": "且說寶釵、迎春、探春、惜春、李紈、鳳姐等並巧姐、大姐、香菱與眾丫鬟們在園內玩耍，獨不見林黛玉"
+      },
+      "checks": {
+        "route_coordinate": true,
+        "strategy_terms": true,
+        "person_gate_ok_or_not_required": true,
+        "coordinate_preflight_ok": true,
+        "entered_coordinate_tables": true,
+        "material_candidates_created": true,
+        "material_pool_entry_created": true,
+        "no_answer_written": true
+      },
+      "ok": true,
+      "artifacts": {
+        "markdown": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/01_alias_distance/material_pool_entry/01_总证据池报告.md",
+        "json": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/01_alias_distance/material_pool_entry/02_总证据池摘要.json",
+        "raw_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/01_alias_distance/material_pool_entry/03_子问题证据明细.csv",
+        "merged_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/01_alias_distance/material_pool_entry/04_合并候选段落.csv",
+        "subquestion_count": 5,
+        "raw_rows": 100,
+        "unique_segments": 100,
+        "subquestion_loop": {
+          "required": true,
+          "subquestion_count": 5,
+          "pool_built": true,
+          "raw_rows": 100,
+          "unique_segments": 100,
+          "admitted_rows": 100,
+          "extractable_material_rows": 100,
+          "missing_subquestions": [],
+          "next_action": "进入材料池精读或按 Codex 判断继续补证。"
+        }
+      }
+    },
+    {
+      "case_id": "02_person_season_object",
+      "question": "坐标 宝玉和黛玉在秋天跟花接近的状态",
+      "route_gate": "取材门：坐标\nrecall_gate：coordinate\n取材规则：入口词包生成后，进入坐标取材系统；不得回落到原语义取材系统。",
+      "route_context": "取材门：坐标\nrecall_gate：coordinate\n取材规则：入口词包生成后，进入坐标取材系统；不得回落到原语义取材系统。\nCodex查询词路\nCodex问题中心：坐标取材入口到材料池验收\nCodex经验路径：\nCodex库线路径：\nCodex策略理由：双人物别名 + 季节 + 物象 + 接近关系。\nCodex下一步指令：只生成坐标材料候选并送材料池入口，不进入写作。\nCodex词角色：主查人物=宝玉、黛玉；主查物象=花；场景词=秋；归一词=宝玉->贾宝玉、黛玉->林黛玉\nCodex材料升级条件：人物归一通过、词位/变量命中、距离或共场矩阵形成、原文句存在后，才送材料池入口。\nCodex补查方案：缺人物归一则停门；缺入口词则停门；表无命中则需补证。\nCodex查询词：宝玉、黛玉、花\nCodex强复合：宝玉 + 黛玉 + 秋 + 花\nCodex背景锚点：秋天、接近、状态\nCodex优先库：全文词位材料索引库、全量变量投影库、全文字位原子段桥表\nCodex查证顺序：先触发坐标门；再人物归一强令牌；再词位穷尽；再坐标变量；再距离/共场；再提出原子段和原文句；送材料池入口后停止，不写答案。\nCodex注意事项：人物题必须先过70/72全人物归一包；坐标路不得回落语义路；缺入口词不得裸猜；材料进入材料池入口后停止",
+      "raw_terms": [
+        "宝玉",
+        "黛玉",
+        "花",
+        "秋"
+      ],
+      "normalized_terms": [
+        "贾宝玉",
+        "林黛玉",
+        "花",
+        "秋"
+      ],
+      "person_status": "已接入70/72全人物归一包",
+      "person_character_keys": [
+        "P0025",
+        "P0015"
+      ],
+      "person_canonical_names": [
+        "贾宝玉",
+        "林黛玉"
+      ],
+      "query_types": [
+        "词位",
+        "坐标",
+        "距离",
+        "全量",
+        "综合",
+        "原文"
+      ],
+      "preflight_ok": true,
+      "preflight_missing_required": [],
+      "bundle_status": "可答",
+      "bundle_rows": 20,
+      "pool_raw_rows": 100,
+      "pool_unique_segments": 100,
+      "pool_person_gate": {
+        "required": true,
+        "ok": true,
+        "status": "人物归一强令牌通过",
+        "character_keys": [
+          "P0025",
+          "P0015"
+        ],
+        "canonical_names": [
+          "贾宝玉",
+          "林黛玉"
+        ],
+        "alias_expansions": {
+          "贾宝玉": [
+            "贾宝玉",
+            "宝玉",
+            "宝二爷",
+            "二爷[歧]",
+            "怡红公子",
+            "公子[歧]",
+            "玉兄",
+            "宝哥哥",
+            "绛洞花主",
+            "神瑛",
+            "怡红[空间]"
+          ],
+          "林黛玉": [
+            "林黛玉",
+            "黛玉",
+            "林姑娘",
+            "林妹妹",
+            "颦儿",
+            "潇湘妃子",
+            "潇湘[空间]"
+          ]
+        },
+        "rule": "只要题目、入口词或词角色涉及人物、名字、称谓、别名，必须先过70/72人物归一；未归一不得入材料池。"
+      },
+      "first_material": {
+        "atom_code": "C003-A0016",
+        "segment_no": "03-016",
+        "chapter_no": 3,
+        "material_status": "可答",
+        "material_query_type": "词位 / 坐标 / 距离 / 全量 / 综合 / 原文",
+        "material_variables": "emotion_symbolic_function=传花到贾环；emotion_symbolic_function=回园独对池上芙蓉忆晴雯为花神转喜；emotion_symbolic_function=宝玉信口吟“池塘一夜秋风冷”一歌。；emotion_symbolic_function=宝玉听信花神之说；emotion_symbolic_function=文花唱曲；event=传花得诗·三代于斯；event=传试家来人引出传秋芳；event=元宵夜宴花厅陈设与赏戏撒钱；event=共葬落花与袭人来唤；event=凸碧山庄中秋宴·击鼓传花；event=占花魁·宝玉悟音律；event=周瑞家的送宫花与黛玉冷语；event=四子笑话·贾母悲秋；event=园中观画女红并写黛玉秋嗽加重；event=妙玉私邀钗黛宝玉共饮梅花雪茶；event=妙玉续诗·中秋联句终章翻转；event=宝玉入潇湘馆赏花叙话；event=宝玉捧落花重至旧日葬花处并闻人悲吟；event=宝玉默思花事先兆；event=宝钗冷香丸与薛姨妈赠宫花；event=宝钗哭归与黛玉花下讥语；event=宝钗哭归次日遇黛玉花下讥语；event=宝黛葬花后解误；event=小红回话传信却遭秋纹碧痕撞见；event=平儿入花厅与探春议节省头油脂粉；event=怡红海棠反常开花；event=撤围并席·贾母主议中秋宴；event=散花寺大了请安·引出签事；event=散花寺求签·王熙凤衣锦还乡；event=晴雯秋纹为赏衣脸面斗口；event=李纨开楼备宴刘姥姥插花受戏；event=桃花下读西厢与论葬落花；event=桃花诗引发诗社重启；event=榆荫堂还席与甄家来人秋千玩笑；event=湘云起意改作菊花诗；event=秋爽斋众人会齐初议诗社；event=秋爽斋设宴刘姥姥席间逗笑；event=秋爽斋设席凤鸳预设刘姥姥笑局；event=秋爽斋遇秦氏幽魂托梦；event=秋纹夸说宝玉送桂得赏",
+        "coordinate_pairwise_summary": "same_atom=6",
+        "source_sentence": "头上戴著束发嵌宝紫金冠，齐眉勒著二龙戏珠金抹额，穿一件二色金百蝶穿花大红箭袖，束著五彩丝攒花结长穗宫绪，外罩石青起花八团倭缎排穗褂，登著青缎粉底小朝靴。"
+      },
+      "checks": {
+        "route_coordinate": true,
+        "strategy_terms": true,
+        "person_gate_ok_or_not_required": true,
+        "coordinate_preflight_ok": true,
+        "entered_coordinate_tables": true,
+        "material_candidates_created": true,
+        "material_pool_entry_created": true,
+        "no_answer_written": true
+      },
+      "ok": true,
+      "artifacts": {
+        "markdown": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/02_person_season_object/material_pool_entry/01_总证据池报告.md",
+        "json": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/02_person_season_object/material_pool_entry/02_总证据池摘要.json",
+        "raw_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/02_person_season_object/material_pool_entry/03_子问题证据明细.csv",
+        "merged_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/02_person_season_object/material_pool_entry/04_合并候选段落.csv",
+        "subquestion_count": 5,
+        "raw_rows": 100,
+        "unique_segments": 100,
+        "subquestion_loop": {
+          "required": true,
+          "subquestion_count": 5,
+          "pool_built": true,
+          "raw_rows": 100,
+          "unique_segments": 100,
+          "admitted_rows": 100,
+          "extractable_material_rows": 100,
+          "missing_subquestions": [],
+          "next_action": "进入材料池精读或按 Codex 判断继续补证。"
+        }
+      }
+    },
+    {
+      "case_id": "03_object_cooccurrence",
+      "question": "坐标 鸡和花有没有同场的材料",
+      "route_gate": "取材门：坐标\nrecall_gate：coordinate\n取材规则：入口词包生成后，进入坐标取材系统；不得回落到原语义取材系统。",
+      "route_context": "取材门：坐标\nrecall_gate：coordinate\n取材规则：入口词包生成后，进入坐标取材系统；不得回落到原语义取材系统。\nCodex查询词路\nCodex问题中心：坐标取材入口到材料池验收\nCodex经验路径：\nCodex库线路径：\nCodex策略理由：纯物象共场，检查人物归一强门不误拦。\nCodex下一步指令：只生成坐标材料候选并送材料池入口，不进入写作。\nCodex词角色：主查物象=鸡、花；主查词=鸡、花\nCodex材料升级条件：人物归一通过、词位/变量命中、距离或共场矩阵形成、原文句存在后，才送材料池入口。\nCodex补查方案：缺人物归一则停门；缺入口词则停门；表无命中则需补证。\nCodex查询词：鸡、花\nCodex强复合：鸡 + 花\nCodex背景锚点：同场、材料\nCodex优先库：全文词位材料索引库、全量变量投影库、全文字位原子段桥表\nCodex查证顺序：先触发坐标门；再人物归一强令牌；再词位穷尽；再坐标变量；再距离/共场；再提出原子段和原文句；送材料池入口后停止，不写答案。\nCodex注意事项：人物题必须先过70/72全人物归一包；坐标路不得回落语义路；缺入口词不得裸猜；材料进入材料池入口后停止",
+      "raw_terms": [
+        "鸡",
+        "花"
+      ],
+      "normalized_terms": [
+        "鸡",
+        "花"
+      ],
+      "person_status": "未命中人物归一包",
+      "person_character_keys": [],
+      "person_canonical_names": [],
+      "query_types": [
+        "词位",
+        "坐标",
+        "距离",
+        "共场",
+        "全量",
+        "原文"
+      ],
+      "preflight_ok": true,
+      "preflight_missing_required": [],
+      "bundle_status": "可答",
+      "bundle_rows": 20,
+      "pool_raw_rows": 100,
+      "pool_unique_segments": 100,
+      "pool_person_gate": {
+        "required": false,
+        "ok": true,
+        "status": "非人物/名字题，未触发人物归一强令牌",
+        "character_keys": [],
+        "canonical_names": [],
+        "alias_expansions": {},
+        "rule": "只要题目、入口词或词角色涉及人物、名字、称谓、别名，必须先过70/72人物归一；未归一不得入材料池。"
+      },
+      "first_material": {
+        "atom_code": "C058-A0014",
+        "segment_no": "58-014",
+        "chapter_no": 58,
+        "material_status": "可答",
+        "material_query_type": "词位 / 坐标 / 距离 / 共场 / 全量 / 原文",
+        "material_variables": "emotion_symbolic_function=传花到贾环；emotion_symbolic_function=回园独对池上芙蓉忆晴雯为花神转喜；emotion_symbolic_function=宝玉听信花神之说；emotion_symbolic_function=文花唱曲；event=传花得诗·三代于斯；event=元宵夜宴花厅陈设与赏戏撒钱；event=共葬落花与袭人来唤；event=凸碧山庄中秋宴·击鼓传花；event=占花魁·宝玉悟音律；event=周瑞家的送宫花与黛玉冷语；event=妙玉私邀钗黛宝玉共饮梅花雪茶；event=宝玉入潇湘馆赏花叙话；event=宝玉捧落花重至旧日葬花处并闻人悲吟；event=宝玉默思花事先兆；event=宝钗冷香丸与薛姨妈赠宫花；event=宝钗哭归与黛玉花下讥语；event=宝钗哭归次日遇黛玉花下讥语；event=宝黛葬花后解误；event=平儿入花厅与探春议节省头油脂粉；event=怡红海棠反常开花；event=探春乌眼鸡之叹·承接抄检余波；event=散花寺大了请安·引出签事；event=散花寺求签·王熙凤衣锦还乡；event=李纨开楼备宴刘姥姥插花受戏；event=柳家厨房线起头与鸡蛋争吵；event=桃花下读西厢与论葬落花；event=桃花诗引发诗社重启；event=湘云起意改作菊花诗；event=王夫人问安贾母并说凤姐野鸡汤孝敬；event=翠墨送来探春花笺；event=花名签夜宴饮酒取笑至四更；event=花自芳报母病接袭人归家；event=莺儿取硝编花篮并送黛玉；event=蒋玉菡行令念花气袭人薛蟠借题取笑；event=贾琏出面平息命案并花钱压下诉讼；event=赏花作诗宴；event=金桂嘲菱角花不香·改“香”为“秋”；event=黛玉伤春葬花宝玉闻诗慟倒山坡；event=黛玉失寐与园中饯花神；event=黛玉芒种前夜枯坐而园中众人饯花",
+        "coordinate_pairwise_summary": "same_atom=1",
+        "source_sentence": "晴雯過去拉了他，替他洗淨了髮……挽了一個慵妝髻。"
+      },
+      "checks": {
+        "route_coordinate": true,
+        "strategy_terms": true,
+        "person_gate_ok_or_not_required": true,
+        "coordinate_preflight_ok": true,
+        "entered_coordinate_tables": true,
+        "material_candidates_created": true,
+        "material_pool_entry_created": true,
+        "no_answer_written": true
+      },
+      "ok": true,
+      "artifacts": {
+        "markdown": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/03_object_cooccurrence/material_pool_entry/01_总证据池报告.md",
+        "json": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/03_object_cooccurrence/material_pool_entry/02_总证据池摘要.json",
+        "raw_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/03_object_cooccurrence/material_pool_entry/03_子问题证据明细.csv",
+        "merged_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/03_object_cooccurrence/material_pool_entry/04_合并候选段落.csv",
+        "subquestion_count": 5,
+        "raw_rows": 100,
+        "unique_segments": 100,
+        "subquestion_loop": {
+          "required": true,
+          "subquestion_count": 5,
+          "pool_built": true,
+          "raw_rows": 100,
+          "unique_segments": 100,
+          "admitted_rows": 100,
+          "extractable_material_rows": 100,
+          "missing_subquestions": [],
+          "next_action": "进入材料池精读或按 Codex 判断继续补证。"
+        }
+      }
+    },
+    {
+      "case_id": "04_alias_space",
+      "question": "坐标 凤姐和大观园同场的材料",
+      "route_gate": "取材门：坐标\nrecall_gate：coordinate\n取材规则：入口词包生成后，进入坐标取材系统；不得回落到原语义取材系统。",
+      "route_context": "取材门：坐标\nrecall_gate：coordinate\n取材规则：入口词包生成后，进入坐标取材系统；不得回落到原语义取材系统。\nCodex查询词路\nCodex问题中心：坐标取材入口到材料池验收\nCodex经验路径：\nCodex库线路径：\nCodex策略理由：人物别名 + 空间共场。\nCodex下一步指令：只生成坐标材料候选并送材料池入口，不进入写作。\nCodex词角色：主查人物=凤姐；场景词=大观园；归一词=凤姐->王熙凤\nCodex材料升级条件：人物归一通过、词位/变量命中、距离或共场矩阵形成、原文句存在后，才送材料池入口。\nCodex补查方案：缺人物归一则停门；缺入口词则停门；表无命中则需补证。\nCodex查询词：凤姐\nCodex强复合：凤姐 + 大观园\nCodex背景锚点：同场、空间\nCodex优先库：全文词位材料索引库、全量变量投影库、全文字位原子段桥表\nCodex查证顺序：先触发坐标门；再人物归一强令牌；再词位穷尽；再坐标变量；再距离/共场；再提出原子段和原文句；送材料池入口后停止，不写答案。\nCodex注意事项：人物题必须先过70/72全人物归一包；坐标路不得回落语义路；缺入口词不得裸猜；材料进入材料池入口后停止",
+      "raw_terms": [
+        "凤姐",
+        "大观园"
+      ],
+      "normalized_terms": [
+        "王熙凤",
+        "大观园"
+      ],
+      "person_status": "已接入70/72全人物归一包",
+      "person_character_keys": [
+        "P0033"
+      ],
+      "person_canonical_names": [
+        "王熙凤"
+      ],
+      "query_types": [
+        "词位",
+        "坐标",
+        "距离",
+        "共场",
+        "全量",
+        "原文"
+      ],
+      "preflight_ok": true,
+      "preflight_missing_required": [],
+      "bundle_status": "可答",
+      "bundle_rows": 20,
+      "pool_raw_rows": 100,
+      "pool_unique_segments": 100,
+      "pool_person_gate": {
+        "required": true,
+        "ok": true,
+        "status": "人物归一强令牌通过",
+        "character_keys": [
+          "P0033"
+        ],
+        "canonical_names": [
+          "王熙凤"
+        ],
+        "alias_expansions": {
+          "王熙凤": [
+            "王熙凤",
+            "熙凤",
+            "凤姐",
+            "凤辣子",
+            "凤丫头",
+            "凤哥儿",
+            "凤姐儿",
+            "凤姑娘",
+            "二奶奶[歧]"
+          ]
+        },
+        "rule": "只要题目、入口词或词角色涉及人物、名字、称谓、别名，必须先过70/72人物归一；未归一不得入材料池。"
+      },
+      "first_material": {
+        "atom_code": "C031-A0010",
+        "segment_no": "31-010",
+        "chapter_no": 31,
+        "material_status": "可答",
+        "material_query_type": "词位 / 坐标 / 距离 / 共场 / 全量 / 原文",
+        "material_variables": "event=众人分住园中大观园复苏；event=元春下谕开放大观园居住；event=凤姐赚尤二姐入大观园；event=大观园妖怪传闻一传十十传百扩散；event=大观园群姝会齐更添热闹；event=宝钗坚辞搬出大观园；event=抄检大观园七处；object=夏守忠传大观园居住谕旨；object=大观园园门翠嶂障景；object=大观园女孩子｜绫锦纱罗彩线饯花神｜芒种节；object=大观园承包归账与分红账；object=大观园游船与残荷；object=大观园玲珑隔屋；object=大观园聚赌赌具焚毁；object=大观园门钥匙/关门物象；object=大观园陈设帘幔数目；object=大观园驱邪坛三清圣像二十八宿图像；object=大观园驱邪坛令牌牙笏与法鼓；object=宝钗开给惜春的大观园画具清单；object=尤二姐｜箱笼细软几件抬入东厢房催穿戴后与凤姐携手上车从后门入园｜移入大观园；object=惜春大观园画轴画具；object=抄检大观园园门角门锁钥；object=抄检大观园夜间灯火；object=王熙凤｜传各色匠役收拾东厢房三间照正室装饰陈设并命众男人素衣素盖前往｜赚入大观园预备；object=王熙凤｜带尤二姐入大观园求李纨收养严禁走风又退出原丫头换自己丫头使唤｜园中软禁；object=贾蔷｜管理十二女戏行头｜大观园勒石后；object=迎春孙绍祖｜贾赦许婚孙家娶期甚急迎春接出大观园陪四个丫头过去宝玉叹少五个清洁人｜误嫁中山狼；person=王熙凤；poem=贾元春·题大观园；scene_space_hint=大观园；space=大观园；space=大观园厢房 / 尤二姐暂居处；space=大观园厢房｜第68回｜善姐怠慢尤二姐；space=大观园厨房 / 柳家的处；space=大观园厨房｜第60回｜柳家的托芳官为五儿谋入怡红院；space=大观园厨房｜第60回｜翠墨传警夏婆子闻讯惊怕；space=大观园厨房｜第60回｜芳官进厨房传话与蝉儿因热糕口角；space=大观园厨房｜第61回｜司棋砸厨房五儿转赠茯苓霜；space=大观园厨房｜第61回｜柳家的分派菜馔并安置茯苓霜；space=大观园厨房｜第61回｜莲花儿索鸡蛋与柳家的争吵",
+        "coordinate_pairwise_summary": "same_atom=1",
+        "source_sentence": "陽盡了就成陰，陰盡了就成陽。"
+      },
+      "checks": {
+        "route_coordinate": true,
+        "strategy_terms": true,
+        "person_gate_ok_or_not_required": true,
+        "coordinate_preflight_ok": true,
+        "entered_coordinate_tables": true,
+        "material_candidates_created": true,
+        "material_pool_entry_created": true,
+        "no_answer_written": true
+      },
+      "ok": true,
+      "artifacts": {
+        "markdown": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/04_alias_space/material_pool_entry/01_总证据池报告.md",
+        "json": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/04_alias_space/material_pool_entry/02_总证据池摘要.json",
+        "raw_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/04_alias_space/material_pool_entry/03_子问题证据明细.csv",
+        "merged_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/04_alias_space/material_pool_entry/04_合并候选段落.csv",
+        "subquestion_count": 5,
+        "raw_rows": 100,
+        "unique_segments": 100,
+        "subquestion_loop": {
+          "required": true,
+          "subquestion_count": 5,
+          "pool_built": true,
+          "raw_rows": 100,
+          "unique_segments": 100,
+          "admitted_rows": 100,
+          "extractable_material_rows": 100,
+          "missing_subquestions": [],
+          "next_action": "进入材料池精读或按 Codex 判断继续补证。"
+        }
+      }
+    }
+  ]
+}

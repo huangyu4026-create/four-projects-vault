@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>此生何为｜桌面课堂</title>
+    <link rel="stylesheet" href="./desktop.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <aside class="rail">
+        <div class="brand">
+          <div class="mark">何</div>
+          <div>
+            <h1>此生何为</h1>
+            <p>克里希那穆提式课堂</p>
+          </div>
+        </div>
+
+        <nav class="nav" aria-label="课堂导航">
+          <button class="nav-item active" type="button" data-section="classroom">课堂</button>
+          <button class="nav-item" type="button" data-section="route">路线</button>
+          <button class="nav-item" type="button" data-section="records">记录</button>
+          <button class="nav-item" type="button" data-section="materials">资料卡</button>
+          <button class="nav-item" type="button" data-section="recall">召回</button>
+        </nav>
+
+        <section class="rail-status" id="railStatus">
+          <strong>当前位置</strong>
+          <span>当前上课：第6讲《你怎样，世界就怎样》；第1-5讲可回看</span>
+        </section>
+      </aside>
+
+      <section class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">第一部分《自我与人生》｜第1章《你是谁？》</p>
+            <h2>桌面课堂工作台</h2>
+          </div>
+          <div class="top-actions">
+            <button class="primary" type="button" data-action="start-class">开始上课</button>
+            <button type="button" data-action="end-class">下课整理</button>
+          </div>
+        </header>
+
+        <section class="status-strip" aria-label="课堂状态">
+          <div class="metric current-metric" aria-label="当前课程">
+            <span>当前</span>
+            <strong>第6讲</strong>
+            <em>你怎样，世界就怎样</em>
+          </div>
+          <button class="metric action-metric" type="button" data-action="start-class">
+            <span>课堂程序</span>
+            <strong>开始</strong>
+            <em>进入第6讲第一问</em>
+          </button>
+          <button class="metric action-metric" type="button" data-action="end-class">
+            <span>课堂程序</span>
+            <strong>下课</strong>
+            <em>整理本讲</em>
+          </button>
+        </section>
+
+        <section class="classroom" id="classroom">
+          <article class="teacher-panel">
+            <div class="panel-head">
+              <div>
+                <span class="section-kicker">主讲区</span>
+                <h3 id="lessonTitle">第6讲｜你怎样，世界就怎样</h3>
+              </div>
+            </div>
+            <div class="progress-ribbon" id="progressRibbon" aria-label="课程进度"></div>
+            <div class="teacher-content" id="teacherContent"></div>
+            <section class="teacher-response" id="teacherResponse" aria-live="polite">
+              <div class="response-head">
+                <span>Codex 回答显示窗口</span>
+                <strong>等待 Codex 回应</strong>
+              </div>
+              <div class="response-body" id="teacherResponseBody">
+                <p>提交课堂回答后，这里显示等待状态；Codex 写回结果后，这里显示正式回应。</p>
+              </div>
+            </section>
+          </article>
+
+          <article class="answer-panel">
+            <div class="panel-head tight">
+              <div>
+                <span class="section-kicker">回答区</span>
+                <h3>我在这里回答</h3>
+              </div>
+              <button type="button" data-action="clear-answer">清空</button>
+            </div>
+            <textarea id="answerInput" placeholder="这里写你的课堂回答或追问。启动本地课堂服务后，点击下方按钮会写入召回队列，并等待 Codex 处理结果回显。"></textarea>
+            <div class="composer-row">
+              <span id="answerHint">未提交。若只打开 file 页面，这里会提示服务未启动。</span>
+              <button class="primary" type="button" data-action="submit-question">提交到召回队列</button>
+            </div>
+          </article>
+        </section>
+
+        <section class="two-column">
+          <article class="route-panel" id="route">
+            <div class="panel-head">
+              <div>
+                <span class="section-kicker">课程路线</span>
+                <h3>第一章十讲推进</h3>
+              </div>
+            </div>
+            <div class="lesson-list" id="lessonList"></div>
+          </article>
+
+          <aside class="dock">
+            <article class="recall-panel" id="recall">
+              <div class="panel-head">
+                <div>
+                  <span class="section-kicker">轻量召回</span>
+                  <h3>查问题、章节、资料</h3>
+                </div>
+              </div>
+              <input id="recallInput" type="search" placeholder="搜索：头脑、自我、关系、世界、第6讲..." />
+              <div class="quick-tags" id="quickTags"></div>
+              <div class="echo-box" id="echoBox">
+                <p>这里显示按钮、搜索和回答草稿的文字结果。任何动作都不留空白。</p>
+              </div>
+            </article>
+          </aside>
+        </section>
+
+        <section class="records" id="records">
+          <div class="panel-head">
+            <div>
+              <span class="section-kicker">课堂记录</span>
+              <h3>第1-5讲简明问答</h3>
+            </div>
+          </div>
+          <div class="archive-toolbar" aria-label="已完成讲次资料入口">
+            <button type="button" data-review-lesson="1">第1讲问答</button>
+            <button type="button" data-review-lesson="2">第2讲问答</button>
+            <button type="button" data-review-lesson="3">第3讲问答</button>
+            <button type="button" data-review-lesson="4">第4讲问答</button>
+          </div>
+          <div class="record-grid" id="recordGrid"></div>
+        </section>
+
+        <section class="materials" id="materials">
+          <div class="panel-head">
+            <div>
+              <span class="section-kicker">资料卡</span>
+              <h3>底座资料有序展开</h3>
+            </div>
+          </div>
+          <div class="card-grid" id="materialCards"></div>
+        </section>
+      </section>
+    </main>
+
+    <script src="./desktop.js?v=lesson-6-page-align-20260622a"></script>
+  </body>
+</html>

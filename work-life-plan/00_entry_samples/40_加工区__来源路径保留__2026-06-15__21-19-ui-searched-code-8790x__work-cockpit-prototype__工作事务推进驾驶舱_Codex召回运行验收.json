@@ -1,0 +1,166 @@
+{
+  "ok": true,
+  "checked_at": "2026-06-18 14:19:50",
+  "pending": [],
+  "processed": [
+    "WP-20260617-072428",
+    "WP-20260617-072327",
+    "WP-20260617-072318",
+    "WP-20260617-072313",
+    "WP-20260617-065923",
+    "WP-20260617-065416",
+    "WP-20260616-171331",
+    "WP-20260616-152610",
+    "WP-20260616-144609",
+    "WP-20260616-143822",
+    "WP-20260616-143204",
+    "WP-20260616-142302"
+  ],
+  "checks": [
+    {
+      "name": "服务脚本存在",
+      "ok": true,
+      "detail": "/Users/yu/Documents/Codex/2026-06-15/21-19-ui-searched-code-8790x/work-cockpit-prototype/work_plan_recall_server.py"
+    },
+    {
+      "name": "定时接手器存在",
+      "ok": true,
+      "detail": "/Users/yu/Documents/Codex/2026-06-15/21-19-ui-searched-code-8790x/work-cockpit-prototype/work_plan_recall_autoworker.py"
+    },
+    {
+      "name": "运行卡存在",
+      "ok": true,
+      "detail": "/Users/yu/Documents/Codex/2026-06-15/21-19-ui-searched-code-8790x/work-cockpit-prototype/工作事务推进驾驶舱_Codex召回运行卡.md"
+    },
+    {
+      "name": "全链路启动文件存在",
+      "ok": true,
+      "detail": "/Users/yu/Documents/Codex/2026-06-15/21-19-ui-searched-code-8790x/work-cockpit-prototype/一键启动工作事务推进驾驶舱全链路.command"
+    },
+    {
+      "name": "正式收件箱存在",
+      "ok": true,
+      "detail": "/Users/yu/Documents/Codex/2026-06-15/21-19-ui-searched-code-8790x/work-cockpit-prototype/工作事务推进驾驶舱收件箱"
+    },
+    {
+      "name": "结果目录存在",
+      "ok": true,
+      "detail": "/Users/yu/Documents/Codex/2026-06-15/21-19-ui-searched-code-8790x/work-cockpit-prototype/工作事务推进驾驶舱_Codex召回结果"
+    },
+    {
+      "name": "召回队列存在",
+      "ok": true,
+      "detail": "/Users/yu/Documents/Codex/2026-06-15/21-19-ui-searched-code-8790x/work-cockpit-prototype/工作事务推进驾驶舱_Codex召回队列.md"
+    },
+    {
+      "name": "队列有未处理区",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "队列有已处理区",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "召回编号无重复",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "结果索引存在",
+      "ok": true,
+      "detail": "/Users/yu/Documents/Codex/2026-06-15/21-19-ui-searched-code-8790x/work-cockpit-prototype/工作事务推进驾驶舱_Codex召回结果索引.json"
+    },
+    {
+      "name": "结果索引可解析",
+      "ok": true,
+      "detail": "12"
+    },
+    {
+      "name": "已处理编号在结果索引中",
+      "ok": true,
+      "detail": "processed=['WP-20260617-072428', 'WP-20260617-072327', 'WP-20260617-072318', 'WP-20260617-072313', 'WP-20260617-065923', 'WP-20260617-065416', 'WP-20260616-171331', 'WP-20260616-152610', 'WP-20260616-144609', 'WP-20260616-143822', 'WP-20260616-143204', 'WP-20260616-142302']; index=['WP-20260617-072428', 'WP-20260617-072327', 'WP-20260617-072318', 'WP-20260617-072313', 'WP-20260617-065923', 'WP-20260617-065416', 'WP-20260616-171331', 'WP-20260616-152610', 'WP-20260616-144609', 'WP-20260616-143822', 'WP-20260616-143204', 'WP-20260616-142302']"
+    },
+    {
+      "name": "服务端提交后自动触发接手器",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "服务端提供健康检查",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "服务端支持状态回写",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "接手器调用 codex exec",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "父流程接管 Codex 输出并 complete 回写",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "接手器支持 daemon 定时",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "接手器写入处理中和失败状态",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "接手器使用原子锁避免重复抢单",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "接手器保留失败重试计数",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "服务端保留入口触发词上下文",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "桌面入口显示回执流程",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "桌面入口检查服务状态",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "桌面图标复制后仍指向工程目录",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "运行卡包含结果清单规则",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "运行卡包含质量闸门",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "运行卡包含状态链",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

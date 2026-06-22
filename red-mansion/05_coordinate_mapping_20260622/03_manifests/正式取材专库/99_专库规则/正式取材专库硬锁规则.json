@@ -1,0 +1,69 @@
+{
+  "rule_name": "红楼梦正式取材专库双中心硬锁",
+  "material_recall_root": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库",
+  "machine_rule": "凡生成候选材料，先按 recall_gate/source_scope 分路；坐标路只能读取 coordinate_root_db，语义路只能读取 semantic_root_db；其他文件只能作辅助、回源、归一或流程规则。",
+  "semantic_root_db": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/01_语义聚拢查询中心库/红楼梦语义聚拢中心库_CH001_120.sqlite",
+  "coordinate_root_db": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/红楼梦坐标查询中心库_CH001_120.sqlite",
+  "registry_gate": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_底库登记处/25_库登记处机器总表.json",
+  "candidate_whitelist": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/99_专库规则/正式取材专库_双中心白名单.json",
+  "allowed_source_scopes": [
+    "formal_axis_db",
+    "formal_coordinate_db"
+  ],
+  "allowed_files": {
+    "00_双中心取材总库/01_语义聚拢查询中心库": [
+      "红楼梦语义聚拢中心库_CH001_120.sqlite"
+    ],
+    "00_双中心取材总库/02_坐标查询中心库": [
+      "红楼梦坐标查询中心库_CH001_120.sqlite"
+    ]
+  },
+  "forbidden_as_candidate_sources": [
+    "work/",
+    "outputs/正式底库闭环工作流/",
+    "outputs/红楼梦坐标工程双头入口/",
+    "_内部过程/",
+    "00AC",
+    "00AG",
+    "00AI",
+    "00AJ",
+    "00AM",
+    "00I",
+    "00L",
+    "00M",
+    "工程报告 .md",
+    "过程 .json",
+    "运行日志 .log",
+    "任何不在 material_recall_root 内的路径",
+    "任何不是 semantic_root_db 或 coordinate_root_db 的路径"
+  ],
+  "candidate_required_fields": [
+    "source_scope",
+    "source_db",
+    "source_table",
+    "segment_no or atom_code",
+    "chapter_no"
+  ],
+  "short_principle": "双轨铁门：坐标只走坐标中心库，语义只走语义聚拢中心库。",
+  "auxiliary_directories": {
+    "00_底库登记处": "库登记与调度总账，只作规则/地图，不作候选源",
+    "01_正文原文与词位库": "词位/字位回源与补点，只作辅助，不作候选源",
+    "02_坐标变量库": "旧坐标变量库保留为备份/构建源，不作候选源",
+    "03_人物归一库": "人物归一强令牌，只作归一，不作候选源",
+    "04_语义聚拢轴库": "旧语义轴库保留为备份/构建源，不作候选源",
+    "05_全文检索旧库": "旧全文检索库只作回源/补点，不作候选源",
+    "06_场面时间库": "场面时间派生库只作辅助，不作候选源"
+  },
+  "route_gates": {
+    "coordinate": {
+      "required_source_scope": "formal_coordinate_db",
+      "required_source_db": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/红楼梦坐标查询中心库_CH001_120.sqlite",
+      "forbidden": "semantic_root_db and all auxiliary directories"
+    },
+    "semantic": {
+      "required_source_scope": "formal_axis_db",
+      "required_source_db": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/01_语义聚拢查询中心库/红楼梦语义聚拢中心库_CH001_120.sqlite",
+      "forbidden": "coordinate_root_db and all auxiliary directories"
+    }
+  }
+}

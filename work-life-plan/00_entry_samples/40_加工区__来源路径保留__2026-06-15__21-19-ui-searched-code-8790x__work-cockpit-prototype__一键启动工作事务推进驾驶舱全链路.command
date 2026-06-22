@@ -1,0 +1,34 @@
+#!/bin/zsh
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+cd "$SCRIPT_DIR"
+
+PYTHON_BIN="${PYTHON_BIN:-$(/usr/bin/env which python3 2>/dev/null || true)}"
+if [ -z "$PYTHON_BIN" ]; then
+  PYTHON_BIN="/usr/bin/python3"
+fi
+
+LOG_FILE="runtime/work_plan_recall_server_desktop.log"
+
+echo "清风显化·本身即美 生活本身全链路已启动"
+echo "Python: $PYTHON_BIN"
+echo "清风显化·本身即美 生活本身（直接入口）：http://127.0.0.1:8798"
+echo "清风显化·本身即美 生活本身：桌面模式 http://127.0.0.1:8798/desktop-entry.html"
+echo "清风显化·本身即美 生活本身（手机）：http://127.0.0.1:8798/mobile-entry.html"
+echo "日志文件：$(pwd)/$LOG_FILE"
+echo "服务端会自动启动定时接手器"
+echo "如果端口绑定失败，请保留窗口直接把报错截图给我"
+echo "------------------------------------------"
+
+set +e
+"$PYTHON_BIN" work_plan_recall_server.py serve --host 0.0.0.0 --port 8798 --worker-interval 10 --worker-timeout 240 2>&1 | tee "$LOG_FILE"
+ret=$?
+if [ $ret -ne 0 ]; then
+  echo ""
+  echo "服务启动失败，错误码：$ret"
+  echo "请把窗口里的红色/黄色报错行截图给我"
+  read -n 1 -s -r -p "按任意键关闭..."
+  echo ""
+  exit $ret
+fi

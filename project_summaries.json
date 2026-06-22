@@ -1,0 +1,101 @@
+[
+  {
+    "name": "数字生命",
+    "slug": "digital-life",
+    "repo_dir": "digital-life",
+    "root": "/Users/yu/Documents/Codex/coex项目总库/10-19_四项目工程域/11_P01_数字生命_DL",
+    "file_count": 2876,
+    "size_bytes": 4527220794,
+    "human_size": "4.2 GiB",
+    "channels": {
+      "A_DIRECT_GIT": 2829,
+      "D_LOCAL_RUNTIME_ONLY": 6,
+      "C_INDEX_FIRST_THEN_SELECTIVE_UPLOAD": 7,
+      "C_RELEASE_OR_LOCAL_BACKUP": 9,
+      "B_GIT_LFS_RECOMMENDED": 6,
+      "B_GIT_LFS_REQUIRED": 19
+    },
+    "channel_sizes": {
+      "A_DIRECT_GIT": 29432310,
+      "D_LOCAL_RUNTIME_ONLY": 43032,
+      "C_INDEX_FIRST_THEN_SELECTIVE_UPLOAD": 14976620,
+      "C_RELEASE_OR_LOCAL_BACKUP": 70488240,
+      "B_GIT_LFS_RECOMMENDED": 151552,
+      "B_GIT_LFS_REQUIRED": 4412129040
+    }
+  },
+  {
+    "name": "本身即美",
+    "slug": "body-is-beauty",
+    "repo_dir": "body-is-beauty",
+    "root": "/Users/yu/Documents/Codex/coex项目总库/10-19_四项目工程域/12_P02_本身即美_BJM",
+    "file_count": 339,
+    "size_bytes": 10985007,
+    "human_size": "10.5 MiB",
+    "channels": {
+      "A_DIRECT_GIT": 334,
+      "C_RELEASE_OR_LOCAL_BACKUP": 1,
+      "D_LOCAL_RUNTIME_ONLY": 2,
+      "C_INDEX_FIRST_THEN_SELECTIVE_UPLOAD": 2
+    },
+    "channel_sizes": {
+      "A_DIRECT_GIT": 5655169,
+      "C_RELEASE_OR_LOCAL_BACKUP": 37181,
+      "D_LOCAL_RUNTIME_ONLY": 12296,
+      "C_INDEX_FIRST_THEN_SELECTIVE_UPLOAD": 5280361
+    }
+  },
+  {
+    "name": "哲思之旅",
+    "slug": "philosophy-journey",
+    "repo_dir": "philosophy-journey",
+    "root": "/Users/yu/Documents/Codex/coex项目总库/10-19_四项目工程域/14_P04_哲思之旅_ZS",
+    "file_count": 357,
+    "size_bytes": 23768274,
+    "human_size": "22.7 MiB",
+    "channels": {
+      "A_DIRECT_GIT": 352,
+      "C_INDEX_FIRST_THEN_SELECTIVE_UPLOAD": 2,
+      "D_LOCAL_RUNTIME_ONLY": 3
+    },
+    "channel_sizes": {
+      "A_DIRECT_GIT": 18591539,
+      "C_INDEX_FIRST_THEN_SELECTIVE_UPLOAD": 5152147,
+      "D_LOCAL_RUNTIME_ONLY": 24588
+    }
+  },
+  {
+    "name": "工作生活计划",
+    "slug": "work-life-plan",
+    "repo_dir": "work-life-plan",
+    "root": "/Users/yu/Documents/Codex/coex项目总库/20-29_工具域/21_T01_工作生活计划工具_WCC",
+    "file_count": 11345,
+    "size_bytes": 739616631,
+    "human_size": "705.4 MiB",
+    "channels": {
+      "A_DIRECT_GIT": 613,
+      "D_LOCAL_RUNTIME_ONLY": 10730,
+      "C_RELEASE_OR_LOCAL_BACKUP": 2
+    },
+    "channel_sizes": {
+      "A_DIRECT_GIT": 8087375,
+      "D_LOCAL_RUNTIME_ONLY": 731476929,
+      "C_RELEASE_OR_LOCAL_BACKUP": 52327
+    }
+  },
+  {
+    "name": "此生何为",
+    "slug": "this-life-meaning",
+    "repo_dir": "this-life-meaning",
+    "root": "/Users/yu/Documents/Codex/2026-06-18/1-2-1-2-3-5/outputs/此生何为_桌面课堂工作台",
+    "file_count": 42,
+    "size_bytes": 216894,
+    "human_size": "211.8 KiB",
+    "channels": {
+      "A_DIRECT_GIT": 42
+    },
+    "channel_sizes": {
+      "A_DIRECT_GIT": 216894
+    }
+  }
+]

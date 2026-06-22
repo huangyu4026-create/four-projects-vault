@@ -1,0 +1,42 @@
+# 红楼梦坐标映射升级补充包
+
+生成时间：2026-06-22T18:29:47
+
+## 固定点
+
+这次升级的优秀固定点不是“又放一堆材料”，而是把正式坐标总库稳定到一个可验路径：
+
+`/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦聚拢坐标映射总库_CH001_120/红楼梦聚拢坐标映射总库_CH001_120.sqlite`
+
+查询台仍读同一正式路径，但工作入口已经从旧的 2706 个退役来源段升级为 3754 个新版原子段。退役来源段只保留在 `retired_source_*` 表里用于追溯和承接旧映射。
+
+## 已验规模
+
+- `atom_codebook`: 3754
+- `clean_atoms`: 3754
+- `atom_projection_codebook`: 151416
+- `atom_links`: 151416
+- `atom_memberships`: 26306
+- `container_index`: 7044
+- `term_atom_occurrences`: 2836240
+- 投影、关系、归属孤儿：0
+
+## 路由纪律
+
+- 坐标入口：`进入坐标查询`
+- 坐标头第一步：`取材门：坐标` / `recall_gate=coordinate`
+- 坐标命中只算候选，不直接写答案。
+- 候选必须送入材料池，再回原文裁判、精读材料词、写作前原文追证、红楼解语。
+
+## GitHub 内保存什么
+
+- `00_fixed_point/`：发布验收、双头入口、坐标总账、方法说明。
+- `01_validation_runs/`：坐标入口到材料池、A/B 双轮、A 轮到 B 轮复核设计跑等小型验收产物。
+- `02_key_scripts/`：坐标版本地应用、搜索工作台、建库脚本。
+- `03_manifests/`：上传/本地分流清单、大库清单、SQLite schema、表行数、样例表。
+
+## 本地保留什么
+
+本包不把 SQLite 大库直接提交进 Git。当前大库清单共 15 个文件，约 2.2GB，详见：
+
+`03_manifests/large_files_manifest.csv`

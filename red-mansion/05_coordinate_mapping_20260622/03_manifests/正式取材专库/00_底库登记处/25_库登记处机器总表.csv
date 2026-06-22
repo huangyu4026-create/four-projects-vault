@@ -1,0 +1,42 @@
+﻿registry_id,canonical_name,easy_name,layer,library_type,source_status,storage_kind,evidence_role,quality_score,review_level,must_return_to_original,priority,repair_queue
+L1-001,chapters,原文章节库,L1,原文库,已装入 SQLite,sqlite,final_evidence,5,常规复核,true,P0,保持
+L1-002,segments,段落库（原子段+聚拢字段）,L1,原文库/聚拢语境库,已装入 SQLite,sqlite,final_evidence,5,常规复核,true,P0,保持
+L1-003,chapter_identity,章回身份库,L1,原文辅助库,已装入 SQLite,sqlite,final_evidence,5,常规复核,true,P0,保持
+L2-001,characters,人物基础库,L2,实体库,已装入 SQLite,sqlite,navigation,4,轻复审,true,P0,R1
+L3-001,person_segment_edges,人物-段落映射库,L3/L5,结构/关系库,已装入 SQLite,sqlite,navigation,4,中复审,true,P0,R1
+L3-006,evidence_edges,跨轴证据边库,L3/L5,证据结构库,已装入 SQLite,sqlite,navigation,4,高复审,true,P0,R1
+L2-004,objects_axis,物象器物库,L2/L3,实体/结构库,已装入 SQLite,sqlite,navigation,4,中复审,true,P0,R3
+L2-005,spaces_axis/space_evidence_axis,空间场所与空间证据库,L2/L3,空间结构库,已装入 SQLite,sqlite,navigation,4,中复审,true,P0,R3
+L3-002,event_segments/event_segment_edges,事件片段与事件段落库,L3,事件结构库,已装入 SQLite,sqlite,navigation,4,中复审,true,P0,R3
+L3-005,literary_texts_axis,文学文本轴库,L3,文本结构库,已装入 SQLite,sqlite,navigation,3,中复审,true,P1,R4
+L4-001,search_documents/search_documents_fts,全文穷尽查证工具库,L4,检索工具库,已装入 SQLite,sqlite,search_tool,5,常规复核,true,P0,保持
+L5-001,人物-人物关系库（试跑）,人物关系主库候选层,L5,关系库,Notion 底座登记/局部产出,notion-derived,weak_reference,2,最高复审,true,P0,R1
+L5-002,关系证据库/,人工关系证据总库,L5,关系产出库,生成产出层,directory,weak_reference,3,中复审,true,P1,R1
+L7-001,evidence_unresolved_queue,未解证据队列,L7,质量库,已装入 SQLite,sqlite,quality_control,2,高复审,false,P0,R1
+L7-002,evidence_anchor_fix_candidates,锚点修复候选库,L7,质量库,已装入 SQLite,sqlite,quality_control,2,高复审,false,P0,R1
+T-001,性主题库（强审计）,性主题强审计库,专题,专题库,Notion 底座登记,notion-derived,weak_reference,2,最高复审,true,P0,R2
+T-003,民俗礼俗库,礼俗制度库,专题,专题库,Notion 底座登记/待工程化,notion-derived/planned,weak_reference,1,高复审,true,P1,R2
+T-004,梦境/幻境库,梦兆幻境库,专题,专题库,Notion 底座登记/待工程化,notion-derived/planned,weak_reference,1,高复审,true,P1,R2
+T-006,人物服饰妆容描写库,人物描写服饰库,专题,专题库,专题文档/待工程化,notion-derived/planned,weak_reference,1,高复审,true,P1,R2
+P-001,人物心理与态度变化库,心理态度库,计划,计划库,待建设,planned,planned,0,高复审,true,P1,R3
+P-003,人物移动路线与空间出入库,移动路线库,计划,计划库,待建设,planned,planned,0,高复审,true,P1,R3
+L1-005,segment_range_edges,段落范围边库,L1/L3,原文范围辅助库,已装入 SQLite,sqlite,context_anchor,3,中复审,true,P1,W00
+L1-006,segment_match_cache,段落匹配缓存库,L1/L4,原文匹配辅助库,已装入 SQLite,sqlite,search_tool,3,中复审,true,P2,R4
+T-017,女性社会角色库,女性社会角色与职业称谓库,专题,专题库,Notion 底座登记/待工程化,notion-derived/planned,weak_reference,1,高复审,true,P1,R2
+T-018,三姑六婆专题库,三姑六婆与女性职业称谓专题,专题,专题分支/方法库,旧闭环命中/待工程化,notion-derived/planned,weak_reference,1,高复审,true,P1,R2
+T-019,人物索引总库,人物索引总入口,专题/L2,索引库,Notion 底座登记/待工程化,notion-derived/planned,navigation,2,中复审,true,P1,R1
+T-020,场景库,场景与场面库,专题/L3,场景结构库,Notion 底座登记/待工程化,notion-derived/planned,navigation,1,中复审,true,P1,R3
+T-021,居住空间库,居住空间专题库,专题/L3,空间专题库,Notion 底座登记/待工程化,notion-derived/planned,navigation,1,中复审,true,P2,R3
+T-022,节令/时令库,节令时令专题库,专题/L3,时间专题库,Notion 底座登记/待工程化,notion-derived/planned,navigation,1,中复审,true,P1,R3
+T-023,母题意象复现库,母题意象库,专题,专题库,Notion 底座登记/待工程化,notion-derived/planned,weak_reference,1,中复审,true,P1,R4
+T-024,冷感/荒寒/空寂主题库,冷感荒寒主题库,专题,主题库,测试暴露需求/待建设,planned,planned,0,高复审,true,P1,R4
+T-025,病死衰败主题库,病死衰败主题库,专题,主题库,测试暴露需求/待建设,planned,planned,0,高复审,true,P1,R4
+T-026,丫鬟仆从关系库,丫鬟仆从关系专题库,专题/L5,关系专题库,待建设,planned,planned,0,高复审,true,P1,R1
+T-027,语言称谓与亲属关系库,称谓亲属关系库,专题/L2/L5,称谓/关系专题库,待建设,planned,planned,0,高复审,true,P0,R1
+T-028,物件情感承载库,物件情感库,专题/L5,物象关系专题库,待建设,planned,planned,0,中复审,true,P1,R3
+T-029,家族败落制度库,家族败落制度库,专题,制度/主题库,待建设,planned,planned,0,高复审,true,P2,R4
+L3.5-001,101_120回场面库_time_blocks.csv,回内时间块库,L3.5,场面现场库,生成派生产物,csv,navigation,4,中复审,true,P0,R3
+L3.5-002,101_120回场面库_scene_groups.csv,场组库,L3.5,场面现场库,生成派生产物,csv,navigation,4,中复审,true,P0,R3
+L3.5-003,101_120回场面库_scene_points.csv/json,场点库,L3.5,场面现场库,生成派生产物,csv/json,navigation,4,高复审,true,P0,R3
+L3.5-004,101_120回场面库_质量审计.json,场面库质量审计,L7,质量库,生成派生产物,json,quality_control,4,中复审,false,P0,R3
+L3.5-005,101_120回场面库_问题队列.csv,场面复审队列,L7,质量库,生成派生产物,csv,quality_control,4,高复审,false,P0,R3

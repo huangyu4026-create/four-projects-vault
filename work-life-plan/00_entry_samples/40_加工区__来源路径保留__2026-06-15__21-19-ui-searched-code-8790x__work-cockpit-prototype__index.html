@@ -1,0 +1,1132 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>工作事务推进驾驶舱</title>
+  <script>
+    (() => {
+      const target = /mobile|android|iphone|ipad|ipod|mobi/i.test(navigator.userAgent || "")
+        ? "mobile-entry.html"
+        : "desktop-entry.html";
+      const next = new URL(target, location.href);
+      next.search = location.search;
+      location.replace(next.href);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f4;
+      --panel: #ffffff;
+      --ink: #1d2328;
+      --muted: #66706d;
+      --line: #dfe4dc;
+      --accent: #2f6f73;
+      --accent-2: #8a563d;
+      --warn: #b15b2a;
+      --danger: #b33b45;
+      --ok: #2f7d59;
+      --blue: #426a9c;
+      --shadow: 0 18px 50px rgba(29, 35, 40, .09);
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      letter-spacing: 0;
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+      color: inherit;
+    }
+
+    button {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 7px;
+      padding: 8px 11px;
+      cursor: pointer;
+      min-height: 36px;
+    }
+
+    button:hover { border-color: #b7c4bd; }
+    button.primary {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+    button.danger {
+      color: var(--danger);
+      border-color: #edc8cc;
+    }
+    button.ghost {
+      background: transparent;
+    }
+    button.icon {
+      width: 36px;
+      padding: 0;
+      display: inline-grid;
+      place-items: center;
+      font-weight: 700;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 248px minmax(0, 1fr);
+    }
+
+    aside {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 22px 16px;
+      background: #eef1ea;
+      border-right: 1px solid var(--line);
+      overflow: auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: var(--accent);
+      font-weight: 800;
+    }
+    .brand h1 {
+      font-size: 17px;
+      line-height: 1.2;
+      margin: 0;
+    }
+    .brand small {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    nav {
+      display: grid;
+      gap: 6px;
+    }
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border-color: transparent;
+      color: #34413e;
+    }
+    .nav-btn.active {
+      background: var(--panel);
+      border-color: var(--line);
+      box-shadow: 0 6px 20px rgba(29, 35, 40, .05);
+    }
+    .nav-ico {
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      color: var(--accent);
+    }
+
+    main {
+      padding: 24px;
+      min-width: 0;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 18px;
+    }
+    .topbar h2 {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.15;
+    }
+    .topbar p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      max-width: 780px;
+      line-height: 1.6;
+    }
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(130px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .metric {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+      box-shadow: 0 10px 28px rgba(29, 35, 40, .04);
+    }
+    .metric span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .metric strong {
+      display: block;
+      font-size: 28px;
+      margin-top: 4px;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      min-width: 0;
+    }
+    .panel-head {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+    }
+    .panel-head h3 {
+      margin: 0;
+      font-size: 15px;
+    }
+    .panel-body {
+      padding: 16px;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    .seg {
+      display: inline-flex;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #f8faf7;
+    }
+    .seg button {
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      min-height: 34px;
+      white-space: nowrap;
+    }
+    .seg button.active {
+      background: var(--accent);
+      color: white;
+    }
+    select, input, textarea {
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      padding: 8px 10px;
+      min-height: 36px;
+    }
+    textarea {
+      width: 100%;
+      min-height: 130px;
+      resize: vertical;
+      line-height: 1.55;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 10px 9px;
+      vertical-align: top;
+      font-size: 13px;
+    }
+    th {
+      color: var(--muted);
+      text-align: left;
+      font-size: 12px;
+      background: #fbfcfa;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+    td {
+      overflow-wrap: anywhere;
+    }
+    .table-wrap {
+      overflow: auto;
+      max-height: calc(100vh - 260px);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 12px;
+      white-space: nowrap;
+      background: #eef1ea;
+      color: #34413e;
+    }
+    .pill.ok { background: #e1f1e7; color: var(--ok); }
+    .pill.warn { background: #faeadb; color: var(--warn); }
+    .pill.danger { background: #f8e3e6; color: var(--danger); }
+    .pill.blue { background: #e4edf8; color: var(--blue); }
+    .pill.accent { background: #e0eeee; color: var(--accent); }
+
+    .right-stack {
+      display: grid;
+      gap: 16px;
+    }
+    .list {
+      display: grid;
+      gap: 10px;
+    }
+    .item {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      background: #fbfcfa;
+    }
+    .item strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+    .item p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 13px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+    label {
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .field.full { grid-column: 1 / -1; }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+      background: var(--panel);
+    }
+    .card h4 {
+      margin: 0 0 8px;
+      font-size: 15px;
+    }
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 13px;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 10px;
+    }
+    .time-row {
+      display: grid;
+      grid-template-columns: 120px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+    }
+    .time-date {
+      color: var(--muted);
+      font-size: 13px;
+      padding-top: 10px;
+    }
+    .time-bar {
+      border-left: 3px solid var(--accent);
+      padding: 8px 0 8px 12px;
+    }
+    .time-task {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      background: #fbfcfa;
+      margin-bottom: 8px;
+    }
+
+    .hidden { display: none !important; }
+    .muted { color: var(--muted); }
+    .small { font-size: 12px; }
+    .nowrap { white-space: nowrap; }
+    .empty {
+      padding: 30px;
+      text-align: center;
+      color: var(--muted);
+    }
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(29, 35, 40, .28);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 30;
+    }
+    .modal.open { display: flex; }
+    .dialog {
+      width: min(760px, 100%);
+      max-height: 92vh;
+      overflow: auto;
+      background: var(--panel);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+    }
+
+    @media (max-width: 1020px) {
+      .app { grid-template-columns: 1fr; }
+      aside {
+        position: static;
+        height: auto;
+      }
+      nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .workspace { grid-template-columns: 1fr; }
+      .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 680px) {
+      main { padding: 16px; }
+      .topbar { flex-direction: column; }
+      .actions { justify-content: flex-start; }
+      .metrics { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: 1fr; }
+      nav { grid-template-columns: 1fr; }
+      .time-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="brand">
+        <div class="mark">驾</div>
+        <div>
+          <h1>工作事务推进驾驶舱</h1>
+          <small>Notion 结构本地原型</small>
+        </div>
+      </div>
+      <nav id="nav"></nav>
+    </aside>
+
+    <main>
+      <div class="topbar">
+        <div>
+          <h2 id="pageTitle">总览</h2>
+          <p id="pageDesc"></p>
+        </div>
+        <div class="actions">
+          <button id="addTaskBtn" class="primary">＋ 新任务</button>
+          <button id="exportBtn">导出 JSON</button>
+          <button id="resetBtn" class="danger">清空本地库</button>
+        </div>
+      </div>
+
+      <section id="dashboardView">
+        <div class="metrics" id="metrics"></div>
+        <div class="workspace">
+          <div class="panel">
+            <div class="panel-head">
+              <h3>任务中枢</h3>
+              <div class="filters">
+                <div class="seg" id="quickViews"></div>
+                <select id="projectFilter" aria-label="按工程筛选"></select>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width: 28%">任务</th>
+                    <th style="width: 12%">状态</th>
+                    <th style="width: 12%">优先级</th>
+                    <th style="width: 14%">类别</th>
+                    <th style="width: 13%">负责人</th>
+                    <th style="width: 12%">截止</th>
+                    <th style="width: 9%">动作</th>
+                  </tr>
+                </thead>
+                <tbody id="taskRows"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="right-stack">
+            <div class="panel">
+              <div class="panel-head"><h3>今日推进</h3></div>
+              <div class="panel-body list" id="todayList"></div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h3>优化建议</h3></div>
+              <div class="panel-body list" id="improvements"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="notesView" class="hidden">
+        <div class="workspace">
+          <div class="panel">
+            <div class="panel-head"><h3>工作纪要入口</h3></div>
+            <div class="panel-body">
+              <div class="grid">
+                <div class="field">
+                  <label>纪要标题</label>
+                  <input id="noteTitle" value="今日零散工作纪要" />
+                </div>
+                <div class="field">
+                  <label>纪要类型</label>
+                  <select id="noteType">
+                    <option>会议</option><option>语音</option><option>聊天</option><option>灵感</option><option>复盘</option><option>客户沟通</option><option>日常记录</option>
+                  </select>
+                </div>
+                <div class="field full">
+                  <label>原始内容</label>
+                  <textarea id="noteRaw" placeholder="把会议、语音、聊天、灵感或日常纪要粘贴到这里，再提取为任务。"></textarea>
+                </div>
+              </div>
+              <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+                <button id="extractBtn" class="primary">提取任务</button>
+                <button id="saveNoteBtn">保存纪要</button>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h3>提取结果</h3></div>
+            <div class="panel-body">
+              <div id="extractResult" class="list"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="scheduleView" class="hidden">
+        <div class="panel">
+          <div class="panel-head">
+            <h3>工作安排显示页</h3>
+            <div class="seg" id="scheduleMode">
+              <button data-mode="timeline" class="active">时间轴</button>
+              <button data-mode="category">按类别</button>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div id="scheduleContent"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="librariesView" class="hidden">
+        <div class="cards" id="libraryCards"></div>
+      </section>
+
+      <section id="reviewView" class="hidden">
+        <div class="workspace">
+          <div class="panel">
+            <div class="panel-head"><h3>每日工作计划</h3></div>
+            <div class="panel-body" id="dailyPlan"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h3>周复盘</h3></div>
+            <div class="panel-body" id="weeklyReview"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal" id="taskModal">
+    <div class="dialog">
+      <div class="panel-head">
+        <h3 id="modalTitle">新任务</h3>
+        <button class="icon" id="closeModal" title="关闭">×</button>
+      </div>
+      <div class="panel-body">
+        <div class="grid">
+          <input type="hidden" id="taskId" />
+          <div class="field full">
+            <label>任务名称</label>
+            <input id="taskName" />
+          </div>
+          <div class="field">
+            <label>所属工程</label>
+            <select id="taskProject"></select>
+          </div>
+          <div class="field">
+            <label>负责人</label>
+            <select id="taskOwner"></select>
+          </div>
+          <div class="field">
+            <label>工作类型</label>
+            <select id="taskType"></select>
+          </div>
+          <div class="field">
+            <label>类别</label>
+            <select id="taskCategory"></select>
+          </div>
+          <div class="field">
+            <label>状态</label>
+            <select id="taskStatus"></select>
+          </div>
+          <div class="field">
+            <label>优先级</label>
+            <select id="taskPriority"></select>
+          </div>
+          <div class="field">
+            <label>开始时间</label>
+            <input id="taskStart" type="date" />
+          </div>
+          <div class="field">
+            <label>截止时间</label>
+            <input id="taskDue" type="date" />
+          </div>
+          <div class="field full">
+            <label>完成标准</label>
+            <textarea id="taskDone"></textarea>
+          </div>
+          <div class="field">
+            <label>交付物链接</label>
+            <input id="taskLink" />
+          </div>
+          <div class="field">
+            <label>下一步动作</label>
+            <input id="taskNext" />
+          </div>
+          <div class="field">
+            <label>取消原因</label>
+            <input id="taskCancel" />
+          </div>
+          <div class="field">
+            <label>延期原因</label>
+            <input id="taskDelay" />
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end">
+          <button id="deleteTaskBtn" class="danger">删除</button>
+          <button id="saveTaskBtn" class="primary">保存</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const today = new Date("2026-06-14T12:00:00");
+    const toISO = (d) => d.toISOString().slice(0, 10);
+    const addDays = (n) => {
+      const d = new Date(today);
+      d.setDate(d.getDate() + n);
+      return toISO(d);
+    };
+    function upcomingWeekday(targetDay) {
+      const current = today.getDay();
+      let diff = (targetDay - current + 7) % 7;
+      if (diff === 0) diff = 7;
+      return addDays(diff);
+    }
+    function dateFromText(text) {
+      const dayMap = { 一: 1, 二: 2, 三: 3, 四: 4, 五: 5, 六: 6, 日: 0, 天: 0 };
+      const explicitDay = text.match(/(?:下周|本周|这周|这一周|周|星期)([一二三四五六日天])/);
+      const afterDays = text.match(/(\d+)天后/);
+      if (/明天|次日/.test(text)) return addDays(1);
+      if (/后天/.test(text)) return addDays(2);
+      if (/今天|今晚/.test(text)) return addDays(0);
+      if (afterDays) return addDays(Number(afterDays[1]));
+      if (explicitDay) return upcomingWeekday(dayMap[explicitDay[1]]);
+      if (/下周/.test(text)) return addDays(7);
+      return "";
+    }
+    function splitWorkItems(text) {
+      const marked = text
+        .replace(/第[一二三四五六七八九十\d]+件事/g, "\n$&")
+        .replace(/还有就是|另外|再就是/g, "\n$&")
+        .replace(/[，,](明天|今天|后天|下周|本周|这周|这一周|周[一二三四五六日天]|星期[一二三四五六日天])/g, "\n$1");
+      return marked.split(/\n|。|；|;/)
+        .map(s => s.trim())
+        .filter(Boolean)
+        .filter(s => /要|需要|负责|完成|整理|剪|发布|复盘|检查|确认|做|输出|推进|咨询|办理|过户|转让书|录音|口播|调整|训练/.test(s))
+        .map(s => s.replace(/^第[一二三四五六七八九十\d]+件事(就是|是)?/, "").replace(/^还有就是/, "").trim());
+    }
+
+    const schema = {
+      statuses: ["待确认", "待办", "进行中", "等待反馈", "已完成", "已取消", "已延期"],
+      priorities: ["P0紧急", "P1重要", "P2普通", "P3低"],
+      workTypes: ["策划", "文案", "拍摄", "剪辑", "发布", "复盘", "开发", "设计", "沟通", "运营", "其他"],
+      categories: ["小红书", "清风别墅", "生活", "学习", "外出", "其他"],
+      noteTypes: ["会议", "语音", "聊天", "灵感", "复盘", "客户沟通", "日常记录"],
+      libraries: [
+        ["工程库", "管理所有大工程、项目与长期方向", "工程名称、工程类型、工程状态、负责人、参与人、优先级、开始日期、目标完成日期、目标、风险、进展"],
+        ["任务库", "系统核心，记录每条任务的人、时、事、状态", "任务名称、所属工程、来源纪要、负责人、工作类型、状态、优先级、时间、推送、完成标准、原因、交付物"],
+        ["工作纪要库", "收集零碎输入，是提取任务的入口", "纪要标题、类型、日期、工程、原始内容、关键结论、待确认问题、处理状态、会议纪要链接"],
+        ["人员库", "管理参与人、角色、联系方式和负载", "姓名、角色、负责工程、负责任务、联系方式、当前负载、备注"],
+        ["内容资产库", "服务小红书和视频生产链路", "资产名称、内容类型、工程、任务、平台、阶段、文件链接、发布时间、数据表现、复盘结论"],
+        ["推送与复盘库", "记录每日提醒、逾期提醒、周复盘和反馈", "推送名称、类型、对象、时间、任务、工程、内容、状态、反馈记录"]
+      ]
+    };
+
+    const seed = {
+      projects: [
+        { id: "p1", name: "数字生命工程", type: "数字生命", status: "进行中", owner: "你", priority: "高", goal: "形成可持续迭代的数字生命表达与内容生产系统", risk: "任务来源分散，缺少统一确认口", progress: "已进入任务结构化阶段" },
+        { id: "p2", name: "小红书视频工程", type: "内容制作", status: "进行中", owner: "你", priority: "高", goal: "稳定产出选题、脚本、成片、发布与复盘", risk: "素材和任务容易脱节", progress: "已接入内容资产库" },
+        { id: "p3", name: "清风别墅工程", type: "运营", status: "规划中", owner: "帅哥", priority: "中", goal: "把场地相关事务按时间和类别推进", risk: "外出、生活、内容类任务容易混杂", progress: "已加入类别视图" }
+      ],
+      people: [
+        { id: "u1", name: "帅哥", role: "总负责人", contact: "", load: "重点决策与确认" },
+        { id: "u2", name: "鸽伟", role: "执行协作", contact: "", load: "内容与执行任务" },
+        { id: "u3", name: "经纬", role: "执行协作", contact: "", load: "协作任务" },
+        { id: "u0", name: "待指定", role: "待分派", contact: "", load: "待分派" }
+      ],
+      tasks: [],
+      notes: [],
+      assets: [],
+      pushes: []
+    };
+
+    let state = loadState();
+    let activePage = "dashboard";
+    let activeQuick = "today";
+    let scheduleViewMode = "timeline";
+
+    const pages = [
+      ["dashboard", "总览", "把 Notion 的任务库、工程库、推送与复盘聚合成一个日常推进界面。"],
+      ["notes", "纪要处理", "对应工作纪要库：把会议、语音、聊天、灵感先沉淀，再提取为待确认任务。"],
+      ["schedule", "工作安排显示页", "对应 Notion 里的时间轴和日历：按时间、类别看任务排布。"],
+      ["libraries", "六大数据库结构", "完整记录原驾驶舱的六库意图、字段和关系，作为后续开发蓝图。"],
+      ["review", "推送与复盘", "对应每日工作计划和周复盘模板，把今日、逾期、延期、取消自动汇总。"]
+    ];
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem("workCockpitState");
+        return normalizeState(raw ? JSON.parse(raw) : structuredClone(seed));
+      } catch {
+        return normalizeState(structuredClone(seed));
+      }
+    }
+    function normalizeState(raw) {
+      const next = { ...structuredClone(seed), ...raw };
+      next.projects = next.projects?.length ? next.projects : structuredClone(seed.projects);
+      next.people = structuredClone(seed.people);
+      next.tasks = (next.tasks || []).map(t => ({
+        ...t,
+        category: normalizeCategoryName(t.category),
+        ownerId: normalizeOwnerId(t.ownerId),
+        projectId: t.projectId || "p1",
+        status: schema.statuses.includes(t.status) ? t.status : "待确认",
+        priority: schema.priorities.includes(t.priority) ? t.priority : "P2普通"
+      }));
+      next.notes ||= [];
+      next.assets ||= [];
+      next.pushes ||= [];
+      return next;
+    }
+    function normalizeCategoryName(name) {
+      if (name === "外出·生活") return "生活";
+      if (name === "数字生命") return "其他";
+      return schema.categories.includes(name) ? name : "其他";
+    }
+    function normalizeOwnerId(id) {
+      return seed.people.some(p => p.id === id) ? id : "u0";
+    }
+    function saveState() {
+      localStorage.setItem("workCockpitState", JSON.stringify(state));
+    }
+    function uid(prefix) {
+      return prefix + Math.random().toString(36).slice(2, 9);
+    }
+    function byId(list, id) {
+      return list.find(x => x.id === id);
+    }
+    function isDone(t) {
+      return t.status === "已完成" || t.status === "已取消";
+    }
+    function overdue(t) {
+      return t.due && t.due < toISO(today) && !isDone(t);
+    }
+    function statusPill(status) {
+      const cls = status === "已完成" ? "ok" : status === "已取消" ? "danger" : status === "已延期" ? "warn" : status === "进行中" ? "accent" : status === "等待反馈" ? "blue" : "";
+      return `<span class="pill ${cls}">${status}</span>`;
+    }
+    function priorityPill(priority) {
+      const cls = priority.includes("P0") ? "danger" : priority.includes("P1") ? "warn" : priority.includes("P2") ? "blue" : "";
+      return `<span class="pill ${cls}">${priority}</span>`;
+    }
+    function ownerName(id) {
+      return byId(state.people, id)?.name || "待指定";
+    }
+    function projectName(id) {
+      return byId(state.projects, id)?.name || "未归属";
+    }
+
+    function renderNav() {
+      nav.innerHTML = pages.map(([id, title]) => `
+        <button class="nav-btn ${id === activePage ? "active" : ""}" data-page="${id}">
+          <span class="nav-ico">${id === "dashboard" ? "⌂" : id === "notes" ? "＋" : id === "schedule" ? "◷" : id === "libraries" ? "▦" : "✓"}</span>
+          <span>${title}</span>
+        </button>
+      `).join("");
+      nav.querySelectorAll("button").forEach(btn => btn.onclick = () => {
+        activePage = btn.dataset.page;
+        render();
+      });
+    }
+
+    function render() {
+      renderNav();
+      const page = pages.find(p => p[0] === activePage);
+      pageTitle.textContent = page[1];
+      pageDesc.textContent = page[2];
+      ["dashboard", "notes", "schedule", "libraries", "review"].forEach(id => {
+        document.getElementById(id + "View").classList.toggle("hidden", activePage !== id);
+      });
+      renderTaskOptions();
+      renderDashboard();
+      renderNotes();
+      renderSchedule();
+      renderLibraries();
+      renderReview();
+    }
+
+    function renderDashboard() {
+      const openTasks = state.tasks.filter(t => !isDone(t));
+      const todays = state.tasks.filter(t => t.due === toISO(today) && !isDone(t));
+      const late = state.tasks.filter(overdue);
+      const needsConfirm = state.tasks.filter(t => t.status === "待确认");
+      metrics.innerHTML = [
+        ["进行中工程", state.projects.filter(p => p.status === "进行中").length],
+        ["未关闭任务", openTasks.length],
+        ["今日任务", todays.length],
+        ["逾期任务", late.length],
+        ["待确认", needsConfirm.length]
+      ].map(([label, value]) => `<div class="metric"><span>${label}</span><strong>${value}</strong></div>`).join("");
+
+      quickViews.innerHTML = [
+        ["today", "今日"], ["week", "本周"], ["late", "逾期"], ["confirm", "待确认"], ["xiaohongshu", "小红书"], ["closed", "取消/延期"], ["all", "全部"]
+      ].map(([id, label]) => `<button class="${activeQuick === id ? "active" : ""}" data-view="${id}">${label}</button>`).join("");
+      quickViews.querySelectorAll("button").forEach(btn => btn.onclick = () => {
+        activeQuick = btn.dataset.view;
+        renderDashboard();
+      });
+
+      projectFilter.innerHTML = `<option value="">全部工程</option>` + state.projects.map(p => `<option value="${p.id}">${p.name}</option>`).join("");
+      projectFilter.onchange = renderDashboard;
+
+      let rows = filteredTasks();
+      taskRows.innerHTML = rows.length ? rows.map(t => `
+        <tr>
+          <td><strong>${escapeHtml(t.name)}</strong><div class="muted small">${projectName(t.projectId)} · ${escapeHtml(t.done || "未填写完成标准")}</div></td>
+          <td>${statusPill(t.status)}</td>
+          <td>${priorityPill(t.priority)}</td>
+          <td><span class="pill">${t.category}</span></td>
+          <td>${ownerName(t.ownerId)}</td>
+          <td class="${overdue(t) ? "nowrap" : "nowrap"}">${t.due || ""}${overdue(t) ? `<div class="pill danger">逾期</div>` : ""}</td>
+          <td><button class="icon" title="编辑" onclick="openTask('${t.id}')">✎</button></td>
+        </tr>
+      `).join("") : `<tr><td colspan="7" class="empty">当前视图没有任务</td></tr>`;
+
+      todayList.innerHTML = [
+        ...todays.map(t => itemHtml(t.name, `${ownerName(t.ownerId)} · ${t.priority} · ${t.next || "等待推进"}`)),
+        ...late.map(t => itemHtml("逾期：" + t.name, `${ownerName(t.ownerId)} · 原截止 ${t.due} · ${t.delay || "需要补延期原因"}`))
+      ].join("") || `<div class="empty">今天没有到期任务</div>`;
+
+      improvements.innerHTML = [
+        itemHtml("增加“确认口”", "待确认任务应每天清空一次；缺负责人、缺时间、缺完成标准的任务不能进入待办。"),
+        itemHtml("把完成勾选和状态打通", "Notion 里有“完成”复选框，也有“任务状态”；软件化后应只保留一个主状态，勾选只是快捷操作。"),
+        itemHtml("推送从字段变成规则", "是否推送、频率、对象不应只存文本，应生成可执行提醒队列。"),
+        itemHtml("类别和工作类型分开", "类别回答属于哪个业务场景，工作类型回答做什么工种，当前结构已经走对了。")
+      ].join("");
+    }
+
+    function filteredTasks() {
+      const project = projectFilter?.value || "";
+      const now = toISO(today);
+      const week = addDays(7);
+      return state.tasks.filter(t => {
+        if (project && t.projectId !== project) return false;
+        if (activeQuick === "today") return t.due === now && !isDone(t);
+        if (activeQuick === "week") return t.due >= now && t.due <= week;
+        if (activeQuick === "late") return overdue(t);
+        if (activeQuick === "confirm") return t.status === "待确认";
+        if (activeQuick === "xiaohongshu") return ["策划", "文案", "拍摄", "剪辑", "发布", "复盘"].includes(t.type) || t.category === "小红书";
+        if (activeQuick === "closed") return ["已取消", "已延期"].includes(t.status);
+        return true;
+      }).sort((a, b) => (a.due || "").localeCompare(b.due || "") || schema.priorities.indexOf(a.priority) - schema.priorities.indexOf(b.priority));
+    }
+
+    function renderNotes() {
+      saveNoteBtn.onclick = () => {
+        state.notes.unshift({
+          id: uid("n"),
+          title: noteTitle.value.trim() || "未命名纪要",
+          type: noteType.value,
+          date: toISO(today),
+          raw: noteRaw.value,
+          status: "未处理"
+        });
+        saveState();
+        extractResult.innerHTML = itemHtml("已保存到工作纪要库", "可以继续提取任务，或稍后在待处理纪要中处理。");
+      };
+      extractBtn.onclick = extractTasks;
+    }
+
+    function extractTasks() {
+      const raw = noteRaw.value;
+      const candidates = splitWorkItems(raw);
+      let inheritedDue = "";
+      const created = candidates.slice(0, 8).map((text, index) => {
+        const project = text.includes("数字生命") ? "p1" : text.includes("小红书") || text.includes("视频") || text.includes("口播") || text.includes("录音") ? "p2" : text.includes("清风") ? "p3" : "p1";
+        const type = text.includes("脚本") || text.includes("转让书") ? "文案" : text.includes("口播") || text.includes("录音") || text.includes("设备") ? "拍摄" : text.includes("剪") ? "剪辑" : text.includes("发布") ? "发布" : text.includes("复盘") ? "复盘" : text.includes("咨询") || text.includes("护照") || text.includes("过户") ? "沟通" : "运营";
+        const owner = text.includes("鸽伟") ? "u2" : text.includes("经纬") ? "u3" : text.includes("帅哥") || text.includes("小哥") ? "u1" : "u0";
+        const explicitDue = dateFromText(text);
+        const due = explicitDue || inheritedDue || addDays(Math.min(index + 1, 7));
+        if (explicitDue) inheritedDue = due;
+        const task = {
+          id: uid("t"),
+          name: text
+            .replace(/^(要|需要|记得|明天我要|今天我要|我)/, "")
+            .replace(/^(下周|本周|这周|这一周|周|星期)?[一二三四五六日天]?(以前|前)?吧?[，,]?(这个)?(要|把|去)?/, "")
+            .slice(0, 52),
+          projectId: project,
+          ownerId: owner,
+          type,
+          category: text.includes("护照") || text.includes("英国") ? "外出" : text.includes("姐姐") || text.includes("房屋") || text.includes("过户") || text.includes("转让书") ? "生活" : project === "p2" ? "小红书" : project === "p3" ? "清风别墅" : "其他",
+          status: "待确认",
+          priority: text.includes("最好") || text.includes("明天") || text.includes("以前") || text.includes("护照") || text.includes("转让书") ? "P1重要" : "P2普通",
+          start: toISO(today),
+          due,
+          done: text.includes("口播") || text.includes("录音") ? "完成口播试录音、设备调整，并明确下一期口播视频制作方式" : text.includes("护照") ? "明确办理路径、材料清单、预约方式和下一步时间" : text.includes("转让书") || text.includes("过户") ? "整理转让书并交给姐姐确认" : "人工确认后补充完成标准",
+          link: "",
+          next: text.includes("咨询") ? "先咨询办理流程" : text.includes("口播") || text.includes("录音") ? "准备设备并安排试录" : text.includes("转让书") || text.includes("过户") ? "整理材料并发给姐姐" : "在待确认任务视图中确认",
+          cancel: "",
+          delay: "",
+          push: true
+        };
+        state.tasks.unshift(task);
+        return task;
+      });
+      state.notes.unshift({ id: uid("n"), title: noteTitle.value.trim() || "提取纪要", type: noteType.value, date: toISO(today), raw, status: "已提取任务", taskIds: created.map(t => t.id) });
+      saveState();
+      extractResult.innerHTML = created.length ? created.map(t => itemHtml(t.name, `${projectName(t.projectId)} · ${ownerName(t.ownerId)} · ${t.type} · ${t.due}`)).join("") : `<div class="empty">没有识别到明确任务</div>`;
+      renderDashboard();
+    }
+
+    function renderSchedule() {
+      document.getElementById("scheduleMode").querySelectorAll("button").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.mode === scheduleViewMode);
+        btn.onclick = () => {
+          scheduleViewMode = btn.dataset.mode;
+          renderSchedule();
+        };
+      });
+      const open = state.tasks.filter(t => t.status !== "已取消").sort((a, b) => (a.start || "").localeCompare(b.start || ""));
+      if (scheduleViewMode === "timeline") {
+        const byDate = groupBy(open, t => t.start || "未排期");
+        scheduleContent.innerHTML = `<div class="timeline">` + Object.entries(byDate).map(([date, tasks]) => `
+          <div class="time-row">
+            <div class="time-date">${date}</div>
+            <div class="time-bar">${tasks.map(t => `<div class="time-task"><strong>${escapeHtml(t.name)}</strong><div class="muted small">${t.category} · ${statusPill(t.status)} · 截止 ${t.due}</div></div>`).join("")}</div>
+          </div>
+        `).join("") + `</div>`;
+      } else {
+        const byCat = groupBy(open, t => t.category || "其他");
+        scheduleContent.innerHTML = `<div class="cards">` + Object.entries(byCat).map(([cat, tasks]) => `
+          <div class="card"><h4>${cat}</h4>${tasks.map(t => `<p>${escapeHtml(t.name)} · ${t.due}</p>`).join("")}</div>
+        `).join("") + `</div>`;
+      }
+    }
+
+    function renderLibraries() {
+      libraryCards.innerHTML = schema.libraries.map(([name, desc, fields]) => `
+        <div class="card">
+          <h4>${name}</h4>
+          <p>${desc}</p>
+          <p style="margin-top:10px"><strong>字段：</strong>${fields}</p>
+        </div>
+      `).join("");
+    }
+
+    function renderReview() {
+      const todayTasks = state.tasks.filter(t => t.due === toISO(today) && !isDone(t));
+      const urgent = state.tasks.filter(t => ["P0紧急", "P1重要"].includes(t.priority) && !isDone(t));
+      const late = state.tasks.filter(overdue);
+      dailyPlan.innerHTML = `
+        <h4>今日重点（P0 / P1）</h4>${checkList(urgent)}
+        <h4>今日任务</h4>${checkList(todayTasks)}
+        <h4>逾期待处理</h4>${checkList(late)}
+        <h4>待确认任务处理</h4>${checkList(state.tasks.filter(t => t.status === "待确认"))}
+      `;
+      weeklyReview.innerHTML = `
+        <h4>本周完成</h4>${checkList(state.tasks.filter(t => t.status === "已完成"))}
+        <h4>本周延期（含原因）</h4>${checkList(state.tasks.filter(t => t.status === "已延期"), "delay")}
+        <h4>本周取消（含原因）</h4>${checkList(state.tasks.filter(t => t.status === "已取消"), "cancel")}
+        <h4>下周重点</h4>${checkList(state.tasks.filter(t => t.due > toISO(today) && !isDone(t)).slice(0, 6))}
+      `;
+    }
+
+    function renderTaskOptions() {
+      fillSelect(taskProject, state.projects.map(p => [p.id, p.name]));
+      fillSelect(taskOwner, state.people.map(p => [p.id, p.name]));
+      fillSelect(taskType, schema.workTypes.map(x => [x, x]));
+      fillSelect(taskCategory, schema.categories.map(x => [x, x]));
+      fillSelect(taskStatus, schema.statuses.map(x => [x, x]));
+      fillSelect(taskPriority, schema.priorities.map(x => [x, x]));
+    }
+    function fillSelect(el, opts) {
+      if (!el) return;
+      const current = el.value;
+      el.innerHTML = opts.map(([value, label]) => `<option value="${value}">${label}</option>`).join("");
+      if (opts.some(([value]) => value === current)) el.value = current;
+    }
+
+    window.openTask = (id) => {
+      const t = id ? byId(state.tasks, id) : null;
+      modalTitle.textContent = t ? "编辑任务" : "新任务";
+      taskId.value = t?.id || "";
+      taskName.value = t?.name || "";
+      taskProject.value = t?.projectId || state.projects[0].id;
+      taskOwner.value = t?.ownerId || state.people[0].id;
+      taskType.value = t?.type || "运营";
+      taskCategory.value = t?.category || "其他";
+      taskStatus.value = t?.status || "待办";
+      taskPriority.value = t?.priority || "P2普通";
+      taskStart.value = t?.start || toISO(today);
+      taskDue.value = t?.due || addDays(1);
+      taskDone.value = t?.done || "";
+      taskLink.value = t?.link || "";
+      taskNext.value = t?.next || "";
+      taskCancel.value = t?.cancel || "";
+      taskDelay.value = t?.delay || "";
+      deleteTaskBtn.style.display = t ? "inline-block" : "none";
+      taskModal.classList.add("open");
+    };
+
+    addTaskBtn.onclick = () => openTask();
+    closeModal.onclick = () => taskModal.classList.remove("open");
+    taskModal.onclick = (e) => {
+      if (e.target === taskModal) taskModal.classList.remove("open");
+    };
+    saveTaskBtn.onclick = () => {
+      const id = taskId.value || uid("t");
+      const existing = byId(state.tasks, id);
+      const task = {
+        id,
+        name: taskName.value.trim() || "未命名任务",
+        projectId: taskProject.value,
+        ownerId: taskOwner.value,
+        type: taskType.value,
+        category: taskCategory.value,
+        status: taskStatus.value,
+        priority: taskPriority.value,
+        start: taskStart.value,
+        due: taskDue.value,
+        done: taskDone.value,
+        link: taskLink.value,
+        next: taskNext.value,
+        cancel: taskCancel.value,
+        delay: taskDelay.value,
+        push: true
+      };
+      if (existing) Object.assign(existing, task);
+      else state.tasks.unshift(task);
+      saveState();
+      taskModal.classList.remove("open");
+      render();
+    };
+    deleteTaskBtn.onclick = () => {
+      state.tasks = state.tasks.filter(t => t.id !== taskId.value);
+      saveState();
+      taskModal.classList.remove("open");
+      render();
+    };
+    resetBtn.onclick = () => {
+      state = structuredClone(seed);
+      saveState();
+      render();
+    };
+    exportBtn.onclick = () => {
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "work-cockpit-data.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    };
+
+    function itemHtml(title, desc) {
+      return `<div class="item"><strong>${escapeHtml(title)}</strong><p>${desc}</p></div>`;
+    }
+    function checkList(tasks, reasonKey) {
+      if (!tasks.length) return `<p class="muted">暂无</p>`;
+      return `<ul>${tasks.map(t => `<li>${escapeHtml(t.name)} <span class="muted">(${ownerName(t.ownerId)} · ${t.due || "无日期"}${reasonKey ? " · " + escapeHtml(t[reasonKey] || "未填写原因") : ""})</span></li>`).join("")}</ul>`;
+    }
+    function groupBy(list, fn) {
+      return list.reduce((acc, item) => {
+        const key = fn(item);
+        (acc[key] ||= []).push(item);
+        return acc;
+      }, {});
+    }
+    function escapeHtml(value) {
+      return String(value || "").replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[m]));
+    }
+
+    render();
+  </script>
+</body>
+</html>

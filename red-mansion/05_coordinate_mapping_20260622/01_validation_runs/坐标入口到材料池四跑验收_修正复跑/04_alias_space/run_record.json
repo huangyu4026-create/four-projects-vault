@@ -1,0 +1,42 @@
+{
+  "case_id": "04_alias_space",
+  "question": "坐标 凤姐和大观园同场的材料",
+  "ok": true,
+  "terms": [
+    "王熙凤",
+    "大观园"
+  ],
+  "person": [
+    "王熙凤"
+  ],
+  "missing": [],
+  "bundle_rows": 20,
+  "pool_raw_rows": 100,
+  "pool_unique_segments": 100,
+  "first_atom": "C031-A0010",
+  "first_segment": "31-010",
+  "first_chapter": 31,
+  "first_material_variables_count": 3,
+  "first_material_variables_preview": "person=王熙凤；scene_space_hint=大观园；space=大观园",
+  "first_source_sentence": "陽盡了就成陰，陰盡了就成陽。",
+  "artifacts": {
+    "markdown": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/04_alias_space/material_pool_entry/01_总证据池报告.md",
+    "json": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/04_alias_space/material_pool_entry/02_总证据池摘要.json",
+    "raw_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/04_alias_space/material_pool_entry/03_子问题证据明细.csv",
+    "merged_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/04_alias_space/material_pool_entry/04_合并候选段落.csv",
+    "subquestion_count": 5,
+    "raw_rows": 100,
+    "unique_segments": 100,
+    "subquestion_loop": {
+      "required": true,
+      "subquestion_count": 5,
+      "pool_built": true,
+      "raw_rows": 100,
+      "unique_segments": 100,
+      "admitted_rows": 100,
+      "extractable_material_rows": 100,
+      "missing_subquestions": [],
+      "next_action": "进入材料池精读或按 Codex 判断继续补证。"
+    }
+  }
+}

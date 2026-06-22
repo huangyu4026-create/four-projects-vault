@@ -2,27 +2,79 @@
 
 生成时间：2026-06-22 11:08:46
 
-本次上传先放最关键可接续脚本索引；完整脚本正文仍在本地接续包和本地工程根目录中。后续等 Git push / LFS 通道稳定后，可按需补传脚本正文。
+本次上传只放最关键可接续脚本；其余脚本仍在本地完整根目录中，由清单登记。
 
-## 已列入关键接续链的脚本
-
-- `formal_honglou_aggregation_graph_runtime.py` | 67214 bytes
-- `formal_honglou_cli.py` | 41391 bytes
-- `formal_honglou_closed_loop.py` | 648992 bytes
-- `formal_honglou_codex_recall.py` | 295942 bytes
-- `formal_honglou_coordinate_material_gate.py` | 61767 bytes
-- `formal_honglou_coordinate_material_pack_cli.py` | 20685 bytes
-- `formal_honglou_local_app.py` | 326663 bytes
-- `formal_honglou_material_admission_gate.py` | 18782 bytes
-- `formal_honglou_runtime_main_bus.py` | 33761 bytes
-- `formal_honglou_schema.py` | 15522 bytes
-
-## 其余本地脚本
-
-完整脚本清单在本地输出包：
-
-```text
-/Users/yu/Documents/Codex/2026-06-22/new-chat-4/outputs/red-mansion-github-package/red-mansion/02_key_scripts/SCRIPT_INDEX.md
-```
-
-这些脚本没有丢弃，只是本次公开仓库接续包先以索引形式登记，避免把第一次同步变成大体积脚本仓库。
+- `formal_honglou_abstract_concept_modeler.py` | 3138 bytes | 本地保留，按需后续同步
+- `formal_honglou_add_reader_qa_panel.py` | 15593 bytes | 本地保留，按需后续同步
+- `formal_honglou_aggregation_graph_runtime.py` | 67214 bytes | 已上传关键脚本
+- `formal_honglou_anchor_fix.py` | 19376 bytes | 本地保留，按需后续同步
+- `formal_honglou_architecture_console.py` | 12401 bytes | 本地保留，按需后续同步
+- `formal_honglou_axis_import.py` | 27596 bytes | 本地保留，按需后续同步
+- `formal_honglou_batch01_coordinate.py` | 11092 bytes | 本地保留，按需后续同步
+- `formal_honglou_batch02_local_delta.py` | 11958 bytes | 本地保留，按需后续同步
+- `formal_honglou_batch03_refresh_targets.py` | 12955 bytes | 本地保留，按需后续同步
+- `formal_honglou_batch04_index_suggestions.py` | 14247 bytes | 本地保留，按需后续同步
+- `formal_honglou_batch05_index_tables.py` | 18260 bytes | 本地保留，按需后续同步
+- `formal_honglou_batch06_index_candidates.py` | 21329 bytes | 本地保留，按需后续同步
+- `formal_honglou_batch07_candidate_review.py` | 16873 bytes | 本地保留，按需后续同步
+- `formal_honglou_batch08_full_index_write.py` | 19517 bytes | 本地保留，按需后续同步
+- `formal_honglou_clean_empty_label_md_paths.py` | 4396 bytes | 本地保留，按需后续同步
+- `formal_honglou_clean_markdown_shell_residue.py` | 5158 bytes | 本地保留，按需后续同步
+- `formal_honglou_cli.py` | 41391 bytes | 已上传关键脚本
+- `formal_honglou_closed_loop.py` | 648992 bytes | 已上传关键脚本
+- `formal_honglou_closure_check.py` | 6691 bytes | 本地保留，按需后续同步
+- `formal_honglou_codex_recall.py` | 295942 bytes | 已上传关键脚本
+- `formal_honglou_coordinate_material_gate.py` | 61767 bytes | 已上传关键脚本
+- `formal_honglou_coordinate_material_pack_cli.py` | 20685 bytes | 已上传关键脚本
+- `formal_honglou_core_import.py` | 25996 bytes | 本地保留，按需后续同步
+- `formal_honglou_coverage_matrix.py` | 9206 bytes | 本地保留，按需后续同步
+- `formal_honglou_dialogue_probe.py` | 15143 bytes | 本地保留，按需后续同步
+- `formal_honglou_eight_step_mainline.py` | 12353 bytes | 本地保留，按需后续同步
+- `formal_honglou_evidence_pack.py` | 23357 bytes | 本地保留，按需后续同步
+- `formal_honglou_evidence_triage.py` | 36599 bytes | 本地保留，按需后续同步
+- `formal_honglou_feedback_optimizer.py` | 18067 bytes | 本地保留，按需后续同步
+- `formal_honglou_final_quality_gate.py` | 3653 bytes | 本地保留，按需后续同步
+- `formal_honglou_fix_all_tail_real_local_links.py` | 7383 bytes | 本地保留，按需后续同步
+- `formal_honglou_fix_ch1_reader_dead_links.py` | 7665 bytes | 本地保留，按需后续同步
+- `formal_honglou_fix_reader_click_intercept.py` | 4385 bytes | 本地保留，按需后续同步
+- `formal_honglou_generate_human_reader_pages.py` | 16594 bytes | 本地保留，按需后续同步
+- `formal_honglou_import_probe.py` | 25881 bytes | 本地保留，按需后续同步
+- `formal_honglou_ledger_refresh.py` | 10934 bytes | 本地保留，按需后续同步
+- `formal_honglou_library_tier_selector.py` | 11817 bytes | 本地保留，按需后续同步
+- `formal_honglou_local_app.py` | 326663 bytes | 已上传关键脚本
+- `formal_honglou_local_refresh.py` | 13709 bytes | 本地保留，按需后续同步
+- `formal_honglou_localize_notion_links.py` | 11498 bytes | 本地保留，按需后续同步
+- `formal_honglou_mapping_audit.py` | 44843 bytes | 本地保留，按需后续同步
+- `formal_honglou_material_admission_gate.py` | 18782 bytes | 已上传关键脚本
+- `formal_honglou_numbering_front_gate.py` | 17272 bytes | 本地保留，按需后续同步
+- `formal_honglou_offline_smoke_test.py` | 5384 bytes | 本地保留，按需后续同步
+- `formal_honglou_output_type_gate.py` | 11578 bytes | 本地保留，按需后续同步
+- `formal_honglou_p0_fix.py` | 24960 bytes | 本地保留，按需后续同步
+- `formal_honglou_p1_action_plan.py` | 14913 bytes | 本地保留，按需后续同步
+- `formal_honglou_p1_triage.py` | 13818 bytes | 本地保留，按需后续同步
+- `formal_honglou_person_query_unifier.py` | 15588 bytes | 本地保留，按需后续同步
+- `formal_honglou_polish_all_human_reader_pages.py` | 26660 bytes | 本地保留，按需后续同步
+- `formal_honglou_public_inbox_notice.py` | 4871 bytes | 本地保留，按需后续同步
+- `formal_honglou_query_strategy_regression.py` | 24472 bytes | 本地保留，按需后续同步
+- `formal_honglou_question_decomposer.py` | 48376 bytes | 本地保留，按需后续同步
+- `formal_honglou_question_evidence_pool.py` | 47465 bytes | 本地保留，按需后续同步
+- `formal_honglou_reading_link_layer.py` | 16292 bytes | 本地保留，按需后续同步
+- `formal_honglou_reading_triangle.py` | 32131 bytes | 本地保留，按需后续同步
+- `formal_honglou_remove_all_online_notion_links.py` | 8591 bytes | 本地保留，按需后续同步
+- `formal_honglou_replace_local_qa_with_online_ask.py` | 8193 bytes | 本地保留，按需后续同步
+- `formal_honglou_research_workflow.py` | 20321 bytes | 本地保留，按需后续同步
+- `formal_honglou_review_readback.py` | 13390 bytes | 本地保留，按需后续同步
+- `formal_honglou_review_writer.py` | 27171 bytes | 本地保留，按需后续同步
+- `formal_honglou_rewrite_reader_internal_md_links.py` | 10083 bytes | 本地保留，按需后续同步
+- `formal_honglou_runtime_main_bus.py` | 33761 bytes | 已上传关键脚本
+- `formal_honglou_schema.py` | 15522 bytes | 已上传关键脚本
+- `formal_honglou_script_audit.py` | 18090 bytes | 本地保留，按需后续同步
+- `formal_honglou_search_index.py` | 20383 bytes | 本地保留，按需后续同步
+- `formal_honglou_set_online_qa_archive.py` | 14120 bytes | 本地保留，按需后续同步
+- `formal_honglou_smoke_test.py` | 5160 bytes | 本地保留，按需后续同步
+- `formal_honglou_study_extension_writer.py` | 19648 bytes | 本地保留，按需后续同步
+- `formal_honglou_text_normalizer.py` | 8676 bytes | 本地保留，按需后续同步
+- `formal_honglou_triangle_sync.py` | 20713 bytes | 本地保留，按需后续同步
+- `formal_honglou_two_layer_checkin_gate.py` | 18623 bytes | 本地保留，按需后续同步
+- `formal_honglou_unattended_writeback.py` | 3938 bytes | 本地保留，按需后续同步
+- `formal_honglou_v02_question_tests.py` | 10648 bytes | 本地保留，按需后续同步

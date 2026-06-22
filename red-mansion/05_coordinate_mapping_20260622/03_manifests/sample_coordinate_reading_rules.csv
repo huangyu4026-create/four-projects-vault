@@ -1,0 +1,8 @@
+rule_key,rule_label,reading_rule
+short_doorplate,短门牌,atom_id 和 atom_code 只负责定位，不承载人物、季节、空间、物件等变量。
+coordinate_vector,坐标向量,每个原子段同时携带 G/CH/CU/EV/SC/SG/TB，用来读结构位置。
+directed_distance,有向距离,signed_atom_distance 为目标点减起点；正数在后，负数在前，0 为同点。
+granularity_level,粒度等级,变量指向必须说明 atom/scene/event/time_block/chapter 等粒度。
+evidence_grade,证据强度,变量指向按 hard/resolved/context/hint/chapter_context/needs_review 分级。
+primary_secondary,主次归属,一个原子段若有重叠归属，保留 primary 与 secondary，不改主编号。
+range_code,范围码,容器用 Gxxxxxx-Gxxxxxx 表示覆盖范围，单点用 Gxxxxxx。

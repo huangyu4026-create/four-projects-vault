@@ -1,0 +1,7 @@
+rule_key,rule_label,rule_sql_hint,interpretation
+global_atom_distance,全局原子段距离,ABS(a.global_atom_order - b.global_atom_order),数值越小，两个点在全文线性序列中越近；0 代表同一原子段。
+same_cluster,同一聚拢单元,a.cluster_id = b.cluster_id,为 1 时两个点在同一 W32 聚拢单元内。
+same_event,同一事件,a.event_id = b.event_id,为 1 时两个点在同一 W33 事件内。
+same_scene_group,同一场面组,a.scene_group_id = b.scene_group_id,为 1 时两个点在同一 101 场面组内。
+same_time_block,同一时间块,a.time_block_id = b.time_block_id,为 1 时两个点在同一 101 时间块内。
+signed_atom_distance,有向原子段距离,b.global_atom_order - a.global_atom_order,从起点看目标点：正数代表目标在后，负数代表目标在前，0 代表同一原子段。

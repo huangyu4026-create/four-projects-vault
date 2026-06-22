@@ -1,0 +1,1153 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>本身即美｜总输入口</title>
+  <style>
+    :root {
+      --ink: #1f2933;
+      --muted: #65717d;
+      --line: #d8dee6;
+      --paper: #f5f7f8;
+      --panel: #ffffff;
+      --green: #2f6f58;
+      --blue: #2f6f9f;
+      --pink: #c54676;
+      --gold: #9a6a22;
+      --shadow: 0 10px 26px rgba(31, 41, 51, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(180deg, #f2f5f4 0%, #fbfbfc 100%);
+      letter-spacing: 0;
+    }
+
+    .page {
+      width: min(920px, calc(100vw - 28px));
+      margin: 0 auto;
+      padding: 26px 0 40px;
+    }
+
+    header {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .brand {
+      margin: 0;
+      color: var(--green);
+      font-size: clamp(32px, 5vw, 52px);
+      line-height: 1.08;
+      font-weight: 800;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(22px, 3vw, 32px);
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      max-width: 760px;
+      margin: 0;
+      color: #465460;
+      font-size: 15px;
+      line-height: 1.75;
+    }
+
+    .panel {
+      padding: 14px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .entry-links {
+      display: grid;
+      gap: 9px;
+      margin-bottom: 12px;
+    }
+
+    .entry-links h2 {
+      margin: 0;
+      font-size: 16px;
+      letter-spacing: 0;
+    }
+
+    .nav-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 8px;
+    }
+
+    .main-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .tool-nav-grid {
+      grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+    }
+
+    .control-nav-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .control-tool-status {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .nav-card {
+      display: grid;
+      min-height: 54px;
+      align-content: start;
+      gap: 2px;
+      padding: 8px;
+      color: var(--ink);
+      background: #f8faf9;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      text-decoration: none;
+    }
+
+    .nav-card strong {
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+    .nav-card span {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    button.nav-card {
+      width: 100%;
+      min-height: 54px;
+      color: var(--ink);
+      background: #f8faf9;
+      font-weight: 400;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .tool-card[aria-pressed="true"],
+    .control-card[aria-pressed="true"] {
+      background: #e9f5ee;
+      border-color: #69aa82;
+      box-shadow: inset 0 0 0 2px rgba(47, 111, 88, 0.18);
+    }
+
+    .tool-card[aria-pressed="true"] strong::after,
+    .control-card[aria-pressed="true"] strong::after {
+      content: " 已调用";
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .tool-status,
+    .control-status {
+      min-height: 28px;
+      padding: 6px 8px;
+      color: #375043;
+      background: #f1f7f4;
+      border: 1px solid #c7ddce;
+      border-radius: 7px;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .form {
+      display: grid;
+      gap: 14px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      color: #2d3845;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      color: var(--ink);
+      background: #fff;
+      font: inherit;
+      letter-spacing: 0;
+    }
+
+    input,
+    select {
+      min-height: 42px;
+      padding: 8px 10px;
+    }
+
+    textarea {
+      min-height: 240px;
+      padding: 12px;
+      line-height: 1.65;
+      resize: vertical;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .recall-tools {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      align-items: end;
+    }
+
+    .recall-custom {
+      display: none;
+    }
+
+    .recall-custom.active {
+      display: block;
+    }
+
+    .source-box {
+      padding: 12px;
+      color: #334151;
+      background: #fff8fb;
+      border: 1px solid #efbfd0;
+      border-radius: 8px;
+      line-height: 1.65;
+      font-size: 13px;
+    }
+
+    .source-box strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--pink);
+      font-size: 14px;
+    }
+
+    .source-box a {
+      color: var(--blue);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .source-box ul {
+      margin: 8px 0 0;
+      padding-left: 18px;
+    }
+
+    .guard-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .delivery-guard {
+      background: #f7fbf8;
+      border-color: #b7d6c0;
+    }
+
+    .delivery-guard strong {
+      color: var(--green);
+    }
+
+    button,
+    .link-button {
+      min-height: 44px;
+      padding: 9px 12px;
+      border: 0;
+      border-radius: 7px;
+      color: #fff;
+      background: var(--green);
+      font: inherit;
+      font-size: 14px;
+      font-weight: 850;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .secondary {
+      background: var(--blue);
+    }
+
+    .pink {
+      background: var(--pink);
+    }
+
+    .muted {
+      color: #41505e;
+      background: #eef2f6;
+      border: 1px solid var(--line);
+    }
+
+    .status {
+      min-height: 44px;
+      padding: 12px;
+      border-radius: 7px;
+      color: #3c4854;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .status.ok {
+      color: #24563f;
+      background: #edf8f1;
+      border-color: #b7d6c0;
+    }
+
+    .status.warn {
+      color: #7d5724;
+      background: #fff7e8;
+      border-color: #e6c889;
+    }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .card {
+      padding: 13px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .card strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .card span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .small {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .sync-panel {
+      display: grid;
+      gap: 12px;
+      background: #f7fbf8;
+      border-color: #b7d6c0;
+    }
+
+    .sync-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .sync-head h2 {
+      margin: 0;
+      font-size: 17px;
+      letter-spacing: 0;
+    }
+
+    .sync-head span {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .sync-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .sync-card {
+      display: grid;
+      gap: 6px;
+      min-height: 108px;
+      padding: 10px;
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      text-decoration: none;
+    }
+
+    .sync-card strong {
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .sync-card span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .sync-list {
+      margin: 0;
+      padding-left: 18px;
+      color: #344254;
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    @media (max-width: 760px) {
+      .grid,
+      .actions,
+      .recall-tools,
+      .guard-actions,
+      .sync-grid,
+      .quick-grid,
+      .main-grid,
+      .tool-nav-grid,
+      .control-nav-grid,
+      .control-tool-status {
+        grid-template-columns: 1fr;
+      }
+
+      textarea {
+        min-height: 220px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .page {
+        width: min(100vw - 18px, 920px);
+      }
+
+      .panel {
+        padding: 10px;
+      }
+
+      .nav-grid {
+        gap: 6px;
+      }
+
+      .nav-card {
+        min-height: 46px;
+        padding: 7px;
+      }
+
+      .nav-card strong {
+        font-size: 12px;
+      }
+
+      .nav-card span {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="brand">本身即美 · 生活本真</p>
+      <h1>统一入口</h1>
+      <p class="subtitle">这里只管收本身即美内容。网页提交和手机录入口都归到同一个统一入口收件队列；能直接判断的进入后续流程，需要继续商量的追加到 34｜本身即美待讨论区。</p>
+    </header>
+
+    <section class="panel entry-links" aria-label="主要入口">
+      <h2>主要入口</h2>
+      <div class="nav-grid main-grid">
+        <a class="nav-card" href="本身即美_工作计划.html">
+          <strong>工作计划</strong>
+          <span>会议和输入转成的推进事项。</span>
+        </a>
+        <a class="nav-card" href="本身即美_二阶笔记拍摄生产线.html">
+          <strong>推进驾驶舱</strong>
+          <span>主题、排期、流程。</span>
+        </a>
+        <a class="nav-card" href="本身即美_拍摄看板.html">
+          <strong>拍摄看板</strong>
+          <span>项目状态和排序。</span>
+        </a>
+        <a class="nav-card" href="本身即美_待讨论区.html">
+          <strong>待讨论区</strong>
+          <span>待继续判断事项。</span>
+        </a>
+        <a class="nav-card" href="本身即美_阶段封存.html">
+          <strong>封存表</strong>
+          <span>阶段状态和接续。</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="panel sync-panel" aria-label="最近全局同步">
+      <div class="sync-head">
+        <h2>最近全局同步｜2026-06-15 小红书会议纪要</h2>
+        <span>已补正｜已回填｜已生成49号深度报告</span>
+      </div>
+      <div class="sync-grid">
+        <a class="sync-card" href="本身即美_工作台同步.html">
+          <strong>工作台同步</strong>
+          <span>已进入项目提出、入选归档、趋势升级、脚本方案、文案包、排期与现场。</span>
+        </a>
+        <a class="sync-card" href="本身即美_执行看板变化.html">
+          <strong>执行看板变化</strong>
+          <span>已选定题材进入执行阶段：杨梅模板化推出，豇豆保留现实拍摄压力。</span>
+        </a>
+        <a class="sync-card" href="本身即美_深度会议报告.html">
+          <strong>深度会议报告</strong>
+          <span>按日期进入每一期会议报告；当前为 2026-06-15 小红书会议纪要。</span>
+        </a>
+      </div>
+      <ul class="sync-list">
+        <li>入口补正：08:18 手机提交已从普通入库材料补正为“小红书会议纪要”。</li>
+        <li>项目回填：杨梅酒与杨梅冰饮已完成六项垂直通道回填。</li>
+        <li>任务状态：短裤销售核数、线上货架、王斌学生代卖、湖上红楼梦预研和西装窗口进入后续推进。</li>
+      </ul>
+    </section>
+
+    <section class="panel entry-links" aria-label="总控工具包">
+      <h2>总控工具包</h2>
+      <div class="nav-grid tool-nav-grid">
+        <button class="nav-card tool-card" type="button" data-tool="field" aria-pressed="false">
+          <strong>场域理解包</strong>
+          <span>进入语境。</span>
+        </button>
+        <button class="nav-card tool-card" type="button" data-tool="guide50" aria-pressed="false">
+          <strong>前50集背景包</strong>
+          <span>二阶总指导。</span>
+        </button>
+        <button class="nav-card tool-card" type="button" data-tool="radar" aria-pressed="false">
+          <strong>主题雷达</strong>
+          <span>排序与落点。</span>
+        </button>
+        <button class="nav-card tool-card" type="button" data-tool="dual" aria-pressed="false">
+          <strong>双面体系</strong>
+          <span>先定场再雷达。</span>
+        </button>
+        <button class="nav-card tool-card" type="button" data-tool="triggers" aria-pressed="false">
+          <strong>分流规则包</strong>
+          <span>触发词 + 长文拆解。</span>
+        </button>
+        <button class="nav-card control-card" type="button" data-control="takeover" aria-pressed="false">
+          <strong>全局接管</strong>
+          <span>提交前接管工程全局。</span>
+        </button>
+        <button class="nav-card control-card" type="button" data-control="linkage" aria-pressed="false">
+          <strong>全局联动</strong>
+          <span>处理后复核同步。</span>
+        </button>
+      </div>
+      <div class="control-tool-status">
+        <div id="toolStatus" class="tool-status">未调用理解包。可多选后再提交。</div>
+        <div id="controlStatus" class="control-status">未启用全局动作。复杂长文、跨项目、看板联动时再启用。</div>
+      </div>
+    </section>
+
+    <section class="panel form" aria-label="本身即美总输入表单">
+      <div class="grid">
+        <section>
+          <label for="title">主题</label>
+          <input id="title" autocomplete="off" placeholder="可不填，不填会自动记为未命名">
+        </section>
+        <section>
+          <label for="mode">处理方式</label>
+          <select id="mode">
+            <option value="normal">先进入总输入口，由系统判断</option>
+            <option value="discussion">直接进入待讨论区</option>
+            <option value="theme">新题材 / 主题库候选</option>
+            <option value="project">旧项目补充</option>
+            <option value="important">重要待定事项</option>
+            <option value="current">当前更新</option>
+            <option value="memo">后续备忘</option>
+          </select>
+        </section>
+      </div>
+
+      <section>
+        <label for="content">内容</label>
+        <textarea id="content" placeholder="把本身即美相关内容直接写在这里。可以是一个想法、一段口述、一个题材、一个要讨论的问题、一个待定事项。"></textarea>
+      </section>
+
+      <div class="actions">
+        <button id="submitNormal" type="button">提交到总输入口</button>
+        <button id="submitDiscussion" class="pink" type="button">提交并进入待讨论区</button>
+        <button id="copyRecall" class="secondary" type="button">复制待讨论口令</button>
+      </div>
+
+      <div class="recall-tools" aria-label="待讨论口令选择">
+        <section>
+          <label for="recallChoice">要处理哪条待讨论</label>
+          <select id="recallChoice">
+            <option value="all">全部未处理：处理本身即美待讨论</option>
+            <option value="custom">手动输入编号</option>
+          </select>
+        </section>
+        <section id="recallCustomWrap" class="recall-custom">
+          <label for="recallCustom">自定义编号</label>
+          <input id="recallCustom" autocomplete="off" placeholder="例如 006 或 DT-0006">
+        </section>
+      </div>
+
+      <section id="discussionSource" class="source-box" aria-label="待讨论口令来源">
+        <strong>待讨论区</strong>
+        提交并进入待讨论区后，这里会读取当前待讨论队列；复制口令后可回到 Codex 对话框继续处理。
+      </section>
+
+      <section id="deliveryGuard" class="source-box delivery-guard" aria-label="草稿保护">
+        <strong>草稿保护</strong>
+        <div id="guardSummary">输入时会自动保存草稿。</div>
+        <div class="guard-actions">
+          <button id="restoreDraft" class="secondary" type="button">恢复草稿</button>
+        </div>
+      </section>
+
+      <div id="status" class="status"></div>
+    </section>
+
+    <p class="small">后台入口会自动尝试主入口 8790 和备用入口 8791。若你用手机打开，请使用手机录入口显示的局域网地址。</p>
+  </main>
+
+  <script>
+    const titleInput = document.getElementById("title");
+    const modeInput = document.getElementById("mode");
+    const contentInput = document.getElementById("content");
+    const toolButtons = Array.from(document.querySelectorAll(".tool-card"));
+    const toolStatus = document.getElementById("toolStatus");
+    const controlButtons = Array.from(document.querySelectorAll(".control-card"));
+    const controlStatus = document.getElementById("controlStatus");
+    const statusBox = document.getElementById("status");
+    const recallChoice = document.getElementById("recallChoice");
+    const recallCustom = document.getElementById("recallCustom");
+    const recallCustomWrap = document.getElementById("recallCustomWrap");
+    const discussionSource = document.getElementById("discussionSource");
+    const guardSummary = document.getElementById("guardSummary");
+    const restoreDraftBtn = document.getElementById("restoreDraft");
+    const DRAFT_KEY = "benshenUnifiedInputDraftV2";
+    const PENDING_KEY = "benshenUnifiedInputPendingV2";
+
+    function setStatus(text, type = "") {
+      statusBox.textContent = text;
+      statusBox.className = `status ${type}`.trim();
+    }
+
+    function apiBases() {
+      const bases = [];
+      if (location.protocol === "http:" || location.protocol === "https:") {
+        bases.push(`${location.protocol}//${location.hostname}:8790`);
+        bases.push(`${location.protocol}//${location.hostname}:8791`);
+      }
+      bases.push("http://127.0.0.1:8790");
+      bases.push("http://127.0.0.1:8791");
+      return bases.filter((base, index) => base && bases.indexOf(base) === index);
+    }
+
+    async function fetchJsonFromCandidates(path, options = {}) {
+      let lastError = null;
+      for (const base of apiBases()) {
+        try {
+          const response = await fetch(`${base}${path}`, options);
+          const data = await response.json().catch(() => ({}));
+          if (!response.ok || data.ok === false) {
+            lastError = new Error(data.error || `本地入口 ${base} 返回异常`);
+            continue;
+          }
+          return data;
+        } catch (error) {
+          lastError = error;
+        }
+      }
+      throw lastError || new Error("本地入口未连接");
+    }
+
+    function modeTrigger(mode) {
+      const map = {
+        normal: "本身即美总输入口 / 待判断",
+        discussion: "本身即美总输入口 / 进入待讨论 / 本身即美待讨论区",
+        theme: "本身即美总输入口 / 记到主题库",
+        project: "本身即美总输入口 / 旧项目补充",
+        important: "本身即美总输入口 / 重要待定",
+        current: "本身即美总输入口 / 当前更新",
+        memo: "本身即美总输入口 / 后续备忘"
+      };
+      return map[mode] || map.normal;
+    }
+
+    function modePrefix(mode) {
+      const map = {
+        normal: "",
+        discussion: "【进入待讨论】",
+        theme: "【新题材/主题库候选】",
+        project: "【旧项目补充】",
+        important: "【重要待定事项】",
+        current: "【当前更新】",
+        memo: "【后续备忘】"
+      };
+      return map[mode] || "";
+    }
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function nowText() {
+      return new Date().toLocaleString("zh-CN", { hour12: false });
+    }
+
+    function readJson(key, fallback = null) {
+      try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+      } catch (error) {
+        return fallback;
+      }
+    }
+
+    function writeJson(key, value) {
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+      } catch (error) {
+        // 浏览器拒绝本地保存时，主提交流程仍继续。
+      }
+    }
+
+    function removeStored(key) {
+      try {
+        localStorage.removeItem(key);
+      } catch (error) {
+        // 不影响主流程。
+      }
+    }
+
+    function currentDraft() {
+      return {
+        title: titleInput.value,
+        mode: modeInput.value,
+        content: contentInput.value,
+        tools: selectedTools(),
+        controls: selectedControls(),
+        updatedAt: nowText()
+      };
+    }
+
+    function selectedTools() {
+      return toolButtons.filter(item => item.getAttribute("aria-pressed") === "true").map(item => item.dataset.tool);
+    }
+
+    function selectedControls() {
+      return controlButtons.filter(item => item.getAttribute("aria-pressed") === "true").map(item => item.dataset.control);
+    }
+
+    function applySelectedTools(values = []) {
+      const selected = new Set(values || []);
+      toolButtons.forEach(item => {
+        item.setAttribute("aria-pressed", selected.has(item.dataset.tool) ? "true" : "false");
+      });
+      updateToolStatus();
+    }
+
+    function applySelectedControls(values = []) {
+      const selected = new Set(values || []);
+      controlButtons.forEach(item => {
+        item.setAttribute("aria-pressed", selected.has(item.dataset.control) ? "true" : "false");
+      });
+      updateControlStatus();
+    }
+
+    function selectedToolBlocks() {
+      const map = {
+        field: {
+          trigger: "调用场域理解包",
+          line: "调用场域理解包：先读取26号本身即美小红书拍摄场域前置理解包，进入本身即美、清风花园、人物历史和第二阶段语境。"
+        },
+        guide50: {
+          trigger: "调用前50集背景包",
+          line: "调用前50集背景包：按39号第二阶段前50集理解背景包与总指导原则，判断真实生活事件、过程结果、干货情绪、院子气、季节气和生活气。"
+        },
+        radar: {
+          trigger: "调用主题雷达",
+          line: "调用主题雷达：按46/47号主题雷达规则判断题材优先级、雷达分、状态、缺口和下一步工程落点。"
+        },
+        dual: {
+          trigger: "启动场域理解包 + 主题雷达双面系统",
+          line: "启动场域理解包 + 主题雷达双面系统：先定场，再开雷达；处理长内容、新题材、近期选题、季节窗口和状态变化。"
+        },
+        triggers: {
+          trigger: "调用分流规则包",
+          line: "调用分流规则包：先按28号本身即美互动触发词总表判断看、记、推、查、改、全量修改、执行确认、收工和保护口令；若本次输入为长文、会议纪要、总输入或多项目内容，再按41号美学笔记生产线垂直通道规则进行项目锁定、上下文截取、阶段锁定和“项目 × 阶段”分流回填。"
+        }
+      };
+      return selectedTools().map(value => map[value]).filter(Boolean);
+    }
+
+    function selectedControlBlocks() {
+      const map = {
+        takeover: {
+          trigger: "执行本身即美全局接管",
+          line: "执行本身即美全局接管：提交前先确认本身即美总入口、工程状态快照、阶段封存表、前50集背景包、场域理解/主题雷达双面体系、28+41分流规则和写入边界；先接管工程全局，再处理本次输入。"
+        },
+        linkage: {
+          trigger: "执行本身即美全局联动",
+          line: "执行本身即美全局联动：本次输入处理完成后，复核主题状态、雷达排序、拍摄看板、单项目看板、项目归档、脚本、文案包、重要待定事项、待讨论区和排期表，凡受影响处必须同步更新或说明无需更新。"
+        }
+      };
+      return selectedControls().map(value => map[value]).filter(Boolean);
+    }
+
+    function updateToolStatus() {
+      const blocks = selectedToolBlocks();
+      if (!blocks.length) {
+        toolStatus.textContent = "未调用理解包。可多选后再提交。";
+        return;
+      }
+      toolStatus.textContent = `本次已调用：${blocks.map(block => block.trigger).join(" / ")}`;
+    }
+
+    function updateControlStatus() {
+      const blocks = selectedControlBlocks();
+      if (!blocks.length) {
+        controlStatus.textContent = "未启用全局动作。复杂长文、跨项目、看板联动时再启用。";
+        return;
+      }
+      controlStatus.textContent = `本次已启用：${blocks.map(block => block.trigger).join(" / ")}`;
+    }
+
+    function toggleTool(button) {
+      const next = button.getAttribute("aria-pressed") !== "true";
+      button.setAttribute("aria-pressed", next ? "true" : "false");
+      updateToolStatus();
+      saveDraft();
+    }
+
+    function toggleControl(button) {
+      const next = button.getAttribute("aria-pressed") !== "true";
+      button.setAttribute("aria-pressed", next ? "true" : "false");
+      updateControlStatus();
+      saveDraft();
+    }
+
+    function contextReceiptText(toolBlocks, controlBlocks) {
+      const receipts = [];
+      if (toolBlocks.length) {
+        const toolNames = toolBlocks.map(block => block.trigger).join(" / ");
+        receipts.push(`已接收到并调用 ${toolNames}`);
+      }
+      if (controlBlocks.length) {
+        const controlNames = controlBlocks.map(block => block.trigger).join(" / ");
+        receipts.push(`已接收到并执行 ${controlNames}`);
+      }
+      return receipts.length
+        ? `回答开头必须先用一句话确认：${receipts.join("；")}。确认后再进入正文处理。`
+        : "";
+    }
+
+    function saveDraft() {
+      const draft = currentDraft();
+      if (!draft.title.trim() && !draft.content.trim()) {
+        removeStored(DRAFT_KEY);
+        updateGuardSummary();
+        return;
+      }
+      writeJson(DRAFT_KEY, draft);
+      updateGuardSummary();
+    }
+
+    function buildPayload(forceDiscussion = false) {
+      const rawContent = contentInput.value.trim();
+      if (!rawContent) {
+        return null;
+      }
+      const selectedMode = forceDiscussion ? "discussion" : modeInput.value;
+      const title = titleInput.value.trim() || (selectedMode === "discussion" ? "本身即美待讨论" : "本身即美总输入");
+      const toolBlocks = selectedToolBlocks();
+      const controlBlocks = selectedControlBlocks();
+      const toolTriggers = toolBlocks.map(block => block.trigger);
+      const controlTriggers = controlBlocks.map(block => block.trigger);
+      return {
+        payload: {
+          project: "benshen",
+          type: selectedMode === "discussion" ? "task" : "inbox",
+          title,
+          stage: modeTrigger(selectedMode),
+          triggerWords: [modeTrigger(selectedMode)],
+          toolTriggers,
+          controlTriggers,
+          toolBlocks,
+          controlBlocks,
+          displayMode: "lightweight_engine_echo",
+          displayLabel: "轻量工程回显",
+          resultExpectation: "优先回写当前工作台同步、执行看板变化、深度会议报告等 Markdown/JSON/状态清单；HTML 只作为备用阅读页，不作为主回显条件。",
+          receiptRequirement: contextReceiptText(toolBlocks, controlBlocks),
+          needsAction: true,
+          content: rawContent,
+          entryMarker: modePrefix(selectedMode),
+          source: "网页统一入口",
+          entryHub: "本身即美统一入口"
+        },
+        draft: {
+          title: titleInput.value,
+          mode: selectedMode,
+          content: rawContent,
+          tools: selectedTools(),
+          controls: selectedControls(),
+          updatedAt: nowText()
+        }
+      };
+    }
+
+    function storePending(entry, reason = "后台未连接或提交失败") {
+      const pending = {
+        ...entry,
+        reason,
+        failedAt: nowText()
+      };
+      writeJson(PENDING_KEY, pending);
+      writeJson(DRAFT_KEY, pending.draft);
+      updateGuardSummary();
+    }
+
+    function clearPendingState() {
+      removeStored(PENDING_KEY);
+      updateGuardSummary();
+    }
+
+    function updateGuardSummary() {
+      const pending = readJson(PENDING_KEY);
+      const draft = readJson(DRAFT_KEY);
+      restoreDraftBtn.disabled = !draft;
+      if (pending) {
+        guardSummary.innerHTML = `
+          有 1 条提交失败的内容已保存为草稿。<br>
+          主题：${escapeHtml(pending.payload?.title || pending.draft?.title || "未命名")}<br>
+          时间：${escapeHtml(pending.failedAt || pending.draft?.updatedAt || "")}
+        `;
+        return;
+      }
+      if (draft && (draft.title || draft.content)) {
+        guardSummary.innerHTML = `
+          有 1 条草稿已自动保存。<br>
+          主题：${escapeHtml(draft.title || "未命名")}<br>
+          更新时间：${escapeHtml(draft.updatedAt || "")}
+        `;
+        return;
+      }
+      guardSummary.textContent = "输入时会自动保存草稿。";
+    }
+
+    function restoreDraft() {
+      const draft = readJson(DRAFT_KEY);
+      if (!draft) {
+        setStatus("当前没有可恢复草稿。", "warn");
+        return;
+      }
+      titleInput.value = draft.title || "";
+      modeInput.value = draft.mode || "normal";
+      contentInput.value = draft.content || "";
+      applySelectedTools(draft.tools || []);
+      applySelectedControls(draft.controls || []);
+      setStatus("已恢复草稿。", "ok");
+      updateGuardSummary();
+    }
+
+    function hydrateDraftOnLoad() {
+      const draft = readJson(DRAFT_KEY);
+      if (!draft || contentInput.value.trim()) {
+        return;
+      }
+      titleInput.value = draft.title || "";
+      modeInput.value = draft.mode || "normal";
+      contentInput.value = draft.content || "";
+      applySelectedTools(draft.tools || []);
+      applySelectedControls(draft.controls || []);
+      setStatus("已自动恢复上次未提交草稿。", "ok");
+    }
+
+    async function postEntry(entry) {
+      const data = await fetchJsonFromCandidates("/api/entries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(entry.payload)
+      });
+      return data;
+    }
+
+    function handleSubmitSuccess(data) {
+      const saved = data.saved || {};
+      const queue = saved.discussionQueue && saved.discussionQueue.length
+        ? `\n已追加到待讨论区：${saved.discussionQueue.join("；")}`
+        : "";
+      const discussionItem = saved.discussionItem || null;
+      const recallLine = discussionItem && discussionItem.recallNumber
+        ? `\n已衔接复制按钮：处理待讨论 ${discussionItem.recallNumber}`
+        : "\n已衔接复制按钮：处理本身即美待讨论";
+      setStatus(`已提交。\n统一入口收件队列：${saved.formalPath || "已保存到本地收件箱"}${queue}${recallLine}`, "ok");
+      contentInput.value = "";
+      titleInput.value = "";
+      removeStored(DRAFT_KEY);
+      clearPendingState();
+      loadDiscussionQueue(discussionItem);
+    }
+
+    async function submitEntry(forceDiscussion = false) {
+      const entry = buildPayload(forceDiscussion);
+      if (!entry) {
+        setStatus("请先输入内容。", "warn");
+        contentInput.focus();
+        return;
+      }
+
+      setStatus("正在提交到本身即美统一入口收件队列……");
+      try {
+        const data = await postEntry(entry);
+        handleSubmitSuccess(data);
+      } catch (error) {
+        storePending(entry, error.message || "后台未连接或提交失败");
+        setStatus(`提交没有送达，但内容已经保存为草稿。\n后台恢复后，可以点“恢复草稿”再提交。`, "warn");
+      }
+    }
+
+    function recallText() {
+      const value = recallChoice.value;
+      if (value === "all") {
+        return "处理本身即美待讨论";
+      }
+      if (value === "custom") {
+        const raw = recallCustom.value.trim();
+        if (!raw) {
+          return "处理本身即美待讨论";
+        }
+        return `处理待讨论 ${raw.replace(/^DT-/i, "")}`;
+      }
+      return `处理待讨论 ${value}`;
+    }
+
+    function setRecallOptions(items, preferredValue = "") {
+      recallChoice.innerHTML = "";
+      recallChoice.append(new Option("全部未处理：处理本身即美待讨论", "all"));
+      if (items.length) {
+        items.forEach((item, index) => {
+          const prefix = preferredValue && item.recallNumber === preferredValue ? "刚提交｜" : `${index + 1}. `;
+          const label = `${prefix}${item.id}｜${item.summary}｜处理待讨论 ${item.recallNumber}`;
+          recallChoice.append(new Option(label, item.recallNumber));
+        });
+      } else {
+        const empty = new Option("当前没有未处理待讨论事项", "");
+        empty.disabled = true;
+        recallChoice.append(empty);
+      }
+      recallChoice.append(new Option("手动输入编号", "custom"));
+      recallChoice.value = preferredValue || "all";
+      updateRecallCustom();
+    }
+
+    function mergePreferredDiscussion(items, preferredItem) {
+      if (!preferredItem || !preferredItem.recallNumber) {
+        return { items, preferredValue: "" };
+      }
+      const exists = items.some(item => item.recallNumber === preferredItem.recallNumber || item.id === preferredItem.id);
+      const nextItems = exists ? items : [preferredItem, ...items];
+      return { items: nextItems, preferredValue: preferredItem.recallNumber };
+    }
+
+    async function loadDiscussionQueue(preferredItem = null) {
+      try {
+        const data = await fetchJsonFromCandidates("/api/benshen/discussions");
+        const queue = data.discussionQueue || {};
+        const merged = mergePreferredDiscussion(queue.items || [], preferredItem);
+        const items = merged.items;
+        setRecallOptions(items, merged.preferredValue);
+        const list = items.length
+          ? `<ul>${items.map(item => `<li>${escapeHtml(item.id)}｜${escapeHtml(item.summary)}｜${escapeHtml(item.project)}｜${escapeHtml(item.updated)}</li>`).join("")}</ul>`
+          : "<p class=\"small\">当前没有未处理待讨论事项。此时复制“全部未处理”口令，是为了召回查看待讨论区，不会对应具体事项。</p>";
+        discussionSource.innerHTML = `
+          <strong>待讨论口令对应来源</strong>
+          <div>对应：<a href="2026-06-07｜本身即美待讨论区.md">34｜本身即美待讨论区</a>。它是“需要继续讨论的事项队列”，不是项目里的“重要待定事项”。</div>
+          <div>关系：点击“提交并进入待讨论区”会生成/追加事项；“复制处理待讨论口令”会默认指向刚提交或已选择的事项。</div>
+          <div>当前未处理：${items.length} 条。</div>
+          ${list}
+        `;
+      } catch (error) {
+        setRecallOptions([]);
+        discussionSource.innerHTML = `
+          <strong>待讨论口令对应来源</strong>
+          <div>对应：<a href="2026-06-07｜本身即美待讨论区.md">34｜本身即美待讨论区</a>。后台暂时没有返回当前列表，所以只能复制“全部未处理”或手动输入编号。</div>
+          <div>关系：点击“提交并进入待讨论区”会生成/追加事项；“复制处理待讨论口令”负责把这条事项召回到 Codex 对话框继续讨论。</div>
+          <p class="small">这不对应“重要待定事项”；重要待定是具体项目里的现实卡点，待讨论是总输入口里需要回到对话框继续判断的队列。</p>
+        `;
+      }
+    }
+
+    function updateRecallCustom() {
+      recallCustomWrap.classList.toggle("active", recallChoice.value === "custom");
+    }
+
+    async function copyRecall() {
+      const text = recallText();
+      try {
+        await navigator.clipboard.writeText(text);
+        setStatus(`已复制口令：${text}`, "ok");
+      } catch (error) {
+        setStatus(text, "warn");
+      }
+    }
+
+    document.getElementById("submitNormal").addEventListener("click", () => submitEntry(false));
+    document.getElementById("submitDiscussion").addEventListener("click", () => submitEntry(true));
+    document.getElementById("copyRecall").addEventListener("click", copyRecall);
+    restoreDraftBtn.addEventListener("click", restoreDraft);
+    [titleInput, modeInput, contentInput].forEach(element => {
+      element.addEventListener("input", saveDraft);
+      element.addEventListener("change", saveDraft);
+    });
+    toolButtons.forEach(button => {
+      button.addEventListener("click", () => toggleTool(button));
+    });
+    controlButtons.forEach(button => {
+      button.addEventListener("click", () => toggleControl(button));
+    });
+    recallChoice.addEventListener("change", updateRecallCustom);
+    updateRecallCustom();
+    hydrateDraftOnLoad();
+    updateToolStatus();
+    updateControlStatus();
+    updateGuardSummary();
+    loadDiscussionQueue();
+  </script>
+</body>
+</html>

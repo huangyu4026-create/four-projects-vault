@@ -1,0 +1,101 @@
+{
+  "case_id": "04_alias_space",
+  "question": "坐标 凤姐和大观园同场的材料",
+  "route_gate": "取材门：坐标\nrecall_gate：coordinate\n取材规则：入口词包生成后，进入坐标取材系统；不得回落到原语义取材系统。",
+  "route_context": "取材门：坐标\nrecall_gate：coordinate\n取材规则：入口词包生成后，进入坐标取材系统；不得回落到原语义取材系统。\nCodex查询词路\nCodex问题中心：坐标取材入口到材料池验收\nCodex经验路径：\nCodex库线路径：\nCodex策略理由：人物别名 + 空间共场。\nCodex下一步指令：只生成坐标材料候选并送材料池入口，不进入写作。\nCodex词角色：主查人物=凤姐；场景词=大观园；归一词=凤姐->王熙凤\nCodex材料升级条件：人物归一通过、词位/变量命中、距离或共场矩阵形成、原文句存在后，才送材料池入口。\nCodex补查方案：缺人物归一则停门；缺入口词则停门；表无命中则需补证。\nCodex查询词：凤姐\nCodex强复合：凤姐 + 大观园\nCodex背景锚点：同场、空间\nCodex优先库：全文词位材料索引库、全量变量投影库、全文字位原子段桥表\nCodex查证顺序：先触发坐标门；再人物归一强令牌；再词位穷尽；再坐标变量；再距离/共场；再提出原子段和原文句；送材料池入口后停止，不写答案。\nCodex注意事项：人物题必须先过70/72全人物归一包；坐标路不得回落语义路；缺入口词不得裸猜；材料进入材料池入口后停止",
+  "raw_terms": [
+    "凤姐",
+    "大观园"
+  ],
+  "normalized_terms": [
+    "王熙凤",
+    "大观园"
+  ],
+  "person_status": "已接入70/72全人物归一包",
+  "person_character_keys": [
+    "P0033"
+  ],
+  "person_canonical_names": [
+    "王熙凤"
+  ],
+  "query_types": [
+    "词位",
+    "坐标",
+    "距离",
+    "共场",
+    "全量",
+    "原文"
+  ],
+  "preflight_ok": true,
+  "preflight_missing_required": [],
+  "bundle_status": "可答",
+  "bundle_rows": 20,
+  "pool_raw_rows": 100,
+  "pool_unique_segments": 100,
+  "pool_person_gate": {
+    "required": true,
+    "ok": true,
+    "status": "人物归一强令牌通过",
+    "character_keys": [
+      "P0033"
+    ],
+    "canonical_names": [
+      "王熙凤"
+    ],
+    "alias_expansions": {
+      "王熙凤": [
+        "王熙凤",
+        "熙凤",
+        "凤姐",
+        "凤辣子",
+        "凤丫头",
+        "凤哥儿",
+        "凤姐儿",
+        "凤姑娘",
+        "二奶奶[歧]"
+      ]
+    },
+    "rule": "只要题目、入口词或词角色涉及人物、名字、称谓、别名，必须先过70/72人物归一；未归一不得入材料池。"
+  },
+  "first_material": {
+    "atom_code": "C031-A0010",
+    "segment_no": "31-010",
+    "chapter_no": 31,
+    "material_status": "可答",
+    "material_query_type": "词位 / 坐标 / 距离 / 共场 / 全量 / 原文",
+    "material_variables": "event=众人分住园中大观园复苏；event=元春下谕开放大观园居住；event=凤姐赚尤二姐入大观园；event=大观园妖怪传闻一传十十传百扩散；event=大观园群姝会齐更添热闹；event=宝钗坚辞搬出大观园；event=抄检大观园七处；object=夏守忠传大观园居住谕旨；object=大观园园门翠嶂障景；object=大观园女孩子｜绫锦纱罗彩线饯花神｜芒种节；object=大观园承包归账与分红账；object=大观园游船与残荷；object=大观园玲珑隔屋；object=大观园聚赌赌具焚毁；object=大观园门钥匙/关门物象；object=大观园陈设帘幔数目；object=大观园驱邪坛三清圣像二十八宿图像；object=大观园驱邪坛令牌牙笏与法鼓；object=宝钗开给惜春的大观园画具清单；object=尤二姐｜箱笼细软几件抬入东厢房催穿戴后与凤姐携手上车从后门入园｜移入大观园；object=惜春大观园画轴画具；object=抄检大观园园门角门锁钥；object=抄检大观园夜间灯火；object=王熙凤｜传各色匠役收拾东厢房三间照正室装饰陈设并命众男人素衣素盖前往｜赚入大观园预备；object=王熙凤｜带尤二姐入大观园求李纨收养严禁走风又退出原丫头换自己丫头使唤｜园中软禁；object=贾蔷｜管理十二女戏行头｜大观园勒石后；object=迎春孙绍祖｜贾赦许婚孙家娶期甚急迎春接出大观园陪四个丫头过去宝玉叹少五个清洁人｜误嫁中山狼；person=王熙凤；poem=贾元春·题大观园；scene_space_hint=大观园；space=大观园；space=大观园厢房 / 尤二姐暂居处；space=大观园厢房｜第68回｜善姐怠慢尤二姐；space=大观园厨房 / 柳家的处；space=大观园厨房｜第60回｜柳家的托芳官为五儿谋入怡红院；space=大观园厨房｜第60回｜翠墨传警夏婆子闻讯惊怕；space=大观园厨房｜第60回｜芳官进厨房传话与蝉儿因热糕口角；space=大观园厨房｜第61回｜司棋砸厨房五儿转赠茯苓霜；space=大观园厨房｜第61回｜柳家的分派菜馔并安置茯苓霜；space=大观园厨房｜第61回｜莲花儿索鸡蛋与柳家的争吵",
+    "coordinate_pairwise_summary": "same_atom=1",
+    "source_sentence": "陽盡了就成陰，陰盡了就成陽。"
+  },
+  "checks": {
+    "route_coordinate": true,
+    "strategy_terms": true,
+    "person_gate_ok_or_not_required": true,
+    "coordinate_preflight_ok": true,
+    "entered_coordinate_tables": true,
+    "material_candidates_created": true,
+    "material_pool_entry_created": true,
+    "no_answer_written": true
+  },
+  "ok": true,
+  "artifacts": {
+    "markdown": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/04_alias_space/material_pool_entry/01_总证据池报告.md",
+    "json": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/04_alias_space/material_pool_entry/02_总证据池摘要.json",
+    "raw_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/04_alias_space/material_pool_entry/03_子问题证据明细.csv",
+    "merged_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/04_alias_space/material_pool_entry/04_合并候选段落.csv",
+    "subquestion_count": 5,
+    "raw_rows": 100,
+    "unique_segments": 100,
+    "subquestion_loop": {
+      "required": true,
+      "subquestion_count": 5,
+      "pool_built": true,
+      "raw_rows": 100,
+      "unique_segments": 100,
+      "admitted_rows": 100,
+      "extractable_material_rows": 100,
+      "missing_subquestions": [],
+      "next_action": "进入材料池精读或按 Codex 判断继续补证。"
+    }
+  }
+}

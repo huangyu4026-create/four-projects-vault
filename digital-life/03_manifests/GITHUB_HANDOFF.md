@@ -1,0 +1,86 @@
+# 数字生命 GitHub 接续卡
+
+## 远端结论
+
+- 本地根目录：`/Users/yu/Documents/Codex/coex项目总库/10-19_四项目工程域/11_P01_数字生命_DL`
+- GitHub 目录：`digital-life/`
+- 文件数：2876
+- 总体量：4.2 GiB
+- 策略：正式工程体量大，按红楼梦方法上传接续层与恢复账；小型试运行包此前已在 digital-life-github-starter 中存在。
+
+## 通道统计
+
+| 通道 | 文件数 | 体量 |
+| --- | ---: | ---: |
+| `A_DIRECT_GIT` | 2829 | 28.1 MiB |
+| `B_GIT_LFS_RECOMMENDED` | 6 | 148.0 KiB |
+| `B_GIT_LFS_REQUIRED` | 19 | 4.1 GiB |
+| `C_INDEX_FIRST_THEN_SELECTIVE_UPLOAD` | 7 | 14.3 MiB |
+| `C_RELEASE_OR_LOCAL_BACKUP` | 9 | 67.2 MiB |
+| `D_LOCAL_RUNTIME_ONLY` | 6 | 42.0 KiB |
+
+## 顶层体量
+
+| 顶层目录 | 文件数 | 体量 |
+| --- | ---: | ---: |
+| `40_加工区` | 814 | 2.8 GiB |
+| `50_输出区` | 315 | 1.4 GiB |
+| `60_同步记录` | 424 | 6.8 MiB |
+| `00_域门` | 1175 | 6.6 MiB |
+| `20_规则与流程` | 78 | 6.4 MiB |
+| `10_输入收件箱` | 69 | 676.8 KiB |
+| `30_正文底库或工具数据` | 1 | 10.0 KiB |
+
+## 本地备份责任
+
+- GitHub 保存入口、清单、规则索引和恢复账。
+- 本地继续保存完整根目录，尤其是大型 SQLite、压缩恢复包、输出归档和运行时现场。
+- `D_LOCAL_RUNTIME_ONLY` 不逐个列入远端恢复账；需要时整体备份本地根目录即可。
+- 有 sha256 的文件可用 `shasum -a 256 "文件路径"` 校验。
+
+## 大文件/恢复账 CSV
+
+```csv
+relative_path,size_bytes,human_size,extension,channel,sha256
+00_域门/来源路径保留/2026-06-03/notion-3-crv/数字生命/数字生命/生命/内容入口/法则/阶段页面/第六阶段｜清风显化期 2023 06 15–至今/2026 01 16–2026 01 31｜小红书运营·北京之行·房产交易·日常心流 32e9cf1068b0813cb718d1484142821c.md,2116862,2.0 MiB,.md,C_INDEX_FIRST_THEN_SELECTIVE_UPLOAD,
+20_规则与流程/数字生命全量对标工程_20260620/03_文件级全量对标索引_20260620.csv,2100264,2.0 MiB,.csv,C_INDEX_FIRST_THEN_SELECTIVE_UPLOAD,
+20_规则与流程/数字生命全量对标工程_20260620/03_文件级全量对标索引_20260620.json,2926651,2.8 MiB,.json,C_INDEX_FIRST_THEN_SELECTIVE_UPLOAD,
+40_加工区/来源路径保留/数字生命-GitHub试运行包-2026-06-14.zip,12011,11.7 KiB,.zip,C_RELEASE_OR_LOCAL_BACKUP,a9697a6a80793e6f4ea6902be4b1fed3280817c0f370210146d0c12a78994ab1
+40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/lifeos.db,0,0 B,.db,B_GIT_LFS_RECOMMENDED,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/data/digital_life.db,0,0 B,.db,B_GIT_LFS_RECOMMENDED,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/runtime/digital_life.db,0,0 B,.db,B_GIT_LFS_RECOMMENDED,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/runtime/digital_life.sqlite,0,0 B,.sqlite,B_GIT_LFS_RECOMMENDED,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/runtime/digital_life_os_core.sqlite,258777088,246.8 MiB,.sqlite,B_GIT_LFS_REQUIRED,92f5b566a4a8b98904bc0e257fbbe6b152d36337a4e5262edf620a5d13aea9c3
+40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/runtime/digital_life_os_core_stable_20260608.sqlite,248410112,236.9 MiB,.sqlite,B_GIT_LFS_REQUIRED,0db81218f28999b02c16883fdf8f7835fac7b14f46f33b74355df2335b964006
+40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/runtime/qingfeng_logs.sqlite3,0,0 B,.sqlite3,B_GIT_LFS_RECOMMENDED,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/runtime/active_lock_quarantine_20260608-063338/digital_life_os_core.sqlite,178630656,170.4 MiB,.sqlite,B_GIT_LFS_REQUIRED,d4eb15590902b3514db493a8e8edb498f253bbc151573fa59cb8fbfc473aaede
+40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/runtime/active_lock_quarantine_20260608-063338/digital_life_os_core.sqlite-wal,122314592,116.6 MiB,.sqlite-wal,B_GIT_LFS_REQUIRED,b561b0639d026287d1f46366d9bdd7a7011a517ab87a4d0b77110c48c3308590
+40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/runtime/active_lock_quarantine_20260608-064509/digital_life_os_core.sqlite,246685696,235.3 MiB,.sqlite,B_GIT_LFS_REQUIRED,87efdb64145319b8172100a9b71022174ec0a1ba607152dc7bdcbcf260be76d4
+40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/runtime/backups/before_20260615_commentary_repair.sqlite,258756608,246.8 MiB,.sqlite,B_GIT_LFS_REQUIRED,897da66db0a8175319e49340e86757392b531e1b0e5780aac328bb16cae24052
+40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/runtime/backups/before_mobile_log_flow_repair_20260608_142017.sqlite,248004608,236.5 MiB,.sqlite,B_GIT_LFS_REQUIRED,1274e93782951c35f58d79e5bf649462ca2134ae94475c7b676b13e56306f9a1
+40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/runtime/lock_quarantine_20260608-061932/digital_life_os_core.sqlite,151552,148.0 KiB,.sqlite,B_GIT_LFS_RECOMMENDED,850c577fac12f4e5d7cd533999d3b3b6172ca499b17621b98f723e7563af52d9
+40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/runtime/lock_quarantine_20260608-062611/digital_life_os_core.sqlite,148901888,142.0 MiB,.sqlite,B_GIT_LFS_REQUIRED,ddecd65171fc9af9acdc8395c14c56fb15397c6e7fbad66bc1bbd76dd4f25740
+40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/runtime/lock_quarantine_20260608-062611/digital_life_os_core.sqlite-wal,106749232,101.8 MiB,.sqlite-wal,B_GIT_LFS_REQUIRED,d84d03e76c6021de937cd36213228fc7821143a6f11ec84ec921c8e98d4929fd
+40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/runtime/lock_quarantine_20260608-062720/digital_life_os_core.sqlite,249479168,237.9 MiB,.sqlite,B_GIT_LFS_REQUIRED,7bd5424038b36ab0b507698df566fad4470bf6495f66c57c17e99cdd599f91c4
+40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/runtime/lock_quarantine_20260608-062720/digital_life_os_core.sqlite-wal,122347552,116.7 MiB,.sqlite-wal,B_GIT_LFS_REQUIRED,b88080695d7cc2138fdec4f7241c38949a9366022afc36f92309ac58344bc233
+40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/runtime/locked_db_quarantine_20260608-062337/digital_life_os_core.sqlite,178638848,170.4 MiB,.sqlite,B_GIT_LFS_REQUIRED,fe26f2c0b199be2c9b79f6f747ee5f2c05904a77c430781e767ccb823141ef76
+40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/runtime/locked_db_quarantine_20260608-062337/digital_life_os_core.sqlite-wal,122273392,116.6 MiB,.sqlite-wal,B_GIT_LFS_REQUIRED,f6eb10d8cbadb7d7abdd3acae19f9319698c33a7e443464b58eb1b7c0ed10902
+40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/runtime/prewrite_snapshots/2026-06/prewrite-20260608-092930-safe-intake-20260608-080005-8302ef4ecfd64489.sqlite,246726656,235.3 MiB,.sqlite,B_GIT_LFS_REQUIRED,391c4093a5695dcd4f35ba2c7682668be32492fd247b40e691adeec18cf6ce70
+40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/runtime/prewrite_snapshots/2026-06/prewrite-20260608-093136-safe-intake-20260608-080005-8302ef4ecfd64489.sqlite,246726656,235.3 MiB,.sqlite,B_GIT_LFS_REQUIRED,391c4093a5695dcd4f35ba2c7682668be32492fd247b40e691adeec18cf6ce70
+50_输出区/来源路径保留/2026-06-05/new-chat/outputs/数字生命OS_静态版.html,248763164,237.2 MiB,.html,B_GIT_LFS_REQUIRED,0f40835b18db326dfaaf11362f2ab96cbb3db3c007b17fb53a9af7a43070bd79
+50_输出区/来源路径保留/2026-06-05/new-chat/outputs/数字生命OS_Codex召回答复原件_永不删除/codex_runs/DL-0007_events.log,1321674,1.3 MiB,.log,C_INDEX_FIRST_THEN_SELECTIVE_UPLOAD,
+50_输出区/来源路径保留/2026-06-05/new-chat/outputs/数字生命OS_Codex召回答复原件_永不删除/codex_runs/DL-0008_events.log,1230808,1.2 MiB,.log,C_INDEX_FIRST_THEN_SELECTIVE_UPLOAD,
+50_输出区/来源路径保留/2026-06-05/new-chat/outputs/数字生命OS_备份库/数字生命OS_备份_bimonthly_20260606-214232.zip,26097158,24.9 MiB,.zip,C_RELEASE_OR_LOCAL_BACKUP,8ae5253044f80fcf7f96ab4c400bc5c9c38c4ca45c8a2c2c50582cbcae892124
+50_输出区/来源路径保留/2026-06-05/new-chat/outputs/数字生命OS_备份库/数字生命OS_备份_bimonthly_20260606-235049.zip,27823966,26.5 MiB,.zip,C_RELEASE_OR_LOCAL_BACKUP,fe7e1537100f6351b2c19df55c1b3fd0260d7aac76991bd7dfe4fce766975653
+50_输出区/来源路径保留/2026-06-05/new-chat/outputs/数字生命OS_备份库/数字生命OS_备份_daily_20260606-162412.zip,16450511,15.7 MiB,.zip,C_RELEASE_OR_LOCAL_BACKUP,fc60ff0f0d47a7957ec283e34efa6c326bd06d97ae92ceb6e7a227418b274c90
+50_输出区/来源路径保留/2026-06-05/new-chat/outputs/数字生命OS_备份库/数字生命OS_备份_manual_20260608-063504.zip,378099247,360.6 MiB,.zip,B_GIT_LFS_REQUIRED,3dcb372a358217c40cdf6f5384cddcd65932b0e80d7f9ee5050fb3be10aebbc3
+50_输出区/来源路径保留/2026-06-05/new-chat/outputs/数字生命OS_备份库/数字生命OS_备份_manual_20260608-064206.zip,377200289,359.7 MiB,.zip,B_GIT_LFS_REQUIRED,5d449264826a1fcde81abe2f2bbe9dcc28274b24776adf21b09a556390600c48
+50_输出区/来源路径保留/2026-06-05/new-chat/outputs/数字生命OS_备份库/数字生命OS_备份_manual_20260608-065007.zip,424643588,405.0 MiB,.zip,B_GIT_LFS_REQUIRED,24d84f6d6446c64cb2f1010bddb4a9487b8a6f8e3d67238821d32e0581b86a2e
+50_输出区/来源路径保留/2026-06-13/5-5-http-vpn-4-5/outputs/digital-life-github-starter.zip,12011,11.7 KiB,.zip,C_RELEASE_OR_LOCAL_BACKUP,a9697a6a80793e6f4ea6902be4b1fed3280817c0f370210146d0c12a78994ab1
+50_输出区/来源路径保留/2026-06-15/new-chat/outputs/轻量工程回显迁移备份_20260616/digital_life_130_codex_recall_processor.py.bak,9573,9.3 KiB,.bak,C_RELEASE_OR_LOCAL_BACKUP,501f2900389a61ce08e035cc67910499044f9db499029b443a4e423b8171fe0b
+50_输出区/来源路径保留/2026-06-15/new-chat/outputs/轻量工程回显迁移备份_20260616/digital_life_chat.css.bak,13500,13.2 KiB,.bak,C_RELEASE_OR_LOCAL_BACKUP,2a5f4919f71810cf58035cbdc7b9ed7dcdb740377f13ca5836fced38c0a6db15
+50_输出区/来源路径保留/2026-06-15/new-chat/outputs/轻量工程回显迁移备份_20260616/digital_life_chat.js.bak,57446,56.1 KiB,.bak,C_RELEASE_OR_LOCAL_BACKUP,beaefc295d4efba256838a9720ee80faa43b0ca8d19773091540d11f478a22e9
+50_输出区/来源路径保留/2026-06-15/new-chat/outputs/轻量工程回显迁移备份_20260616/digital_life_codex-recall-results.json.bak,12064,11.8 KiB,.bak,C_RELEASE_OR_LOCAL_BACKUP,981c55f9441ab503bf4a1b8dbd2a371d5cb746be1ec3ed9f931056ef8e98c464
+60_同步记录/来源路径保留/2026-06-03/notion-3-crv/数字生命/数字生命/场域/清风场域空间档案/1楼南客厅/1楼南客厅｜南侧高空层（连大门 二门·南出南花园）｜照片/nse-2804352714684788786-838.jpg,2874446,2.7 MiB,.jpg,C_INDEX_FIRST_THEN_SELECTIVE_UPLOAD,
+60_同步记录/来源路径保留/2026-06-03/notion-3-crv/数字生命/数字生命/场域/清风场域空间档案/1楼楼梯厅/1楼楼梯厅｜错层高台·跳空中岛空间（连厨房 卫生间 衣帽间）｜照片/nse-5827331955027055861-839.jpg,2405915,2.3 MiB,.jpg,C_INDEX_FIRST_THEN_SELECTIVE_UPLOAD,
+```

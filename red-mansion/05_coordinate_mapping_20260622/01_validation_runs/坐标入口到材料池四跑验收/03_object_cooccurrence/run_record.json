@@ -1,0 +1,81 @@
+{
+  "case_id": "03_object_cooccurrence",
+  "question": "坐标 鸡和花有没有同场的材料",
+  "route_gate": "取材门：坐标\nrecall_gate：coordinate\n取材规则：入口词包生成后，进入坐标取材系统；不得回落到原语义取材系统。",
+  "route_context": "取材门：坐标\nrecall_gate：coordinate\n取材规则：入口词包生成后，进入坐标取材系统；不得回落到原语义取材系统。\nCodex查询词路\nCodex问题中心：坐标取材入口到材料池验收\nCodex经验路径：\nCodex库线路径：\nCodex策略理由：纯物象共场，检查人物归一强门不误拦。\nCodex下一步指令：只生成坐标材料候选并送材料池入口，不进入写作。\nCodex词角色：主查物象=鸡、花；主查词=鸡、花\nCodex材料升级条件：人物归一通过、词位/变量命中、距离或共场矩阵形成、原文句存在后，才送材料池入口。\nCodex补查方案：缺人物归一则停门；缺入口词则停门；表无命中则需补证。\nCodex查询词：鸡、花\nCodex强复合：鸡 + 花\nCodex背景锚点：同场、材料\nCodex优先库：全文词位材料索引库、全量变量投影库、全文字位原子段桥表\nCodex查证顺序：先触发坐标门；再人物归一强令牌；再词位穷尽；再坐标变量；再距离/共场；再提出原子段和原文句；送材料池入口后停止，不写答案。\nCodex注意事项：人物题必须先过70/72全人物归一包；坐标路不得回落语义路；缺入口词不得裸猜；材料进入材料池入口后停止",
+  "raw_terms": [
+    "鸡",
+    "花"
+  ],
+  "normalized_terms": [
+    "鸡",
+    "花"
+  ],
+  "person_status": "未命中人物归一包",
+  "person_character_keys": [],
+  "person_canonical_names": [],
+  "query_types": [
+    "词位",
+    "坐标",
+    "距离",
+    "共场",
+    "全量",
+    "原文"
+  ],
+  "preflight_ok": true,
+  "preflight_missing_required": [],
+  "bundle_status": "可答",
+  "bundle_rows": 20,
+  "pool_raw_rows": 100,
+  "pool_unique_segments": 100,
+  "pool_person_gate": {
+    "required": false,
+    "ok": true,
+    "status": "非人物/名字题，未触发人物归一强令牌",
+    "character_keys": [],
+    "canonical_names": [],
+    "alias_expansions": {},
+    "rule": "只要题目、入口词或词角色涉及人物、名字、称谓、别名，必须先过70/72人物归一；未归一不得入材料池。"
+  },
+  "first_material": {
+    "atom_code": "C058-A0014",
+    "segment_no": "58-014",
+    "chapter_no": 58,
+    "material_status": "可答",
+    "material_query_type": "词位 / 坐标 / 距离 / 共场 / 全量 / 原文",
+    "material_variables": "emotion_symbolic_function=传花到贾环；emotion_symbolic_function=回园独对池上芙蓉忆晴雯为花神转喜；emotion_symbolic_function=宝玉听信花神之说；emotion_symbolic_function=文花唱曲；event=传花得诗·三代于斯；event=元宵夜宴花厅陈设与赏戏撒钱；event=共葬落花与袭人来唤；event=凸碧山庄中秋宴·击鼓传花；event=占花魁·宝玉悟音律；event=周瑞家的送宫花与黛玉冷语；event=妙玉私邀钗黛宝玉共饮梅花雪茶；event=宝玉入潇湘馆赏花叙话；event=宝玉捧落花重至旧日葬花处并闻人悲吟；event=宝玉默思花事先兆；event=宝钗冷香丸与薛姨妈赠宫花；event=宝钗哭归与黛玉花下讥语；event=宝钗哭归次日遇黛玉花下讥语；event=宝黛葬花后解误；event=平儿入花厅与探春议节省头油脂粉；event=怡红海棠反常开花；event=探春乌眼鸡之叹·承接抄检余波；event=散花寺大了请安·引出签事；event=散花寺求签·王熙凤衣锦还乡；event=李纨开楼备宴刘姥姥插花受戏；event=柳家厨房线起头与鸡蛋争吵；event=桃花下读西厢与论葬落花；event=桃花诗引发诗社重启；event=湘云起意改作菊花诗；event=王夫人问安贾母并说凤姐野鸡汤孝敬；event=翠墨送来探春花笺；event=花名签夜宴饮酒取笑至四更；event=花自芳报母病接袭人归家；event=莺儿取硝编花篮并送黛玉；event=蒋玉菡行令念花气袭人薛蟠借题取笑；event=贾琏出面平息命案并花钱压下诉讼；event=赏花作诗宴；event=金桂嘲菱角花不香·改“香”为“秋”；event=黛玉伤春葬花宝玉闻诗慟倒山坡；event=黛玉失寐与园中饯花神；event=黛玉芒种前夜枯坐而园中众人饯花",
+    "coordinate_pairwise_summary": "same_atom=1",
+    "source_sentence": "晴雯過去拉了他，替他洗淨了髮……挽了一個慵妝髻。"
+  },
+  "checks": {
+    "route_coordinate": true,
+    "strategy_terms": true,
+    "person_gate_ok_or_not_required": true,
+    "coordinate_preflight_ok": true,
+    "entered_coordinate_tables": true,
+    "material_candidates_created": true,
+    "material_pool_entry_created": true,
+    "no_answer_written": true
+  },
+  "ok": true,
+  "artifacts": {
+    "markdown": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/03_object_cooccurrence/material_pool_entry/01_总证据池报告.md",
+    "json": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/03_object_cooccurrence/material_pool_entry/02_总证据池摘要.json",
+    "raw_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/03_object_cooccurrence/material_pool_entry/03_子问题证据明细.csv",
+    "merged_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/03_object_cooccurrence/material_pool_entry/04_合并候选段落.csv",
+    "subquestion_count": 5,
+    "raw_rows": 100,
+    "unique_segments": 100,
+    "subquestion_loop": {
+      "required": true,
+      "subquestion_count": 5,
+      "pool_built": true,
+      "raw_rows": 100,
+      "unique_segments": 100,
+      "admitted_rows": 100,
+      "extractable_material_rows": 100,
+      "missing_subquestions": [],
+      "next_action": "进入材料池精读或按 Codex 判断继续补证。"
+    }
+  }
+}

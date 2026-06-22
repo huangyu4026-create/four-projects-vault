@@ -26,6 +26,12 @@
 3. 需要运行或修复时，从 `02_key_scripts/` 里的关键脚本进入。
 4. 需要追完整本地资产时，读 `03_manifests/CHANNEL_SUMMARY.md`、`03_manifests/large_files_manifest.csv` 和本地输出包中的 `upload_channel_manifest.csv`。
 
+## 2026-06-22 坐标升级
+
+今天新增 `05_coordinate_mapping_20260622/`：这是红楼梦新版坐标总库的 GitHub 接续层。它记录正式坐标总库从 2706 个退役来源段升级到 3754 个新版原子段，并保留双头入口、坐标取材到材料池验收、A/B 复核设计跑、关键脚本、SQLite schema、表行数和本地大库 sha256 清单。
+
+坐标题先读 `05_coordinate_mapping_20260622/README.md` 和 `05_coordinate_mapping_20260622/00_fixed_point/000C_进入坐标查询_新窗口强制入口_候选正式头.md`；普通聚拢题仍按旧入口链读取。
+
 ## 上传通道原则
 
 - `A_DIRECT_GIT`：适合直接进入普通 GitHub 仓库。
