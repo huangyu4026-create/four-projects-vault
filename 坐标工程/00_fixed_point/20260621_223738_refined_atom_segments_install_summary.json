@@ -1,0 +1,20 @@
+{
+  "installed_at": "2026-06-21T22:37:39",
+  "published_db": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦聚拢坐标映射总库_CH001_120/红楼梦聚拢坐标映射总库_CH001_120.sqlite",
+  "published_report": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦聚拢坐标映射总库_CH001_120/红楼梦聚拢坐标映射总库_CH001_120_说明与验收.md",
+  "backup_dir": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦聚拢坐标映射总库_CH001_120/backups/20260621_223738_pre_refined_atom_segments",
+  "staging_db": "/Users/yu/Documents/Codex/2026-06-21/019ee711-c178-7090-b26e-174b56d3e431/outputs/红楼梦聚拢坐标映射总库_CH001_120_新版原子段发布/红楼梦聚拢坐标映射总库_CH001_120.sqlite",
+  "counts": {
+    "atom_codebook": 3754,
+    "clean_atoms": 3754,
+    "atom_distance_basis": 3754,
+    "atom_projection_codebook": 151416,
+    "atom_links": 151416,
+    "atom_memberships": 26306,
+    "term_atom_occurrences": 2836240,
+    "term_unmapped_start": 0,
+    "projection_orphans": 0,
+    "retired_source_segments": 2706,
+    "retired_source_mapped": 2706
+  }
+}

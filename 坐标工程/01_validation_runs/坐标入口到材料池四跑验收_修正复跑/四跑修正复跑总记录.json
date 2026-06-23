@@ -1,0 +1,175 @@
+{
+  "case_count": 4,
+  "pass_count": 4,
+  "results": [
+    {
+      "case_id": "01_alias_distance",
+      "question": "坐标 颦儿和黄字离得最近的是哪一回",
+      "ok": true,
+      "terms": [
+        "林黛玉",
+        "黃"
+      ],
+      "person": [
+        "林黛玉"
+      ],
+      "missing": [],
+      "bundle_rows": 20,
+      "pool_raw_rows": 100,
+      "pool_unique_segments": 100,
+      "first_atom": "C027-A0003",
+      "first_segment": "27-003",
+      "first_chapter": 27,
+      "first_material_variables_count": 1,
+      "first_material_variables_preview": "person=林黛玉",
+      "first_source_sentence": "且說寶釵、迎春、探春、惜春、李紈、鳳姐等並巧姐、大姐、香菱與眾丫鬟們在園內玩耍，獨不見林黛玉",
+      "artifacts": {
+        "markdown": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/01_alias_distance/material_pool_entry/01_总证据池报告.md",
+        "json": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/01_alias_distance/material_pool_entry/02_总证据池摘要.json",
+        "raw_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/01_alias_distance/material_pool_entry/03_子问题证据明细.csv",
+        "merged_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/01_alias_distance/material_pool_entry/04_合并候选段落.csv",
+        "subquestion_count": 5,
+        "raw_rows": 100,
+        "unique_segments": 100,
+        "subquestion_loop": {
+          "required": true,
+          "subquestion_count": 5,
+          "pool_built": true,
+          "raw_rows": 100,
+          "unique_segments": 100,
+          "admitted_rows": 100,
+          "extractable_material_rows": 100,
+          "missing_subquestions": [],
+          "next_action": "进入材料池精读或按 Codex 判断继续补证。"
+        }
+      }
+    },
+    {
+      "case_id": "02_person_season_object",
+      "question": "坐标 宝玉和黛玉在秋天跟花接近的状态",
+      "ok": true,
+      "terms": [
+        "贾宝玉",
+        "林黛玉",
+        "花",
+        "秋"
+      ],
+      "person": [
+        "贾宝玉",
+        "林黛玉"
+      ],
+      "missing": [],
+      "bundle_rows": 20,
+      "pool_raw_rows": 100,
+      "pool_unique_segments": 100,
+      "first_atom": "C003-A0016",
+      "first_segment": "03-016",
+      "first_chapter": 3,
+      "first_material_variables_count": 5,
+      "first_material_variables_preview": "object=花；person=林黛玉；person=贾宝玉；scene_object_hint=花；season=秋",
+      "first_source_sentence": "头上戴著束发嵌宝紫金冠，齐眉勒著二龙戏珠金抹额，穿一件二色金百蝶穿花大红箭袖，束著五彩丝攒花结长穗宫绪，外罩石青起花八团倭缎排穗褂，登著青缎粉底小朝靴。",
+      "artifacts": {
+        "markdown": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/02_person_season_object/material_pool_entry/01_总证据池报告.md",
+        "json": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/02_person_season_object/material_pool_entry/02_总证据池摘要.json",
+        "raw_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/02_person_season_object/material_pool_entry/03_子问题证据明细.csv",
+        "merged_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/02_person_season_object/material_pool_entry/04_合并候选段落.csv",
+        "subquestion_count": 5,
+        "raw_rows": 100,
+        "unique_segments": 100,
+        "subquestion_loop": {
+          "required": true,
+          "subquestion_count": 5,
+          "pool_built": true,
+          "raw_rows": 100,
+          "unique_segments": 100,
+          "admitted_rows": 100,
+          "extractable_material_rows": 100,
+          "missing_subquestions": [],
+          "next_action": "进入材料池精读或按 Codex 判断继续补证。"
+        }
+      }
+    },
+    {
+      "case_id": "03_object_cooccurrence",
+      "question": "坐标 鸡和花有没有同场的材料",
+      "ok": true,
+      "terms": [
+        "鸡",
+        "花"
+      ],
+      "person": [],
+      "missing": [],
+      "bundle_rows": 20,
+      "pool_raw_rows": 100,
+      "pool_unique_segments": 100,
+      "first_atom": "C028-A0007",
+      "first_segment": "28-007",
+      "first_chapter": 28,
+      "first_material_variables_count": 3,
+      "first_material_variables_preview": "object=花；scene_object_hint=花；scene_object_hint=鸡",
+      "first_source_sentence": "林妹妹才在背後羞我，打量我撒謊呢。",
+      "artifacts": {
+        "markdown": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/03_object_cooccurrence/material_pool_entry/01_总证据池报告.md",
+        "json": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/03_object_cooccurrence/material_pool_entry/02_总证据池摘要.json",
+        "raw_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/03_object_cooccurrence/material_pool_entry/03_子问题证据明细.csv",
+        "merged_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/03_object_cooccurrence/material_pool_entry/04_合并候选段落.csv",
+        "subquestion_count": 5,
+        "raw_rows": 100,
+        "unique_segments": 100,
+        "subquestion_loop": {
+          "required": true,
+          "subquestion_count": 5,
+          "pool_built": true,
+          "raw_rows": 100,
+          "unique_segments": 100,
+          "admitted_rows": 100,
+          "extractable_material_rows": 100,
+          "missing_subquestions": [],
+          "next_action": "进入材料池精读或按 Codex 判断继续补证。"
+        }
+      }
+    },
+    {
+      "case_id": "04_alias_space",
+      "question": "坐标 凤姐和大观园同场的材料",
+      "ok": true,
+      "terms": [
+        "王熙凤",
+        "大观园"
+      ],
+      "person": [
+        "王熙凤"
+      ],
+      "missing": [],
+      "bundle_rows": 20,
+      "pool_raw_rows": 100,
+      "pool_unique_segments": 100,
+      "first_atom": "C031-A0010",
+      "first_segment": "31-010",
+      "first_chapter": 31,
+      "first_material_variables_count": 3,
+      "first_material_variables_preview": "person=王熙凤；scene_space_hint=大观园；space=大观园",
+      "first_source_sentence": "陽盡了就成陰，陰盡了就成陽。",
+      "artifacts": {
+        "markdown": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/04_alias_space/material_pool_entry/01_总证据池报告.md",
+        "json": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/04_alias_space/material_pool_entry/02_总证据池摘要.json",
+        "raw_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/04_alias_space/material_pool_entry/03_子问题证据明细.csv",
+        "merged_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/04_alias_space/material_pool_entry/04_合并候选段落.csv",
+        "subquestion_count": 5,
+        "raw_rows": 100,
+        "unique_segments": 100,
+        "subquestion_loop": {
+          "required": true,
+          "subquestion_count": 5,
+          "pool_built": true,
+          "raw_rows": 100,
+          "unique_segments": 100,
+          "admitted_rows": 100,
+          "extractable_material_rows": 100,
+          "missing_subquestions": [],
+          "next_action": "进入材料池精读或按 Codex 判断继续补证。"
+        }
+      }
+    }
+  ]
+}

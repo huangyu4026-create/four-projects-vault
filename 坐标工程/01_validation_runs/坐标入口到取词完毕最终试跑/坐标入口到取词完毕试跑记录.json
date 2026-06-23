@@ -1,0 +1,255 @@
+{
+  "question": "坐标 颦儿和黄字离得最近的是哪一回",
+  "manual_payload": {
+    "question_center": "人物与正文颜色字的最近距离查证",
+    "search_terms": [
+      "颦儿",
+      "黃"
+    ],
+    "term_roles": {
+      "primary_characters": [
+        "颦儿"
+      ],
+      "primary_terms": [
+        "黃"
+      ],
+      "normalization_terms": [
+        "颦儿->林黛玉"
+      ]
+    },
+    "compound_groups": [
+      [
+        "颦儿"
+      ],
+      [
+        "黃"
+      ]
+    ],
+    "anchor_terms": [
+      "最近",
+      "哪一回"
+    ],
+    "preferred_libraries": [
+      "全文词位材料索引库",
+      "全量变量投影库",
+      "全文字位原子段桥表"
+    ],
+    "source_order": "先触发坐标门；再人物归一；再词位穷尽；再坐标变量；再距离/共场；本轮停在取词与材料包生成，不写答案。",
+    "guardrails": [
+      "人物题必须先过70/72全人物归一包",
+      "坐标路不得回落语义路",
+      "缺入口词不得裸猜"
+    ],
+    "strategy_reason": "题目有坐标触发词、人物别名、最近距离和正文裸字，应走坐标取材门。",
+    "next_action_directive": "只生成坐标取材材料包，不进入写作。",
+    "evidence_upgrade_rule": "人物归一通过、词位/变量命中、距离矩阵形成后才可入材料池。",
+    "fallback_plan": "若人物未归一则停门；若词位无命中则返回需补证。"
+  },
+  "route_gate": "取材门：坐标\nrecall_gate：coordinate\n取材规则：入口词包生成后，进入坐标取材系统；不得回落到原语义取材系统。",
+  "route_context": "取材门：坐标\nrecall_gate：coordinate\n取材规则：入口词包生成后，进入坐标取材系统；不得回落到原语义取材系统。\nCodex查询词路\nCodex问题中心：人物与正文颜色字的最近距离查证\nCodex经验路径：\nCodex库线路径：\nCodex策略理由：题目有坐标触发词、人物别名、最近距离和正文裸字，应走坐标取材门。\nCodex下一步指令：只生成坐标取材材料包，不进入写作。\nCodex词角色：主查人物=颦儿；主查词=黃；归一词=颦儿->林黛玉\nCodex材料升级条件：人物归一通过、词位/变量命中、距离矩阵形成后才可入材料池。\nCodex补查方案：若人物未归一则停门；若词位无命中则返回需补证。\nCodex查询词：颦儿、黃\nCodex强复合：颦儿 + 黃\nCodex背景锚点：最近、哪一回\nCodex优先库：全文词位材料索引库、全量变量投影库、全文字位原子段桥表\nCodex查证顺序：先触发坐标门；再人物归一；再词位穷尽；再坐标变量；再距离/共场；本轮停在取词与材料包生成，不写答案。\nCodex注意事项：人物题必须先过70/72全人物归一包；坐标路不得回落语义路；缺入口词不得裸猜",
+  "steps": [
+    {
+      "step": "入口触发词分流",
+      "ok": true,
+      "output": "取材门：坐标\nrecall_gate：coordinate\n取材规则：入口词包生成后，进入坐标取材系统；不得回落到原语义取材系统。"
+    },
+    {
+      "step": "查询词路生成",
+      "ok": true,
+      "terms": [
+        "颦儿",
+        "黃"
+      ],
+      "route_context": "Codex查询词路\nCodex问题中心：人物与正文颜色字的最近距离查证\nCodex经验路径：\nCodex库线路径：\nCodex策略理由：题目有坐标触发词、人物别名、最近距离和正文裸字，应走坐标取材门。\nCodex下一步指令：只生成坐标取材材料包，不进入写作。\nCodex词角色：主查人物=颦儿；主查词=黃；归一词=颦儿->林黛玉\nCodex材料升级条件：人物归一通过、词位/变量命中、距离矩阵形成后才可入材料池。\nCodex补查方案：若人物未归一则停门；若词位无命中则返回需补证。\nCodex查询词：颦儿、黃\nCodex强复合：颦儿 + 黃\nCodex背景锚点：最近、哪一回\nCodex优先库：全文词位材料索引库、全量变量投影库、全文字位原子段桥表\nCodex查证顺序：先触发坐标门；再人物归一；再词位穷尽；再坐标变量；再距离/共场；本轮停在取词与材料包生成，不写答案。\nCodex注意事项：人物题必须先过70/72全人物归一包；坐标路不得回落语义路；缺入口词不得裸猜"
+    },
+    {
+      "step": "坐标入口词读取",
+      "ok": true,
+      "terms_before_person_norm": [
+        "颦儿",
+        "黃"
+      ]
+    },
+    {
+      "step": "人物归一强令牌",
+      "ok": true,
+      "person_status": "已接入70/72全人物归一包",
+      "character_keys": [
+        "P0015"
+      ],
+      "canonical_names": [
+        "林黛玉"
+      ]
+    },
+    {
+      "step": "坐标预检令牌",
+      "ok": true,
+      "missing_required": [],
+      "query_types": [
+        "词位",
+        "坐标",
+        "距离",
+        "全量",
+        "原文"
+      ],
+      "tokens": [
+        {
+          "token": "坐标入口令牌",
+          "ok": true,
+          "required": true,
+          "meaning": "题目明确进入坐标取材，不回落语义取材。"
+        },
+        {
+          "token": "入口词令牌",
+          "ok": true,
+          "required": true,
+          "meaning": "必须有 Codex查询词；坐标路不再从问题里裸猜词。"
+        },
+        {
+          "token": "人物归一强令牌",
+          "ok": true,
+          "required": true,
+          "meaning": "凡入口词或词角色涉及人物、名字、称谓、别名，必须先过70/72全人物归一包。"
+        },
+        {
+          "token": "词角色令牌",
+          "ok": true,
+          "required": false,
+          "meaning": "区分主查人物、物象、场景词、归一词、扩展词和背景锚点。"
+        },
+        {
+          "token": "强复合轴令牌",
+          "ok": true,
+          "required": true,
+          "meaning": "多对象题必须知道哪些对象要共同成立，防止单边材料冒充关系证据。"
+        },
+        {
+          "token": "方法调度令牌",
+          "ok": true,
+          "required": true,
+          "meaning": "必须先判本题走词位、坐标、距离、共场、全量、综合还是原文回查。"
+        },
+        {
+          "token": "距离/共场令牌",
+          "ok": true,
+          "required": true,
+          "meaning": "最近/同场/多对象题必须形成两两关系，不能只看单个词命中。"
+        },
+        {
+          "token": "来源顺序令牌",
+          "ok": true,
+          "required": false,
+          "meaning": "说明先查哪个库、再回哪个原文入口，防止本地工程自作主张。"
+        },
+        {
+          "token": "材料升级令牌",
+          "ok": true,
+          "required": false,
+          "meaning": "说明候选怎样才能进入材料池判定，防止命中直接变答案。"
+        },
+        {
+          "token": "原文裁判令牌",
+          "ok": true,
+          "required": true,
+          "meaning": "所有坐标候选必须回原文句子和材料池裁判。"
+        }
+      ]
+    },
+    {
+      "step": "坐标取词/材料包生成",
+      "ok": true,
+      "status": "可答",
+      "row_count": 12,
+      "variables": [
+        "person=林黛玉"
+      ],
+      "nearest_pairs_sample": [
+        {
+          "left": "林黛玉",
+          "right": "黃",
+          "level": "same_atom",
+          "distance_value": 0,
+          "nearest_left_atom": "C008-A0001",
+          "nearest_right_atom": "C008-A0001",
+          "same_atom_count": 22,
+          "same_scene_count": 26,
+          "same_event_count": 42,
+          "same_time_block_count": 44,
+          "left_points": 386,
+          "right_points": 101
+        }
+      ]
+    },
+    {
+      "step": "总证据池坐标分流验证",
+      "ok": true,
+      "raw_rows": 100,
+      "unique_segments": 100,
+      "json": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到取词完毕最终试跑/evidence_pool_coordinate_only/02_总证据池摘要.json"
+    }
+  ],
+  "first_row": {
+    "subquestion_order": 0,
+    "dimension": "坐标取材",
+    "subquestion": "坐标门取材：正文词位、变量点、同场/同事件/同时间块共同收点。",
+    "segment_no": "27-003",
+    "chapter_no": 27,
+    "chapter_title": "",
+    "score": 11380,
+    "summary": "宝钗寻黛玉见宝玉入潇湘馆便止步回身",
+    "quote": "罷了，倒是回來的妙。",
+    "source_sentence": "且說寶釵、迎春、探春、惜春、李紈、鳳姐等並巧姐、大姐、香菱與眾丫鬟們在園內玩耍，獨不見林黛玉",
+    "reasons": "坐标取材；直接命中：林妹妹、林姑娘、林黛玉、黛玉；同场覆盖：4/2；同事件覆盖：5/2；同时间块覆盖：5/2；两两矩阵：same_atom=1；变量点：person=林黛玉[硬证据]；证据等级：硬证据",
+    "direct_edge_hits": 0,
+    "matched_characters": 4,
+    "recall_gate": "coordinate",
+    "recall_method": "term_position + variable_projection + container_cooccurrence",
+    "atom_id": "A000465",
+    "atom_code": "C027-A0003",
+    "global_atom_order": 465,
+    "cluster_id": "CU-027-0252",
+    "event_id": "EV-027-00078",
+    "scene_id": "SC-027-002",
+    "scene_group_id": "SG-027-001",
+    "time_block_id": "TB-027-001",
+    "coordinate_direct_terms": "林妹妹、林姑娘、林黛玉、黛玉",
+    "coordinate_scene_terms": "林妹妹、林姑娘、林黛玉、黛玉",
+    "coordinate_event_terms": "林妹妹、林姑娘、林黛玉、黃、黛玉",
+    "distance_basis": "same_scene=4/2; same_event=5/2; same_time_block=5/2",
+    "coordinate_evidence_grades": "硬证据",
+    "coordinate_method_profile": "名称/对象归一令牌 -> 126根字宽网 -> 穷尽法补点 -> 坐标收点 -> 两两交集/近邻 -> 容器放大 -> 材料池",
+    "coordinate_guidance_basis": "Codex入口词令牌 + 70/72全人物归一包 + 126名称/对象归一与根字宽网 + 穷尽法补点 + 两两交集/近邻 + 坐标容器放大",
+    "coordinate_tool_usage_guide": "取材总线用法：先读题并生成入口词令牌；有明确字词/短语/原文片段时先走词位穷尽；有人物/空间/季节/物件/行动时走坐标变量；问最近/靠近/相邻时加距离测量；问同场/同时/共同出现时加共场交集；问第一次/最早/全书哪里时必须全量按回序和字位排序；复杂比较题先拆子问题再两两查询；候选出来后必须回原文句子和材料池裁判，不能裸答。",
+    "coordinate_preflight_status": "通过",
+    "coordinate_preflight_rule": "坐标路必须先拿入口词和方法令牌，再允许查表；缺入口词时停在坐标预检门，不裸猜。",
+    "coordinate_preflight_tokens": "[{\"token\": \"坐标入口令牌\", \"ok\": true, \"required\": true, \"meaning\": \"题目明确进入坐标取材，不回落语义取材。\"}, {\"token\": \"入口词令牌\", \"ok\": true, \"required\": true, \"meaning\": \"必须有 Codex查询词；坐标路不再从问题里裸猜词。\"}, {\"token\": \"人物归一强令牌\", \"ok\": true, \"required\": true, \"meaning\": \"凡入口词或词角色涉及人物、名字、称谓、别名，必须先过70/72全人物归一包。\"}, {\"token\": \"词角色令牌\", \"ok\": true, \"required\": false, \"meaning\": \"区分主查人物、物象、场景词、归一词、扩展词和背景锚点。\"}, {\"token\": \"强复合轴令牌\", \"ok\": true, \"required\": true, \"meaning\": \"多对象题必须知道哪些对象要共同成立，防止单边材料冒充关系证据。\"}, {\"token\": \"方法调度令牌\", \"ok\": true, \"required\": true, \"meaning\": \"必须先判本题走词位、坐标、距离、共场、全量、综合还是原文回查。\"}, {\"token\": \"距离/共场令牌\", \"ok\": true, \"required\": true, \"meaning\": \"最近/同场/多对象题必须形成两两关系，不能只看单个词命中。\"}, {\"token\": \"来源顺序令牌\", \"ok\": true, \"required\": false, \"meaning\": \"说明先查哪个库、再回哪个原文入口，防止本地工程自作主张。\"}, {\"token\": \"材料升级令牌\", \"ok\": true, \"required\": false, \"meaning\": \"说明候选怎样才能进入材料池判定，防止命中直接变答案。\"}, {\"token\": \"原文裁判令牌\", \"ok\": true, \"required\": true, \"meaning\": \"所有坐标候选必须回原文句子和材料池裁判。\"}]",
+    "coordinate_missing_required_tokens": "",
+    "coordinate_missing_optional_tokens": "",
+    "coordinate_term_token_pack": "林黛玉、黃",
+    "coordinate_root_terms_126": "",
+    "coordinate_term_roles": "主查人物=颦儿；主查词=黃；归一词=颦儿->林黛玉",
+    "person_normalization_status": "已接入70/72全人物归一包",
+    "person_normalized_terms": "林黛玉",
+    "person_character_keys": "P0015",
+    "person_alias_expansions": "{\"林黛玉\": [\"林黛玉\", \"黛玉\", \"林姑娘\", \"林妹妹\", \"颦儿\", \"潇湘妃子\", \"潇湘[空间]\"]}",
+    "coordinate_pairwise_summary": "same_atom=1",
+    "coordinate_pairwise_matrix": "[{\"left\": \"林黛玉\", \"right\": \"黃\", \"level\": \"same_atom\", \"distance_value\": 0, \"nearest_left_atom\": \"C008-A0001\", \"nearest_right_atom\": \"C008-A0001\", \"same_atom_count\": 22, \"same_scene_count\": 26, \"same_event_count\": 42, \"same_time_block_count\": 44, \"left_points\": 386, \"right_points\": 101}]",
+    "coordinate_exhaustive_status": "穷尽法判断：应考虑；多对象关系题可用穷尽法收第二、第三对象的点，再与图内人物/空间/场交集。",
+    "coordinate_return_rule": "坐标门只完成收点、补点、两两距离和容器归属；候选继续回同一个材料池与原文裁判。",
+    "material_query_type": "词位 / 坐标 / 距离 / 全量 / 原文",
+    "material_variables": "person=林黛玉",
+    "material_term_hits": "[{\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 3, \"atom_id\": \"A000062\", \"atom_code\": \"C003-A0001\", \"old_segment_no\": \"03-001\", \"global_atom_order\": 62, \"scene_id\": \"SC-003-001\", \"event_id\": \"EV-003-00013\", \"time_block_id\": \"TB-003-001\", \"start_char\": 19, \"end_char\": 21, \"cross_atom\": 0, \"summary\": \"贾雨村与张如圭相遇，得知起复消息\", \"source_sentence\": \"第三回 金陵城起復賈雨村 榮國府收養林黛玉\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 3, \"atom_id\": \"A000067\", \"atom_code\": \"C003-A0006\", \"old_segment_no\": \"03-006\", \"global_atom_order\": 67, \"scene_id\": \"SC-003-002\", \"event_id\": \"EV-003-00013\", \"time_block_id\": \"TB-003-001\", \"start_char\": 1000, \"end_char\": 1002, \"cross_atom\": 0, \"summary\": \"林黛玉乘轿入城，见街市繁华，抵达荣国府门前\", \"source_sentence\": \"這林黛玉常聽得母親說過，他外祖母家與別家不同\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 3, \"atom_id\": \"A000068\", \"atom_code\": \"C003-A0007\", \"old_segment_no\": \"03-007\", \"global_atom_order\": 68, \"scene_id\": \"SC-003-002\", \"event_id\": \"EV-003-00013\", \"time_block_id\": \"TB-003-001\", \"start_char\": 1379, \"end_char\": 1381, \"cross_atom\": 0, \"summary\": \"贾母迎接黛玉，介绍府中亲属及姊妹\", \"source_sentence\": \"林黛玉扶著婆子的手，進了垂花門，兩邊是抄手遊廊，當中是穿堂，當地放著一個紫檀架子大理石的大插屏\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 5, \"atom_id\": \"A000097\", \"atom_code\": \"C005-A0002\", \"old_segment_no\": \"05-002\", \"global_atom_order\": 97, \"scene_id\": \"SC-005-001\", \"event_id\": \"EV-005-00018\", \"time_block_id\": \"TB-005-001\", \"start_char\": 102, \"end_char\": 104, \"cross_atom\": 0, \"summary\": \"黛玉宝钗比较：宝钗得人心，黛玉悒郁不忿；宝玉与黛玉言语不合，俯就和解\", \"source_sentence\": \"如今且說林黛玉自在榮府以來，賈母萬般憐愛，寢食起居，一如寶玉，迎春，探春，惜春三個親孫女倒且靠後，便是寶玉和黛玉二人之親密友愛處，亦自較別個不同，日則同行同坐，夜則同息同止，真是言和意順，略無參商\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 8, \"atom_id\": \"A000138\", \"atom_code\": \"C008-A0001\", \"old_segment_no\": \"08-001\", \"global_atom_order\": 138, \"scene_id\": \"SC-008-001\", \"event_id\": \"EV-008-00024\", \"time_block_id\": \"TB-008-001\", \"start_char\": 169, \"end_char\": 171, \"cross_atom\": 0, \"summary\": \"凤姐宝玉回贾母，推介秦钟，贾母喜悦，次日赴宁府看戏\", \"source_sentence\": \"至後日，又有尤氏來請，遂攜了王夫人林黛玉寶玉等過去看戲\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 8, \"atom_id\": \"A000139\", \"atom_code\": \"C008-A0002\", \"old_segment_no\": \"08-002\", \"global_atom_order\": 139, \"scene_id\": \"SC-008-002\", \"event_id\": \"EV-008-00024\", \"time_block_id\": \"TB-008-001\", \"start_char\": 2388, \"end_char\": 2390, \"cross_atom\": 0, \"summary\": \"宝玉绕路探望宝钗，途中遇诉光等人、吴新登等管事\", \"source_sentence\": \"」話猶未了，林黛玉已搖搖的走了進來，一見了寶玉，便笑道：「噯喲，我來的不巧了\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 8, \"atom_id\": \"A000146\", \"atom_code\": \"C008-A0009\", \"old_segment_no\": \"08-009\", \"global_atom_order\": 146, \"scene_id\": \"SC-008-004\", \"event_id\": \"EV-008-00024\", \"time_block_id\": \"TB-008-001\", \"start_char\": 3865, \"end_char\": 3867, \"cross_atom\": 0, \"summary\": \"李嬤嬤阻酒，黛玉帮腔，「比刀子还尖」名句\", \"source_sentence\": \"」林黛玉冷笑道：「我為什麼助他\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 12, \"atom_id\": \"A000218\", \"atom_code\": \"C012-A0011\", \"old_segment_no\": \"12-011\", \"global_atom_order\": 218, \"scene_id\": \"SC-012-005\", \"event_id\": \"EV-012-00036\", \"time_block_id\": \"TB-012-002\", \"start_char\": 4113, \"end_char\": 4115, \"cross_atom\": 0, \"summary\": \"林如海来信病重，贾母打发黑林随贾琴回扬州\", \"source_sentence\": \"誰知這年冬底，林如海的書信寄來，卻為身染重疾，寫書特來接林黛玉回去\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 12, \"atom_id\": \"A000218\", \"atom_code\": \"C012-A0011\", \"old_segment_no\": \"12-011\", \"global_atom_order\": 218, \"scene_id\": \"SC-012-005\", \"event_id\": \"EV-012-00036\", \"time_block_id\": \"TB-012-002\", \"start_char\": 4209, \"end_char\": 4211, \"cross_atom\": 0, \"summary\": \"林如海来信病重，贾母打发黑林随贾琴回扬州\", \"source_sentence\": \"作速擇了日期，賈璉與林黛玉辭別了賈母等，帶領仆從，登舟往揚州去了\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 13, \"atom_id\": \"A000221\", \"atom_code\": \"C013-A0003\", \"old_segment_no\": \"13-003\", \"global_atom_order\": 221, \"scene_id\": \"SC-013-001\", \"event_id\": \"EV-013-00037\", \"time_block_id\": \"TB-013-001\", \"start_char\": 1102, \"end_char\": 1104, \"cross_atom\": 0, \"summary\": \"宝玉闻噩耗吐血，急赴宁国府痛哭见众\", \"source_sentence\": \"閒言少敘，卻說寶玉因近日林黛玉回去，剩得自己孤悽，也不和人頑耍，每到晚間便索然睡了\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 18, \"atom_id\": \"A000286\", \"atom_code\": \"C018-A0001\", \"old_segment_no\": \"18-001\", \"global_atom_order\": 286, \"scene_id\": \"SC-018-001\", \"event_id\": \"EV-018-00046\", \"time_block_id\": \"TB-018-001\", \"start_char\": 6, \"end_char\": 8, \"cross_atom\": 0, \"summary\": \"宝玉出园后被小厮讨赏，身上佩物尽被解去送回贾母处\", \"source_sentence\": \"第十八回 林黛玉誤剪香囊袋 賈元春歸省慶元宵\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 18, \"atom_id\": \"A000286\", \"atom_code\": \"C018-A0001\", \"old_segment_no\": \"18-001\", \"global_atom_order\": 286, \"scene_id\": \"SC-018-001\", \"event_id\": \"EV-018-00046\", \"time_block_id\": \"TB-018-001\", \"start_char\": 332, \"end_char\": 334, \"cross_atom\": 0, \"summary\": \"宝玉出园后被小厮讨赏，身上佩物尽被解去送回贾母处\", \"source_sentence\": \"」林黛玉聽說，走來瞧瞧，果然一件無存，因向寶玉道：「我給的那個荷包也給他們了\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 18, \"atom_id\": \"A000287\", \"atom_code\": \"C018-A0002\", \"old_segment_no\": \"18-002\", \"global_atom_order\": 287, \"scene_id\": \"SC-018-001\", \"event_id\": \"EV-018-00046\", \"time_block_id\": \"TB-018-001\", \"start_char\": 548, \"end_char\": 550, \"cross_atom\": 0, \"summary\": \"黛玉误会荷包送人，赌气剪香囊，宝玉出示珍藏荷包赔不是\", \"source_sentence\": \"」林黛玉見他如此珍重，帶在裡面，可知是怕人拿去之意，因此又自悔莽撞，未見皂白，就剪了香袋\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 18, \"atom_id\": \"A000296\", \"atom_code\": \"C018-A0011\", \"old_segment_no\": \"18-011\", \"global_atom_order\": 296, \"scene_id\": \"SC-018-004\", \"event_id\": \"EV-018-00046\", \"time_block_id\": \"TB-018-001\", \"start_char\": 6269, \"end_char\": 6271, \"cross_atom\": 0, \"summary\": \"元妃命众姊妹与宝玉各题诗，先阅迎探惜李宝钗黛玉之作\", \"source_sentence\": \"林黛玉\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 18, \"atom_id\": \"A000296\", \"atom_code\": \"C018-A0011\", \"old_segment_no\": \"18-011\", \"global_atom_order\": 296, \"scene_id\": \"SC-018-004\", \"event_id\": \"EV-018-00046\", \"time_block_id\": \"TB-018-001\", \"start_char\": 6367, \"end_char\": 6369, \"cross_atom\": 0, \"summary\": \"元妃命众姊妹与宝玉各题诗，先阅迎探惜李宝钗黛玉之作\", \"source_sentence\": \"」原來林黛玉安心今夜大展奇才，將眾人壓倒，不想賈妃只命一匾一詠，倒不好違諭多作，只胡亂作一首五言律應景罷了\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 18, \"atom_id\": \"A000297\", \"atom_code\": \"C018-A0012\", \"old_segment_no\": \"18-012\", \"global_atom_order\": 297, \"scene_id\": \"SC-018-004\", \"event_id\": \"EV-018-00046\", \"time_block_id\": \"TB-018-001\", \"start_char\": 6873, \"end_char\": 6875, \"cross_atom\": 0, \"summary\": \"宝钗暗授绿蜡典故，黛玉代作杏帘诗，元妃定其为冠并改稻香村\", \"source_sentence\": \"此時林黛玉未得展其抱負，自是不快\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 20, \"atom_id\": \"A000313\", \"atom_code\": \"C020-A0001\", \"old_segment_no\": \"20-001\", \"global_atom_order\": 313, \"scene_id\": \"SC-020-001\", \"event_id\": \"EV-020-00049\", \"time_block_id\": \"TB-020-001\", \"start_char\": 15, \"end_char\": 17, \"cross_atom\": 0, \"summary\": \"李嬷嬷辱骂袭人，凤姐赶来排解，袭人又劝宝玉忍气\", \"source_sentence\": \"第二十回 王熙鳳正言彈妒意 林黛玉俏語謔嬌音\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 20, \"atom_id\": \"A000313\", \"atom_code\": \"C020-A0001\", \"old_segment_no\": \"20-001\", \"global_atom_order\": 313, \"scene_id\": \"SC-020-001\", \"event_id\": \"EV-020-00049\", \"time_block_id\": \"TB-020-001\", \"start_char\": 30, \"end_char\": 32, \"cross_atom\": 0, \"summary\": \"李嬷嬷辱骂袭人，凤姐赶来排解，袭人又劝宝玉忍气\", \"source_sentence\": \"話說寶玉在林黛玉房中說「耗子精」，寶釵撞來，諷刺寶玉元宵不知「綠蠟」之典，三人正在房中互相譏刺取笑\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 20, \"atom_id\": \"A000313\", \"atom_code\": \"C020-A0001\", \"old_segment_no\": \"20-001\", \"global_atom_order\": 313, \"scene_id\": \"SC-020-001\", \"event_id\": \"EV-020-00049\", \"time_block_id\": \"TB-020-001\", \"start_char\": 122, \"end_char\": 124, \"cross_atom\": 0, \"summary\": \"李嬷嬷辱骂袭人，凤姐赶来排解，袭人又劝宝玉忍气\", \"source_sentence\": \"那寶玉正恐黛玉飯後貪眠，一時存了食，或夜間走了困，皆非保養身體之法，幸而寶釵走來，大家談笑，那林黛玉方不欲睡，自己纔放了心\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 20, \"atom_id\": \"A000313\", \"atom_code\": \"C020-A0001\", \"old_segment_no\": \"20-001\", \"global_atom_order\": 313, \"scene_id\": \"SC-020-001\", \"event_id\": \"EV-020-00049\", \"time_block_id\": \"TB-020-001\", \"start_char\": 155, \"end_char\": 157, \"cross_atom\": 0, \"summary\": \"李嬷嬷辱骂袭人，凤姐赶来排解，袭人又劝宝玉忍气\", \"source_sentence\": \"忽聽他房中嚷起來，大家側耳聽了一聽，林黛玉先笑道：「這是你媽媽和襲人叫嚷呢\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 20, \"atom_id\": \"A000317\", \"atom_code\": \"C020-A0005\", \"old_segment_no\": \"20-005\", \"global_atom_order\": 317, \"scene_id\": \"SC-020-003\", \"event_id\": \"EV-020-00049\", \"time_block_id\": \"TB-020-001\", \"start_char\": 2977, \"end_char\": 2979, \"cross_atom\": 0, \"summary\": \"贾环在宝钗处赌棋耍赖，宝玉来到后出言劝散\", \"source_sentence\": \"因他自幼姊妹叢中長大，親姊妹有元春，探春，伯叔的有迎春，惜春，親戚中又有史湘雲，林黛玉，薛寶釵等諸人\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 20, \"atom_id\": \"A000319\", \"atom_code\": \"C020-A0007\", \"old_segment_no\": \"20-007\", \"global_atom_order\": 319, \"scene_id\": \"SC-020-004\", \"event_id\": \"EV-020-00049\", \"time_block_id\": \"TB-020-001\", \"start_char\": 4011, \"end_char\": 4013, \"cross_atom\": 0, \"summary\": \"史湘云来访，黛玉听宝玉自宝钗处来便赌气回房\", \"source_sentence\": \"正值林黛玉在旁，因問寶玉：「在那裏的\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 20, \"atom_id\": \"A000319\", \"atom_code\": \"C020-A0007\", \"old_segment_no\": \"20-007\", \"global_atom_order\": 319, \"scene_id\": \"SC-020-004\", \"event_id\": \"EV-020-00049\", \"time_block_id\": \"TB-020-001\", \"start_char\": 4106, \"end_char\": 4108, \"cross_atom\": 0, \"summary\": \"史湘云来访，黛玉听宝玉自宝钗处来便赌气回房\", \"source_sentence\": \"」林黛玉道：「好沒意思的話\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 20, \"atom_id\": \"A000320\", \"atom_code\": \"C020-A0008\", \"old_segment_no\": \"20-008\", \"global_atom_order\": 320, \"scene_id\": \"SC-020-004\", \"event_id\": \"EV-020-00049\", \"time_block_id\": \"TB-020-001\", \"start_char\": 4216, \"end_char\": 4218, \"cross_atom\": 0, \"summary\": \"宝玉追到黛玉房中解释，二人争到死活之语，宝钗来唤人\", \"source_sentence\": \"」林黛玉道：「你管我呢\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 20, \"atom_id\": \"A000320\", \"atom_code\": \"C020-A0008\", \"old_segment_no\": \"20-008\", \"global_atom_order\": 320, \"scene_id\": \"SC-020-004\", \"event_id\": \"EV-020-00049\", \"time_block_id\": \"TB-020-001\", \"start_char\": 4259, \"end_char\": 4261, \"cross_atom\": 0, \"summary\": \"宝玉追到黛玉房中解释，二人争到死活之语，宝钗来唤人\", \"source_sentence\": \"」林黛玉道：「我作踐壞了身子，我死，與你何干\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 20, \"atom_id\": \"A000320\", \"atom_code\": \"C020-A0008\", \"old_segment_no\": \"20-008\", \"global_atom_order\": 320, \"scene_id\": \"SC-020-004\", \"event_id\": \"EV-020-00049\", \"time_block_id\": \"TB-020-001\", \"start_char\": 4303, \"end_char\": 4305, \"cross_atom\": 0, \"summary\": \"宝玉追到黛玉房中解释，二人争到死活之语，宝钗来唤人\", \"source_sentence\": \"」林黛玉道：「偏說死\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 20, \"atom_id\": \"A000321\", \"atom_code\": \"C020-A0009\", \"old_segment_no\": \"20-009\", \"global_atom_order\": 321, \"scene_id\": \"SC-020-004\", \"event_id\": \"EV-020-00049\", \"time_block_id\": \"TB-020-001\", \"start_char\": 4474, \"end_char\": 4476, \"cross_atom\": 0, \"summary\": \"宝玉再回黛玉房中，以亲疏先后之理剖白真心\", \"source_sentence\": \"林黛玉見了，越發抽抽噎噎的哭個不住\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 20, \"atom_id\": \"A000321\", \"atom_code\": \"C020-A0009\", \"old_segment_no\": \"20-009\", \"global_atom_order\": 321, \"scene_id\": \"SC-020-004\", \"event_id\": \"EV-020-00049\", \"time_block_id\": \"TB-020-001\", \"start_char\": 4725, \"end_char\": 4727, \"cross_atom\": 0, \"summary\": \"宝玉再回黛玉房中，以亲疏先后之理剖白真心\", \"source_sentence\": \"」林黛玉啐道：「我難道為叫你疏他\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 20, \"atom_id\": \"A000321\", \"atom_code\": \"C020-A0009\", \"old_segment_no\": \"20-009\", \"global_atom_order\": 321, \"scene_id\": \"SC-020-004\", \"event_id\": \"EV-020-00049\", \"time_block_id\": \"TB-020-001\", \"start_char\": 4792, \"end_char\": 4794, \"cross_atom\": 0, \"summary\": \"宝玉再回黛玉房中，以亲疏先后之理剖白真心\", \"source_sentence\": \"」林黛玉聽了，低頭一語不發，半日說道：「你只怨人行動嗔怪了你，你再不知道你自己慪人難受\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"term\", \"variable_type\": \"\", \"variable_value_name\": \"\", \"confidence\": null, \"chapter_no\": 20, \"atom_id\": \"A000321\", \"atom_code\": \"C020-A0009\", \"old_segment_no\": \"20-009\", \"global_atom_order\": 321, \"scene_id\": \"SC-020-004\", \"event_id\": \"EV-020-00049\", \"time_block_id\": \"TB-020-001\", \"start_char\": 4894, \"end_char\": 4896, \"cross_atom\": 0, \"summary\": \"宝玉再回黛玉房中，以亲疏先后之理剖白真心\", \"source_sentence\": \"」林黛玉歎道：「回來傷了風，又該餓著吵吃的了\"}]",
+    "material_coordinate_hits": "[{\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 1, \"atom_id\": \"A000012\", \"atom_code\": \"C001-A0012\", \"old_segment_no\": \"01-012\", \"global_atom_order\": 12, \"scene_id\": \"SC-001-005\", \"event_id\": \"EV-001-00002\", \"time_block_id\": \"TB-001-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"绛珠还泪·木石前盟\", \"source_sentence\": \"他既下世为人，我也去下世为人，但把我一生所有的眼泪还他，也偿还得过他了。\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 2, \"atom_id\": \"A000037\", \"atom_code\": \"C002-A0007\", \"old_segment_no\": \"02-007\", \"global_atom_order\": 37, \"scene_id\": \"SC-002-003\", \"event_id\": \"EV-002-00008\", \"time_block_id\": \"TB-002-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"雨村游维扬，林如海家世及黛玉出场介绍\", \"source_sentence\": \"今只有嫡妻贾氏，生得一女，乳名黛玉，年方五岁。夫妻无子，故爱如珍宝，且又见他聪明清秀。\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 2, \"atom_id\": \"A000038\", \"atom_code\": \"C002-A0008\", \"old_segment_no\": \"02-008\", \"global_atom_order\": 38, \"scene_id\": \"SC-002-003\", \"event_id\": \"EV-002-00008\", \"time_block_id\": \"TB-002-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"雨村病愈入林家做西宾，贾敏病逝，黛玉辍学\", \"source_sentence\": \"谁知女学生之母贾氏夫人一疾而终。女学生侍汤奉药，守丧尽哀，遂又将辞馆别图。\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 2, \"atom_id\": \"A000052\", \"atom_code\": \"C002-A0022\", \"old_segment_no\": \"02-022\", \"global_atom_order\": 52, \"scene_id\": \"SC-002-007\", \"event_id\": \"EV-002-00009\", \"time_block_id\": \"TB-002-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"贾敏命名、黛玉避讳罠写习惯，贾敏之死有感\", \"source_sentence\": \"怎道我这女学生读至凡书中有「敏」字，皆念作「密」字，每每如是，写字遇着「敏」字，又减一二笔。\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 2, \"atom_id\": \"A000061\", \"atom_code\": \"C002-A0031\", \"old_segment_no\": \"02-031\", \"global_atom_order\": 61, \"scene_id\": \"SC-002-015\", \"event_id\": \"EV-002-00012\", \"time_block_id\": \"TB-002-003\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"四春、贾敏、黛玉与王熙凤关系线展开·雨村子兴谈毕欲归城，喜信引入下回。\", \"source_sentence\": \"政老爹的长女，名元春……谁知自娶了他令夫人之后，倒上下无一人不称颂他夫人的。\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 3, \"atom_id\": \"A000064\", \"atom_code\": \"C003-A0003\", \"old_segment_no\": \"03-003\", \"global_atom_order\": 64, \"scene_id\": \"SC-003-001\", \"event_id\": \"EV-003-00013\", \"time_block_id\": \"TB-003-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"林如海与雨村商议，为黛玉入京做准备\", \"source_sentence\": \"如海道：'天缘凑巧，因贱荆去世，都中家岳母念及小女无人依傍教育，前已遣了男女船只来接……'\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 3, \"atom_id\": \"A000065\", \"atom_code\": \"C003-A0004\", \"old_segment_no\": \"03-004\", \"global_atom_order\": 65, \"scene_id\": \"SC-003-001\", \"event_id\": \"EV-003-00013\", \"time_block_id\": \"TB-003-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"林黛玉因母逝被送入荣国府，随行细节描写\", \"source_sentence\": \"那女学生黛玉，身体方愈，原不忍弃父而往，无奈他外祖母致意务去……黛玉听了，方洒泪拜别，随了奶娘及荣府几个老妇人登舟而去。\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 3, \"atom_id\": \"A000067\", \"atom_code\": \"C003-A0006\", \"old_segment_no\": \"03-006\", \"global_atom_order\": 67, \"scene_id\": \"SC-003-002\", \"event_id\": \"EV-003-00013\", \"time_block_id\": \"TB-003-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"林黛玉乘轿入城，见街市繁华，抵达荣国府门前\", \"source_sentence\": \"自上了轿，进入城中从纱窗向外瞧了一瞧，其街市之繁华，人烟之阜盛，自与别处不同。\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 3, \"atom_id\": \"A000068\", \"atom_code\": \"C003-A0007\", \"old_segment_no\": \"03-007\", \"global_atom_order\": 68, \"scene_id\": \"SC-003-002\", \"event_id\": \"EV-003-00013\", \"time_block_id\": \"TB-003-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"贾母迎接黛玉，介绍府中亲属及姊妹\", \"source_sentence\": \"只见两个人搀著一位鬓发如银的老母迎上来，黛玉便知是他外祖母……此即冷子兴所云之史氏太君，贾赦贾政之母也。\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 3, \"atom_id\": \"A000069\", \"atom_code\": \"C003-A0008\", \"old_segment_no\": \"03-008\", \"global_atom_order\": 69, \"scene_id\": \"SC-003-003\", \"event_id\": \"EV-003-00013\", \"time_block_id\": \"TB-003-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"王熙凤初次亮相，盛装形象及言行描写\", \"source_sentence\": \"这熙凤携著黛玉的手，上下细细打谅了一回，仍送至贾母身边坐下……头上戴著金丝八宝攒珠髻，绾著朝阳五凤挂珠钗……\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 3, \"atom_id\": \"A000070\", \"atom_code\": \"C003-A0009\", \"old_segment_no\": \"03-009\", \"global_atom_order\": 70, \"scene_id\": \"SC-003-003\", \"event_id\": \"EV-003-00013\", \"time_block_id\": \"TB-003-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"黛玉与府中姊妹相认，贾母感伤母逝\", \"source_sentence\": \"贾母又说：'我这些儿女，所疼者独有你母，今日一旦先舍我而去……'说著，搂了黛玉在怀，又呜咽起来。\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 3, \"atom_id\": \"A000071\", \"atom_code\": \"C003-A0010\", \"old_segment_no\": \"03-010\", \"global_atom_order\": 71, \"scene_id\": \"SC-003-003\", \"event_id\": \"EV-003-00013\", \"time_block_id\": \"TB-003-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"黛玉身体虚弱，众人关心其用药情况\", \"source_sentence\": \"众人见黛玉年貌虽小，其举止言谈不俗，身体面庞虽怯弱不胜，却有一段自然的风流态度，便知他有不足之症。因问：'常服何药，如何不急为疗治？'黛玉道：'我自来是如此，从会吃饮食时便吃药，到今日未断……'\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 3, \"atom_id\": \"A000072\", \"atom_code\": \"C003-A0011\", \"old_segment_no\": \"03-011\", \"global_atom_order\": 72, \"scene_id\": \"SC-003-004\", \"event_id\": \"EV-003-00013\", \"time_block_id\": \"TB-003-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"贾母赠药，众人劝慰黛玉\", \"source_sentence\": \"贾母道：'正好，我这里正配丸药呢。叫他们多配一料就是了。'一语未了，只听后院中有人笑声……\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 3, \"atom_id\": \"A000073\", \"atom_code\": \"C003-A0012\", \"old_segment_no\": \"03-012\", \"global_atom_order\": 73, \"scene_id\": \"SC-003-004\", \"event_id\": \"EV-003-00013\", \"time_block_id\": \"TB-003-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"贾母介绍府中亲属，王熙凤安排黛玉起居\", \"source_sentence\": \"贾母一一指与黛玉：'这是你大舅母，这是你二舅母，这是你先珠大哥的媳妇珠大嫂子。'黛玉一一拜见过。\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 3, \"atom_id\": \"A000074\", \"atom_code\": \"C003-A0013\", \"old_segment_no\": \"03-013\", \"global_atom_order\": 74, \"scene_id\": \"SC-003-004\", \"event_id\": \"EV-003-00013\", \"time_block_id\": \"TB-003-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"邢夫人陪同黛玉拜访王夫人，王夫人嘱咐注意宝玉\", \"source_sentence\": \"王夫人因说：'你舅舅今日斋戒去了，再见罢。只是有一句话嘱咐你：我有一个孽根祸胎，是家里的混世魔王……'\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 3, \"atom_id\": \"A000075\", \"atom_code\": \"C003-A0014\", \"old_segment_no\": \"03-014\", \"global_atom_order\": 75, \"scene_id\": \"SC-003-005\", \"event_id\": \"EV-003-00013\", \"time_block_id\": \"TB-003-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"黛玉听闻宝玉性格，心中早有印象不与其亲近\", \"source_sentence\": \"黛玉亦常听得母亲说过，二舅母生的有个表兄，乃衔玉而诞，顽劣异常……因陪笑道：'舅母说的，可是衔玉所生的这位哥哥？'\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 3, \"atom_id\": \"A000076\", \"atom_code\": \"C003-A0015\", \"old_segment_no\": \"03-015\", \"global_atom_order\": 76, \"scene_id\": \"SC-003-005\", \"event_id\": \"EV-003-00013\", \"time_block_id\": \"TB-003-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"王夫人解释宝玉性格，嘱黛玉切勿理会\", \"source_sentence\": \"王夫人笑道：'你不知道原故：他与别人不同，自幼因老太太疼爱，原系同姊妹们一处娇养惯了的……'\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 3, \"atom_id\": \"A000077\", \"atom_code\": \"C003-A0016\", \"old_segment_no\": \"03-016\", \"global_atom_order\": 77, \"scene_id\": \"SC-003-006\", \"event_id\": \"EV-003-00013\", \"time_block_id\": \"TB-003-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"贾宝玉初次登场·盛装穿戴全描写\", \"source_sentence\": \"头上戴著束发嵌宝紫金冠，齐眉勒著二龙戏珠金抹额，穿一件二色金百蝶穿花大红箭袖，束著五彩丝攒花结长穗宫绪，外罩石青起花八团倭缎排穗褂，登著青缎粉底小朝靴。\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 4, \"atom_id\": \"A000079\", \"atom_code\": \"C004-A0002\", \"old_segment_no\": \"04-002\", \"global_atom_order\": 79, \"scene_id\": \"SC-004-002\", \"event_id\": \"EV-004-00014\", \"time_block_id\": \"TB-004-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"黛玉至李纨处，介绍李纨身世与槁木死灰之性格\", \"source_sentence\": \"这李纨虽青春丧偶，居家处膏粱锦绣之中，竟如槁木死灰一般，一概无见无闻\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 5, \"atom_id\": \"A000096\", \"atom_code\": \"C005-A0001\", \"old_segment_no\": \"05-001\", \"global_atom_order\": 96, \"scene_id\": \"SC-005-001\", \"event_id\": \"EV-005-00018\", \"time_block_id\": \"TB-005-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"题曰诗：春困葳蕤拥绣衾，恍随仙子到红尘\", \"source_sentence\": \"春困葳蕤拥绣衾，恍随仙子到红尘。问谁幻入华胥境，千古风流造业人。\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 5, \"atom_id\": \"A000097\", \"atom_code\": \"C005-A0002\", \"old_segment_no\": \"05-002\", \"global_atom_order\": 97, \"scene_id\": \"SC-005-001\", \"event_id\": \"EV-005-00018\", \"time_block_id\": \"TB-005-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"黛玉宝钗比较：宝钗得人心，黛玉悒郁不忿；宝玉与黛玉言语不合，俯就和解\", \"source_sentence\": \"宝钗行为豁达，随分从时，不比黛玉孤高自许，目无下尘，故比黛玉大得下人之心。\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 5, \"atom_id\": \"A000106\", \"atom_code\": \"C005-A0011\", \"old_segment_no\": \"05-011\", \"global_atom_order\": 106, \"scene_id\": \"SC-005-005\", \"event_id\": \"EV-005-00019\", \"time_block_id\": \"TB-005-002\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"正册第一页：宝钗、黛玉合判（玉带林中挂，金簪雪里埋）\", \"source_sentence\": \"可叹停机德，谁怜咏絮才。玉带林中挂，金簪雪里埋。\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 7, \"atom_id\": \"A000120\", \"atom_code\": \"C007-A0001\", \"old_segment_no\": \"07-001\", \"global_atom_order\": 120, \"scene_id\": \"SC-007-001\", \"event_id\": \"EV-007-00022\", \"time_block_id\": \"TB-007-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"第七回题曰诗：十二花容色最新\", \"source_sentence\": \"十二花容色最新，不知誰是惜花人。相逢若問名何氏，家往江南本姓秦。\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 7, \"atom_id\": \"A000128\", \"atom_code\": \"C007-A0009\", \"old_segment_no\": \"07-009\", \"global_atom_order\": 128, \"scene_id\": \"SC-007-003\", \"event_id\": \"EV-007-00022\", \"time_block_id\": \"TB-007-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"送花给黛玉，黛玉冷语：别人不挑剩的也不给我\", \"source_sentence\": \"黛玉冷笑道：「呗，正得就。别人不挑剩的也不給我。」\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 8, \"atom_id\": \"A000143\", \"atom_code\": \"C008-A0006\", \"old_segment_no\": \"08-006\", \"global_atom_order\": 143, \"scene_id\": \"SC-008-003\", \"event_id\": \"EV-008-00024\", \"time_block_id\": \"TB-008-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"黛玉来访梨香院，「我来的不巧了」，含酸吃醋\", \"source_sentence\": \"黛玉笑道：「早知他来，我就不来了。」\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 8, \"atom_id\": \"A000144\", \"atom_code\": \"C008-A0007\", \"old_segment_no\": \"08-007\", \"global_atom_order\": 144, \"scene_id\": \"SC-008-004\", \"event_id\": \"EV-008-00024\", \"time_block_id\": \"TB-008-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"宝玉要喝冷酒，宝钗以医理劝阻，宝玉听从\", \"source_sentence\": \"宝钗笑道：「宝兄弟，亏你每日家杂学旁收的，难道就不知道酒性最热，若热吃下去发散的就快，若冷吃下去便凝结在内，以五脏去暖他，岂不受害？」\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 8, \"atom_id\": \"A000145\", \"atom_code\": \"C008-A0008\", \"old_segment_no\": \"08-008\", \"global_atom_order\": 145, \"scene_id\": \"SC-008-004\", \"event_id\": \"EV-008-00024\", \"time_block_id\": \"TB-008-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"黛玉手炉事件：雪雁送炉，黛玉奚落紫鹃不听话\", \"source_sentence\": \"黛玉笑道：「也亏你倒听他的话。我平日和你说的，全当耳旁风，怎么他说了你就依，比圣旨还快些！」\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 8, \"atom_id\": \"A000146\", \"atom_code\": \"C008-A0009\", \"old_segment_no\": \"08-009\", \"global_atom_order\": 146, \"scene_id\": \"SC-008-004\", \"event_id\": \"EV-008-00024\", \"time_block_id\": \"TB-008-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"李嬤嬤阻酒，黛玉帮腔，「比刀子还尖」名句\", \"source_sentence\": \"李嬤嬤听了，又是急，又是笑，说道：「真真这林姐儿，说出一句话来，比刀子还尖。」\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 8, \"atom_id\": \"A000147\", \"atom_code\": \"C008-A0010\", \"old_segment_no\": \"08-010\", \"global_atom_order\": 147, \"scene_id\": \"SC-008-004\", \"event_id\": \"EV-008-00024\", \"time_block_id\": \"TB-008-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"宝玉醉意渐浓，黛玉为宝玉整理斗笠，二人告辞离去\", \"source_sentence\": \"黛玉站在炕沿上，用手整理，轻轻笼住束发冠，将笠沿掖在抹额之上……整理已毕，端相了端相，说道：「好了，披上斗篷罢。」\"}, {\"hit_value\": \"林黛玉\", \"hit_source\": \"variable\", \"variable_type\": \"person\", \"variable_value_name\": \"林黛玉\", \"confidence\": 1.0, \"chapter_no\": 9, \"atom_id\": \"A000156\", \"atom_code\": \"C009-A0004\", \"old_segment_no\": \"09-004\", \"global_atom_order\": 156, \"scene_id\": \"SC-009-002\", \"event_id\": \"EV-009-00025\", \"time_block_id\": \"TB-009-001\", \"start_char\": null, \"end_char\": null, \"cross_atom\": null, \"summary\": \"黛玉辞别宝玉上学，笑道蟾宫折桂，又问为何不辞宝姐姐\", \"source_sentence\": \"黛玉笑道：好，这一去，可是蟾宫折桂去了，我不能去送你，且看你回来是什么样子。\"}]",
+    "material_nearest_pairs": "[{\"left\": \"林黛玉\", \"right\": \"黃\", \"level\": \"same_atom\", \"distance_value\": 0, \"nearest_left_atom\": \"C008-A0001\", \"nearest_right_atom\": \"C008-A0001\", \"same_atom_count\": 22, \"same_scene_count\": 26, \"same_event_count\": 42, \"same_time_block_count\": 44, \"left_points\": 386, \"right_points\": 101}]",
+    "material_cooccurrence": "{\"same_atom_or_direct\": [\"林妹妹\", \"林姑娘\", \"林黛玉\", \"黛玉\"], \"same_scene\": [\"林妹妹\", \"林姑娘\", \"林黛玉\", \"黛玉\"], \"same_event\": [\"林妹妹\", \"林姑娘\", \"林黛玉\", \"黃\", \"黛玉\"], \"same_time_block\": [\"林妹妹\", \"林姑娘\", \"林黛玉\", \"黃\", \"黛玉\"]}",
+    "material_source_atoms": "[{\"atom_id\": \"A000465\", \"atom_code\": \"C027-A0003\", \"segment_no\": \"27-003\", \"chapter_no\": 27, \"summary\": \"宝钗寻黛玉见宝玉入潇湘馆便止步回身\"}]",
+    "material_source_sentences": "[\"且說寶釵、迎春、探春、惜春、李紈、鳳姐等並巧姐、大姐、香菱與眾丫鬟們在園內玩耍，獨不見林黛玉\"]",
+    "material_warnings": "题目触发全量/最早/哪里类调度，必须按回序和字位排序复核。",
+    "material_status": "可答",
+    "candidate_display_policy": "坐标门候选；可展开编号、同场、同事件和原文句。",
+    "codex_evidence_hard_gate": "坐标门只负责取材和编号裁判入口；仍须回原文和材料池四态判定。",
+    "codex_query_lane": "P1_坐标路径_正文落点与变量投影",
+    "codex_query_lane_rank": 1,
+    "codex_query_lane_reason": "用户触发坐标门，优先用词位、字位和变量投影取材。"
+  }
+}

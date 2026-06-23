@@ -1,5 +1,21 @@
 [
   {
+    "name": "坐标工程",
+    "slug": "coordinate-project",
+    "repo_dir": "坐标工程",
+    "root": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3",
+    "file_count": 543,
+    "size_bytes": 2400886784,
+    "human_size": "2.2 GiB local large-file set; GitHub package about 6.3 MiB",
+    "channels": {
+      "upload_candidate": 528,
+      "local_or_manifest_only": 15
+    },
+    "channel_sizes": {
+      "local_or_manifest_only": 2400886784
+    }
+  },
+  {
     "name": "数字生命",
     "slug": "digital-life",
     "repo_dir": "digital-life",

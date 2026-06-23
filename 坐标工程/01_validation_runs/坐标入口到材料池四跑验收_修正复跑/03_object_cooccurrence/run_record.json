@@ -1,0 +1,40 @@
+{
+  "case_id": "03_object_cooccurrence",
+  "question": "坐标 鸡和花有没有同场的材料",
+  "ok": true,
+  "terms": [
+    "鸡",
+    "花"
+  ],
+  "person": [],
+  "missing": [],
+  "bundle_rows": 20,
+  "pool_raw_rows": 100,
+  "pool_unique_segments": 100,
+  "first_atom": "C028-A0007",
+  "first_segment": "28-007",
+  "first_chapter": 28,
+  "first_material_variables_count": 3,
+  "first_material_variables_preview": "object=花；scene_object_hint=花；scene_object_hint=鸡",
+  "first_source_sentence": "林妹妹才在背後羞我，打量我撒謊呢。",
+  "artifacts": {
+    "markdown": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/03_object_cooccurrence/material_pool_entry/01_总证据池报告.md",
+    "json": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/03_object_cooccurrence/material_pool_entry/02_总证据池摘要.json",
+    "raw_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/03_object_cooccurrence/material_pool_entry/03_子问题证据明细.csv",
+    "merged_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/03_object_cooccurrence/material_pool_entry/04_合并候选段落.csv",
+    "subquestion_count": 5,
+    "raw_rows": 100,
+    "unique_segments": 100,
+    "subquestion_loop": {
+      "required": true,
+      "subquestion_count": 5,
+      "pool_built": true,
+      "raw_rows": 100,
+      "unique_segments": 100,
+      "admitted_rows": 100,
+      "extractable_material_rows": 100,
+      "missing_subquestions": [],
+      "next_action": "进入材料池精读或按 Codex 判断继续补证。"
+    }
+  }
+}

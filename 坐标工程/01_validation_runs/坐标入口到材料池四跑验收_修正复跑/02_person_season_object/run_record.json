@@ -1,0 +1,45 @@
+{
+  "case_id": "02_person_season_object",
+  "question": "坐标 宝玉和黛玉在秋天跟花接近的状态",
+  "ok": true,
+  "terms": [
+    "贾宝玉",
+    "林黛玉",
+    "花",
+    "秋"
+  ],
+  "person": [
+    "贾宝玉",
+    "林黛玉"
+  ],
+  "missing": [],
+  "bundle_rows": 20,
+  "pool_raw_rows": 100,
+  "pool_unique_segments": 100,
+  "first_atom": "C003-A0016",
+  "first_segment": "03-016",
+  "first_chapter": 3,
+  "first_material_variables_count": 5,
+  "first_material_variables_preview": "object=花；person=林黛玉；person=贾宝玉；scene_object_hint=花；season=秋",
+  "first_source_sentence": "头上戴著束发嵌宝紫金冠，齐眉勒著二龙戏珠金抹额，穿一件二色金百蝶穿花大红箭袖，束著五彩丝攒花结长穗宫绪，外罩石青起花八团倭缎排穗褂，登著青缎粉底小朝靴。",
+  "artifacts": {
+    "markdown": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/02_person_season_object/material_pool_entry/01_总证据池报告.md",
+    "json": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/02_person_season_object/material_pool_entry/02_总证据池摘要.json",
+    "raw_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/02_person_season_object/material_pool_entry/03_子问题证据明细.csv",
+    "merged_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收_修正复跑/02_person_season_object/material_pool_entry/04_合并候选段落.csv",
+    "subquestion_count": 5,
+    "raw_rows": 100,
+    "unique_segments": 100,
+    "subquestion_loop": {
+      "required": true,
+      "subquestion_count": 5,
+      "pool_built": true,
+      "raw_rows": 100,
+      "unique_segments": 100,
+      "admitted_rows": 100,
+      "extractable_material_rows": 100,
+      "missing_subquestions": [],
+      "next_action": "进入材料池精读或按 Codex 判断继续补证。"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+container_type,container_id,container_label,chapter_no,start_atom_order,end_atom_order,atom_count,source_name,quality_status,review_status
+chapter,CH-001,第一回　甄士隱夢幻識通靈　賈雨村風塵懷閨秀,1,1,35,35,retired_source_container_rebased,derived,resolved
+chapter,CH-002,第二回·贾夫人仙逝扬州城 冷子兴演说荣国府,2,36,66,31,retired_source_container_rebased,derived,resolved
+chapter,CH-003,第三回　金陵城起复贾雨村　荣国府收养林黛玉,3,67,99,33,retired_source_container_rebased,derived,resolved
+chapter,CH-004,第四回　薄命女偏逢薄命郎　葫蘆僧亂判葫蘆案,4,100,120,21,retired_source_container_rebased,derived,resolved
+chapter,CH-005,第五回　開生面夢演紅樓夢　立新場情傳幻境情,5,121,146,26,retired_source_container_rebased,derived,resolved
+chapter,CH-006,第六回　贾宝玉初试云雨情　刘姥姥一进荣国府,6,147,168,22,retired_source_container_rebased,derived,resolved
+chapter,CH-007,第七回　送宮花周瑞嘆英蓮　談肄業秦鐘結寶玉,7,169,198,30,retired_source_container_rebased,derived,resolved
+chapter,CH-008,第八回　薛寶釵小恙梨香院　賈寶玉大醉絳芸軒,8,199,224,26,retired_source_container_rebased,derived,resolved
+chapter,CH-009,第九回　戀風流情友入家塾　起嫌疑頑童鬧學堂,9,225,245,21,retired_source_container_rebased,derived,resolved
+chapter,CH-010,第十回　金寡妇貢利權受辱　張太醫論病細窮源,10,246,263,18,retired_source_container_rebased,derived,resolved
+chapter,CH-011,第十一回　庆寿辰宁府排家宴　见熙凤贾瑞起淫心,11,264,299,36,retired_source_container_rebased,derived,resolved
+chapter,CH-012,第十二回　王熙凤毒设相思局　贾天祥正照风月鉴,12,300,315,16,retired_source_container_rebased,derived,resolved
+chapter,CH-013,第十三回　秦可卿死封龙禁尉　王熙凤协理宁国府,13,316,333,18,retired_source_container_rebased,derived,resolved
+chapter,CH-014,第十四回　林如海捐馆扬州城　贾宝玉路谒北静王,14,334,355,22,retired_source_container_rebased,derived,resolved
+chapter,CH-015,第十五回　王凤姐弄权铁槛寺　秦鲸卿得趣馒头庵,15,356,371,16,retired_source_container_rebased,derived,resolved
+chapter,CH-016,第十六回　贾元春才选凤藻宫　秦鲸卿夭逝黄泉路,16,372,395,24,retired_source_container_rebased,derived,resolved
+chapter,CH-017,第十七回　会芳园试才题对额　贾宝玉机敏动诸宾,17,396,421,26,retired_source_container_rebased,derived,resolved
+chapter,CH-018,第十八回　林黛玉误剪香囊袋　贾元春归省庆元宵,18,422,447,26,retired_source_container_rebased,derived,resolved
+chapter,CH-019,第十九回　情切切良宵花解语　意绵绵静日玉生香,19,448,477,30,retired_source_container_rebased,derived,resolved
+chapter,CH-020,第二十回　王熙凤正言弹妒意　林黛玉俏语谑娇音,20,478,493,16,retired_source_container_rebased,derived,resolved

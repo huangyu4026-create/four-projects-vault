@@ -1,0 +1,21 @@
+key,value
+build_label,全量
+build_name,红楼梦干净聚拢坐标库_CH001_120_全量
+built_at_utc,2026-06-21T14:50:32.819991+00:00
+chapter_end,120
+chapter_start,1
+distance_rule,Use atom_distance_basis.global_atom_order absolute difference; then check same_cluster/same_event/same_scene/same_scene_group/same_time_block.
+source_db,/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/outputs/正式底库全文检索原型/formal_honglou_search.sqlite
+source_mode,read_only_derived_copy_no_writeback
+source_scene_groups,/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/outputs/红楼梦对谈查证室/101_红楼梦回目时间场库_120回全量施工/101_120回场面库_scene_groups.csv
+source_scene_points,/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/outputs/红楼梦对谈查证室/101_红楼梦回目时间场库_120回全量施工/101_120回场面库_scene_points.csv
+source_time_blocks,/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/outputs/红楼梦对谈查证室/101_红楼梦回目时间场库_120回全量施工/101_120回场面库_time_blocks.csv
+source_w32_lines,/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/outputs/红楼梦对谈查证室/33_W32_聚拢单元库_cluster_unit_lines.csv
+source_w32_units,/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/outputs/红楼梦对谈查证室/33_W32_聚拢单元库_cluster_units.csv
+source_w33_event_units,/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/outputs/红楼梦对谈查证室/34_W33_聚拢事件库_event_units.csv
+source_w33_events,/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/outputs/红楼梦对谈查证室/34_W33_聚拢事件库_events.csv
+atom_code_rule,Keep atom_code C{chapter:03d}-A{atom_order_in_chapter:04d} unchanged.
+published_library_name,红楼梦聚拢坐标映射总库
+published_library_type,single_coordinate_mapping_database
+published_at_utc,2026-06-21T21:36:06.815367+00:00
+scope,CH001-CH120

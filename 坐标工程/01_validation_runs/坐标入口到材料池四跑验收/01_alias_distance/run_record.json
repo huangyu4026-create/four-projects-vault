@@ -1,0 +1,98 @@
+{
+  "case_id": "01_alias_distance",
+  "question": "坐标 颦儿和黄字离得最近的是哪一回",
+  "route_gate": "取材门：坐标\nrecall_gate：coordinate\n取材规则：入口词包生成后，进入坐标取材系统；不得回落到原语义取材系统。",
+  "route_context": "取材门：坐标\nrecall_gate：coordinate\n取材规则：入口词包生成后，进入坐标取材系统；不得回落到原语义取材系统。\nCodex查询词路\nCodex问题中心：坐标取材入口到材料池验收\nCodex经验路径：\nCodex库线路径：\nCodex策略理由：人物别名 + 正文颜色字 + 最近距离。\nCodex下一步指令：只生成坐标材料候选并送材料池入口，不进入写作。\nCodex词角色：主查人物=颦儿；主查词=黃；归一词=颦儿->林黛玉\nCodex材料升级条件：人物归一通过、词位/变量命中、距离或共场矩阵形成、原文句存在后，才送材料池入口。\nCodex补查方案：缺人物归一则停门；缺入口词则停门；表无命中则需补证。\nCodex查询词：颦儿、黃\nCodex强复合：颦儿 + 黃\nCodex背景锚点：最近、哪一回\nCodex优先库：全文词位材料索引库、全量变量投影库、全文字位原子段桥表\nCodex查证顺序：先触发坐标门；再人物归一强令牌；再词位穷尽；再坐标变量；再距离/共场；再提出原子段和原文句；送材料池入口后停止，不写答案。\nCodex注意事项：人物题必须先过70/72全人物归一包；坐标路不得回落语义路；缺入口词不得裸猜；材料进入材料池入口后停止",
+  "raw_terms": [
+    "颦儿",
+    "黃"
+  ],
+  "normalized_terms": [
+    "林黛玉",
+    "黃"
+  ],
+  "person_status": "已接入70/72全人物归一包",
+  "person_character_keys": [
+    "P0015"
+  ],
+  "person_canonical_names": [
+    "林黛玉"
+  ],
+  "query_types": [
+    "词位",
+    "坐标",
+    "距离",
+    "全量",
+    "原文"
+  ],
+  "preflight_ok": true,
+  "preflight_missing_required": [],
+  "bundle_status": "可答",
+  "bundle_rows": 20,
+  "pool_raw_rows": 100,
+  "pool_unique_segments": 100,
+  "pool_person_gate": {
+    "required": true,
+    "ok": true,
+    "status": "人物归一强令牌通过",
+    "character_keys": [
+      "P0015"
+    ],
+    "canonical_names": [
+      "林黛玉"
+    ],
+    "alias_expansions": {
+      "林黛玉": [
+        "林黛玉",
+        "黛玉",
+        "林姑娘",
+        "林妹妹",
+        "颦儿",
+        "潇湘妃子",
+        "潇湘[空间]"
+      ]
+    },
+    "rule": "只要题目、入口词或词角色涉及人物、名字、称谓、别名，必须先过70/72人物归一；未归一不得入材料池。"
+  },
+  "first_material": {
+    "atom_code": "C027-A0003",
+    "segment_no": "27-003",
+    "chapter_no": 27,
+    "material_status": "可答",
+    "material_query_type": "词位 / 坐标 / 距离 / 全量 / 原文",
+    "material_variables": "person=林黛玉",
+    "coordinate_pairwise_summary": "same_atom=1",
+    "source_sentence": "且說寶釵、迎春、探春、惜春、李紈、鳳姐等並巧姐、大姐、香菱與眾丫鬟們在園內玩耍，獨不見林黛玉"
+  },
+  "checks": {
+    "route_coordinate": true,
+    "strategy_terms": true,
+    "person_gate_ok_or_not_required": true,
+    "coordinate_preflight_ok": true,
+    "entered_coordinate_tables": true,
+    "material_candidates_created": true,
+    "material_pool_entry_created": true,
+    "no_answer_written": true
+  },
+  "ok": true,
+  "artifacts": {
+    "markdown": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/01_alias_distance/material_pool_entry/01_总证据池报告.md",
+    "json": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/01_alias_distance/material_pool_entry/02_总证据池摘要.json",
+    "raw_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/01_alias_distance/material_pool_entry/03_子问题证据明细.csv",
+    "merged_csv": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/坐标入口到材料池四跑验收/01_alias_distance/material_pool_entry/04_合并候选段落.csv",
+    "subquestion_count": 5,
+    "raw_rows": 100,
+    "unique_segments": 100,
+    "subquestion_loop": {
+      "required": true,
+      "subquestion_count": 5,
+      "pool_built": true,
+      "raw_rows": 100,
+      "unique_segments": 100,
+      "admitted_rows": 100,
+      "extractable_material_rows": 100,
+      "missing_subquestions": [],
+      "next_action": "进入材料池精读或按 Codex 判断继续补证。"
+    }
+  }
+}

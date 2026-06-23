@@ -1,0 +1,7 @@
+{
+  "rule_name": "正式取材专库底库登记处白名单_DEPRECATED",
+  "status": "deprecated_redirect_to_double_center_whitelist",
+  "replacement": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/99_专库规则/正式取材专库_双中心白名单.json",
+  "principle": "本文件不再作为候选白名单；候选来源只看双中心白名单。",
+  "entries": []
+}

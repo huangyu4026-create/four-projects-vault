@@ -1,0 +1,44 @@
+registry_id,canonical_name,easy_name,layer,library_type,storage_kind,evidence_role,source_status,formal_recall_path,candidate_source_allowed,candidate_source_role,candidate_rule
+L1-001,chapters,原文章节库,L1,原文库,sqlite,final_evidence,已装入 SQLite,/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/01_语义聚拢查询中心库/红楼梦语义聚拢中心库_CH001_120.sqlite,True,semantic_center_member,前台候选统一从语义聚拢查询中心库读取；本条为中心库内表/字段映射。
+L1-002,segments,段落库（原子段+聚拢字段）,L1,原文库/聚拢语境库,sqlite,final_evidence,已装入 SQLite,/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/01_语义聚拢查询中心库/红楼梦语义聚拢中心库_CH001_120.sqlite,True,semantic_center_member,前台候选统一从语义聚拢查询中心库读取；本条为中心库内表/字段映射。
+L1-002A,segments.cluster_unit/is_focus,聚拢单元与焦段字段,L1/L3,聚拢语境字段,sqlite-field,context_anchor,嵌入 segments 表,/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/01_语义聚拢查询中心库/红楼梦语义聚拢中心库_CH001_120.sqlite::segments,True,semantic_center_member,前台候选统一从语义聚拢查询中心库读取；本条为中心库内表/字段映射。
+L1-003,chapter_identity,章回身份库,L1,原文辅助库,sqlite,final_evidence,已装入 SQLite,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+L1-005,segment_range_edges,段落范围边库,L1/L3,原文范围辅助库,sqlite,context_anchor,已装入 SQLite,/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/01_语义聚拢查询中心库/红楼梦语义聚拢中心库_CH001_120.sqlite,True,semantic_center_member,前台候选统一从语义聚拢查询中心库读取；本条为中心库内表/字段映射。
+L1-006,segment_match_cache,段落匹配缓存库,L1/L4,原文匹配辅助库,sqlite,search_tool,已装入 SQLite,/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/01_语义聚拢查询中心库/红楼梦语义聚拢中心库_CH001_120.sqlite,True,semantic_center_member,前台候选统一从语义聚拢查询中心库读取；本条为中心库内表/字段映射。
+L2-001,characters,人物基础库,L2,实体库,sqlite,navigation,已装入 SQLite,/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/01_语义聚拢查询中心库/红楼梦语义聚拢中心库_CH001_120.sqlite,True,semantic_center_member,前台候选统一从语义聚拢查询中心库读取；本条为中心库内表/字段映射。
+L2-004,objects_axis,物象器物库,L2/L3,实体/结构库,sqlite,navigation,已装入 SQLite,/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/01_语义聚拢查询中心库/红楼梦语义聚拢中心库_CH001_120.sqlite,True,semantic_center_member,前台候选统一从语义聚拢查询中心库读取；本条为中心库内表/字段映射。
+L2-005,spaces_axis/space_evidence_axis,空间场所与空间证据库,L2/L3,空间结构库,sqlite,navigation,已装入 SQLite,/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/01_语义聚拢查询中心库/红楼梦语义聚拢中心库_CH001_120.sqlite,True,semantic_center_member,前台候选统一从语义聚拢查询中心库读取；本条为中心库内表/字段映射。
+L3-001,person_segment_edges,人物-段落映射库,L3/L5,结构/关系库,sqlite,navigation,已装入 SQLite,/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/01_语义聚拢查询中心库/红楼梦语义聚拢中心库_CH001_120.sqlite,True,semantic_center_member,前台候选统一从语义聚拢查询中心库读取；本条为中心库内表/字段映射。
+L3-002,event_segments/event_segment_edges,事件片段与事件段落库,L3,事件结构库,sqlite,navigation,已装入 SQLite,/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/01_语义聚拢查询中心库/红楼梦语义聚拢中心库_CH001_120.sqlite,True,semantic_center_member,前台候选统一从语义聚拢查询中心库读取；本条为中心库内表/字段映射。
+L3-005,literary_texts_axis,文学文本轴库,L3,文本结构库,sqlite,navigation,已装入 SQLite,/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/01_语义聚拢查询中心库/红楼梦语义聚拢中心库_CH001_120.sqlite,True,semantic_center_member,前台候选统一从语义聚拢查询中心库读取；本条为中心库内表/字段映射。
+L3-006,evidence_edges,跨轴证据边库,L3/L5,证据结构库,sqlite,navigation,已装入 SQLite,/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/01_语义聚拢查询中心库/红楼梦语义聚拢中心库_CH001_120.sqlite,True,semantic_center_member,前台候选统一从语义聚拢查询中心库读取；本条为中心库内表/字段映射。
+L3.5-001,101_120回场面库_time_blocks.csv,回内时间块库,L3.5,场面现场库,csv,navigation,生成派生产物,/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/06_场面时间库/101_120回场面库_time_blocks.csv,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+L3.5-002,101_120回场面库_scene_groups.csv,场组库,L3.5,场面现场库,csv,navigation,生成派生产物,/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/06_场面时间库/101_120回场面库_scene_groups.csv,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+L3.5-003,101_120回场面库_scene_points.csv/json,场点库,L3.5,场面现场库,csv/json,navigation,生成派生产物,/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/06_场面时间库/101_120回场面库_scene_points.csv,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+L3.5-004,101_120回场面库_质量审计.json,场面库质量审计,L7,质量库,json,quality_control,生成派生产物,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+L3.5-005,101_120回场面库_问题队列.csv,场面复审队列,L7,质量库,csv,quality_control,生成派生产物,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+L4-001,search_documents/search_documents_fts,全文穷尽查证工具库,L4,检索工具库,sqlite,search_tool,已装入 SQLite,/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/01_语义聚拢查询中心库/红楼梦语义聚拢中心库_CH001_120.sqlite,True,semantic_center_member,前台候选统一从语义聚拢查询中心库读取；本条为中心库内表/字段映射。
+L5-001,人物-人物关系库（试跑）,人物关系主库候选层,L5,关系库,notion-derived,weak_reference,Notion 底座登记/局部产出,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+L5-002,关系证据库/,人工关系证据总库,L5,关系产出库,directory,weak_reference,生成产出层,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+L7-001,evidence_unresolved_queue,未解证据队列,L7,质量库,sqlite,quality_control,已装入 SQLite,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+L7-002,evidence_anchor_fix_candidates,锚点修复候选库,L7,质量库,sqlite,quality_control,已装入 SQLite,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+P-001,人物心理与态度变化库,心理态度库,计划,计划库,planned,planned,待建设,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+P-003,人物移动路线与空间出入库,移动路线库,计划,计划库,planned,planned,待建设,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+T-001,性主题库（强审计）,性主题强审计库,专题,专题库,notion-derived,weak_reference,Notion 底座登记,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+T-003,民俗礼俗库,礼俗制度库,专题,专题库,notion-derived/planned,weak_reference,Notion 底座登记/待工程化,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+T-004,梦境/幻境库,梦兆幻境库,专题,专题库,notion-derived/planned,weak_reference,Notion 底座登记/待工程化,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+T-006,人物服饰妆容描写库,人物描写服饰库,专题,专题库,notion-derived/planned,weak_reference,专题文档/待工程化,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+T-017,女性社会角色库,女性社会角色与职业称谓库,专题,专题库,notion-derived/planned,weak_reference,Notion 底座登记/待工程化,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+T-018,三姑六婆专题库,三姑六婆与女性职业称谓专题,专题,专题分支/方法库,notion-derived/planned,weak_reference,旧闭环命中/待工程化,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+T-019,人物索引总库,人物索引总入口,专题/L2,索引库,notion-derived/planned,navigation,Notion 底座登记/待工程化,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+T-020,场景库,场景与场面库,专题/L3,场景结构库,notion-derived/planned,navigation,Notion 底座登记/待工程化,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+T-021,居住空间库,居住空间专题库,专题/L3,空间专题库,notion-derived/planned,navigation,Notion 底座登记/待工程化,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+T-022,节令/时令库,节令时令专题库,专题/L3,时间专题库,notion-derived/planned,navigation,Notion 底座登记/待工程化,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+T-023,母题意象复现库,母题意象库,专题,专题库,notion-derived/planned,weak_reference,Notion 底座登记/待工程化,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+T-024,冷感/荒寒/空寂主题库,冷感荒寒主题库,专题,主题库,planned,planned,测试暴露需求/待建设,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+T-025,病死衰败主题库,病死衰败主题库,专题,主题库,planned,planned,测试暴露需求/待建设,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+T-026,丫鬟仆从关系库,丫鬟仆从关系专题库,专题/L5,关系专题库,planned,planned,待建设,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+T-027,语言称谓与亲属关系库,称谓亲属关系库,专题/L2/L5,称谓/关系专题库,planned,planned,待建设,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+T-028,物件情感承载库,物件情感库,专题/L5,物象关系专题库,planned,planned,待建设,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+T-029,家族败落制度库,家族败落制度库,专题,制度/主题库,planned,planned,待建设,,False,auxiliary_or_non_candidate,不作前台候选来源；只作辅助、回源、归一、质量、专题提示或待建记录。
+CENTER-COORD-001,atom_coordinates / variable_points / variable_dictionary / container_variable_index / v_atom_distance_directed / v_variable_point_context,坐标查询中心库,CENTER,坐标中心库,sqlite,coordinate_center,已装入 SQLite,/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/红楼梦坐标查询中心库_CH001_120.sqlite,True,coordinate_center,坐标路线唯一前台候选来源。
