@@ -517,7 +517,7 @@ PAGE = r"""<!doctype html>
       ].join("");
       $("paths").innerHTML = [
         `<b>坐标总库</b><br>${db.path || ""}`,
-        `<br><b>坐标工程</b><br>${data.app_root}`,
+        `<br><b>红楼梦人工智能咨询工程</b><br>${data.app_root}`,
         `<br><b>语义版旧程序</b><br>${data.legacy_semantic_app?.path || ""}`
       ].join("");
     }

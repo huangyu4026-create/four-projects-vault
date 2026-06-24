@@ -1,15 +1,18 @@
 [
   {
-    "name": "坐标工程",
-    "slug": "coordinate-project",
-    "repo_dir": "坐标工程",
+    "name": "红楼梦人工智能咨询工程",
+    "slug": "honglou-ai-consulting",
+    "repo_dir": "红楼梦人工智能咨询工程",
     "root": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3",
+    "latest_update_root": "/Users/yu/Documents/Codex/2026-06-22/new-chat-5/outputs",
+    "github_file_count": 113,
     "file_count": 543,
     "size_bytes": 2400886784,
-    "human_size": "2.2 GiB local large-file set; GitHub package about 6.3 MiB",
+    "human_size": "2.2 GiB local large-file set; GitHub package about 7.7 MiB including 2026-06-23 update pack",
     "channels": {
       "upload_candidate": 528,
-      "local_or_manifest_only": 15
+      "local_or_manifest_only": 15,
+      "github_update_pack_20260623": 21
     },
     "channel_sizes": {
       "local_or_manifest_only": 2400886784
