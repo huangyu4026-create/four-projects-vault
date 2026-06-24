@@ -1,0 +1,995 @@
+{
+  "schema_version": "HLM_AI_CONSULTING_HARDENING_V3_EIGHT_STEP_THIRTEEN_STEP_UNIFIED",
+  "generated_at": "2026-06-24",
+  "restore_point_id": "HLM_AI_CONSULTING_UNIQUE_OPTIMAL_RESTORE_POINT_20260624",
+  "restore_point_name": "红楼梦人工智能咨询工程｜唯一最优版复原点｜2026-06-24机器硬化版",
+  "status": "unique_optimal_active_restore_point",
+  "formal_project_name": "红楼梦人工智能咨询工程",
+  "active_query_line": "坐标查询线",
+  "entry_tokens": [
+    {
+      "token": "进入坐标查询",
+      "status": "active",
+      "normalize_to": "coordinate_line"
+    },
+    {
+      "token": "进入红楼梦人工智能咨询工程",
+      "status": "active",
+      "normalize_to": "coordinate_line"
+    }
+  ],
+  "oral_aliases": [
+    {
+      "alias": "进入红楼梦人工咨询工程",
+      "normalize_to": "进入红楼梦人工智能咨询工程"
+    }
+  ],
+  "single_line_rule": "两个活动入口令牌同线同义，均进入 000C -> 000E_B -> 坐标查询中心库 -> 原文裁判 -> 04入池凭证 -> 材料池；不得解释成两条路线。",
+  "canonical_route": [
+    "000C",
+    "HLM-AI-02 term subactions",
+    "000E_B",
+    "coordinate_center_db",
+    "original_text_adjudication",
+    "coordinate_material_pack",
+    "04_material_admission_credential",
+    "material_pool"
+  ],
+  "hardening_steps": [
+    {
+      "step_id": "HLM-AI-00",
+      "name": "入口令牌归一",
+      "required_input": [
+        "user_message"
+      ],
+      "active_tokens": [
+        "进入坐标查询",
+        "进入红楼梦人工智能咨询工程"
+      ],
+      "oral_aliases": [
+        {
+          "alias": "进入红楼梦人工咨询工程",
+          "normalize_to": "进入红楼梦人工智能咨询工程"
+        }
+      ],
+      "required_output": {
+        "entry_lane": "coordinate",
+        "recall_gate": "coordinate",
+        "project_name": "红楼梦人工智能咨询工程"
+      },
+      "block_if": [
+        "未识别活动入口令牌",
+        "把两个入口令牌理解成两条路线"
+      ],
+      "engineering_address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000C_进入坐标查询_新窗口强制入口.md",
+      "engineering_action": "识别两个活动入口令牌并归一到坐标查询线",
+      "note": "这是进门令牌层，不是查询层。"
+    },
+    {
+      "step_id": "HLM-AI-01",
+      "name": "读 000C 活动入口",
+      "required_input": [
+        "entry_lane=coordinate"
+      ],
+      "must_read": [
+        "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000C_进入坐标查询_新窗口强制入口.md"
+      ],
+      "required_output": [
+        "取材门：坐标",
+        "recall_gate：coordinate",
+        "第一取材入口：坐标查询中心库"
+      ],
+      "block_if": [
+        "跳过 000C",
+        "先自由搜索 SQLite",
+        "先凭印象回答"
+      ],
+      "engineering_address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000C_进入坐标查询_新窗口强制入口.md",
+      "engineering_action": "读取入口铁律、取材门、固定工具、坐标门规则",
+      "note": "000C 管进门第一动作。"
+    },
+    {
+      "step_id": "HLM-AI-02",
+      "name": "AI 读题取词",
+      "required_input": [
+        "user_question"
+      ],
+      "subactions": [
+        {
+          "sub_id": "HLM-AI-02a",
+          "name": "定中心",
+          "output": "题目中心",
+          "note": "判断题目本质问人物、物象、空间、时间、事件、原句、距离、同场还是多轴交叉。"
+        },
+        {
+          "sub_id": "HLM-AI-02b",
+          "name": "定主查词",
+          "output": "Codex查询词",
+          "note": "只放必须成立的核心对象；背景锚点、标题词、热词不能冒充主证。"
+        },
+        {
+          "sub_id": "HLM-AI-02c",
+          "name": "定强复合",
+          "output": "Codex强复合",
+          "note": "多对象题标明哪些对象必须共同成立，防止单边材料冒充关系证据。"
+        },
+        {
+          "sub_id": "HLM-AI-02d",
+          "name": "定词角色",
+          "output": "Codex词角色",
+          "note": "区分主查词、归一词、扩展词、背景锚点、排除词。"
+        },
+        {
+          "sub_id": "HLM-AI-02e",
+          "name": "定查询词策略",
+          "output": "Codex查询词策略",
+          "note": "说明中心词、强复合、扩展词、背景锚点和排除词为什么这样取舍；这是查询词路打卡字段。"
+        },
+        {
+          "sub_id": "HLM-AI-02f",
+          "name": "定材料升级条件",
+          "output": "Codex材料升级条件",
+          "note": "预先规定什么材料可以入池，什么只能作候选或补查入口。"
+        }
+      ],
+      "required_output": [
+        "题目中心",
+        "Codex查询词策略",
+        "Codex查询词",
+        "Codex强复合",
+        "Codex词角色",
+        "Codex材料升级条件"
+      ],
+      "block_if": [
+        "工具裸猜查询词",
+        "把查询词当答案",
+        "缺查询词策略就进入材料包",
+        "缺材料升级条件就进入材料包"
+      ],
+      "engineering_address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000C_进入坐标查询_新窗口强制入口.md",
+      "engineering_action": "在查库前把自然问题转成可执行查询令牌",
+      "note": "六个取词动作是本步骤内部子动作，不升格为独立机器步骤。"
+    },
+    {
+      "step_id": "HLM-AI-03",
+      "name": "读 000E_B 选择策略并结构转化",
+      "required_input": [
+        "题目中心",
+        "Codex查询词策略",
+        "Codex查询词",
+        "Codex强复合",
+        "Codex词角色",
+        "Codex材料升级条件"
+      ],
+      "must_read": [
+        "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000E_B_坐标工程查询逻辑策略经验模板组_新窗口学习入口.md"
+      ],
+      "required_output": [
+        "Codex查询逻辑策略",
+        "Codex结构转化表",
+        "Codex查证顺序"
+      ],
+      "fallback": "无合适模板时必须选模板00并生成 Codex子问题策略队列。",
+      "block_if": [
+        "绕过 000E_B",
+        "把 000E 当执行入口",
+        "策略待定或无策略",
+        "缺结构转化表"
+      ],
+      "engineering_address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000E_B_坐标工程查询逻辑策略经验模板组_新窗口学习入口.md",
+      "engineering_action": "选择模板00-11，写结构转化表，把问题落到查询编码和查证顺序",
+      "note": "000E_B 是活动策略层；000E 只登记名称。"
+    },
+    {
+      "step_id": "HLM-AI-04",
+      "name": "人物身份归一",
+      "required_input": [
+        "题目中的人物名/称谓/别名"
+      ],
+      "required_output": [
+        "person_code",
+        "归一人物",
+        "原问称呼",
+        "原文实际称呼",
+        "歧义状态"
+      ],
+      "skip_condition": "题目不含人物、称谓、别名",
+      "block_if": [
+        "人物题只裸搜名字",
+        "旧 person 入口作为主入口"
+      ],
+      "engineering_address": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/红楼梦坐标查询中心库_CH001_120.sqlite",
+      "engineering_action": "用人物身份中枢与 person_identity 回收人物聚点",
+      "note": "人物题先认人，再查点。"
+    },
+    {
+      "step_id": "HLM-AI-05",
+      "name": "进入坐标查询唯一中心大库",
+      "required_input": [
+        "Codex结构转化表",
+        "查询编码",
+        "对象值"
+      ],
+      "must_read": [
+        "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/红楼梦坐标查询中心库_CH001_120.sqlite"
+      ],
+      "required_output": [
+        "variable_type",
+        "canonical_key",
+        "matched_text",
+        "atom_code",
+        "scene_id",
+        "chapter_no",
+        "global_atom_order"
+      ],
+      "block_if": [
+        "另找小库替代中心库",
+        "查询阶段改 SQLite",
+        "旧 object/person/time_axis 主入口"
+      ],
+      "engineering_address": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/红楼梦坐标查询中心库_CH001_120.sqlite",
+      "engineering_action": "按 variable_points / v_variable_point_context 定位中心坐标点",
+      "note": "正式查询入口只有中心库。"
+    },
+    {
+      "step_id": "HLM-AI-06",
+      "name": "专项投影与补查",
+      "required_input": [
+        "题型判断",
+        "查询编码命中"
+      ],
+      "optional_paths": [
+        "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/话语坐标投影库/红楼梦话语入原子段投影库_CH001_120.sqlite",
+        "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/话语坐标投影库/红楼梦话语坐标投影总库_CH001_120.sqlite"
+      ],
+      "required_output": [
+        "词位命中",
+        "变量命中",
+        "话语命中",
+        "距离共场候选"
+      ],
+      "block_if": [
+        "话语题不查 speech_*",
+        "明确原文字词不查词位防漏"
+      ],
+      "engineering_address": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/话语坐标投影库/红楼梦话语坐标投影总库_CH001_120.sqlite",
+      "engineering_action": "题型触发词位、字位桥表、话语投影等专项补查",
+      "note": "专项不是另开主入口，只是中心库后的补证层。"
+    },
+    {
+      "step_id": "HLM-AI-07",
+      "name": "距离共场交集",
+      "required_input": [
+        "两个或多个查询编码命中点"
+      ],
+      "required_output": [
+        "same_utterance_or_atom",
+        "same_scene",
+        "same_event",
+        "global_atom_order_distance",
+        "放宽层级"
+      ],
+      "block_if": [
+        "把同一回当同场",
+        "把距离最近当结论"
+      ],
+      "engineering_address": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/红楼梦坐标查询中心库_CH001_120.sqlite",
+      "engineering_action": "计算同句/同聚点/同场/同事件/最近距离并记录放宽层级",
+      "note": "距离和共场只产候选，不产最终结论。"
+    },
+    {
+      "step_id": "HLM-AI-08",
+      "name": "原文窗口裁判",
+      "required_input": [
+        "atom_code",
+        "scene_id or segment_no",
+        "source_sentence/window"
+      ],
+      "required_output": [
+        "原文摘录",
+        "上下文裁判",
+        "证据能否证明问题"
+      ],
+      "block_if": [
+        "工程变量点直接冒充原文证据",
+        "未回原文即下结论"
+      ],
+      "engineering_address": "atom_code / scene_id / segment_no 对应原文窗口",
+      "engineering_action": "回原文看证据是否真的能证明问题",
+      "note": "这是从工程候选变成可入池材料的裁判门。"
+    },
+    {
+      "step_id": "HLM-AI-09",
+      "name": "生成坐标取材包",
+      "required_input": [
+        "入口令牌",
+        "查询词路",
+        "策略模板",
+        "中心库命中",
+        "原文裁判结果"
+      ],
+      "required_output": [
+        "00_入口令牌.json",
+        "01_查询词路.md",
+        "02_坐标材料池入口候选.json",
+        "03_材料池入口_候选不作答.md"
+      ],
+      "block_if": [
+        "候选当最终答案",
+        "缺原文锚点仍入池"
+      ],
+      "engineering_address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/work/formal_honglou_coordinate_material_pack_cli.py",
+      "engineering_action": "由坐标取材包脚本写出候选包",
+      "note": "取材包不是最终答案。"
+    },
+    {
+      "step_id": "HLM-AI-10",
+      "name": "生成 04 坐标入池凭证",
+      "required_input": [
+        "坐标取材包",
+        "原文锚点",
+        "证据层级"
+      ],
+      "required_output": [
+        "04_坐标入材料池凭证门.md",
+        "04_坐标入材料池凭证门.json",
+        "material_admission_status"
+      ],
+      "block_if": [
+        "无 04 凭证却声称已入材料池",
+        "阻断待补材料进入红楼解语"
+      ],
+      "engineering_address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/work/formal_honglou_coordinate_material_pack_cli.py",
+      "engineering_action": "生成 material_admission_status 和 codex_query_lane=coordinate 的入池凭证",
+      "note": "04 凭证是材料池前门。"
+    },
+    {
+      "step_id": "HLM-AI-11",
+      "name": "材料池以后公共流程",
+      "required_input": [
+        "04 坐标入池凭证"
+      ],
+      "required_output": [
+        "材料池四态",
+        "精读材料词",
+        "写作前原文追证",
+        "红楼解语条件"
+      ],
+      "block_if": [
+        "未完成四态和追证就写最终答案"
+      ],
+      "engineering_address": "材料池以后公共流程",
+      "engineering_action": "进入材料池四态、精读材料词、写作前追证和写作条件判断",
+      "note": "坐标查询只负责把材料送到公共后半段。"
+    },
+    {
+      "step_id": "HLM-AI-12",
+      "name": "经验写回与复原点维护",
+      "required_input": [
+        "用户明确要求经验写回或工程硬化"
+      ],
+      "must_read": [
+        "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000D_经验复盘写回_新窗口强制入口.md",
+        "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/outputs/红楼梦对谈查证室/135_坐标工程总账.md"
+      ],
+      "required_output": [
+        "经验写入正确层",
+        "总账复原点更新",
+        "机器硬化文件更新"
+      ],
+      "block_if": [
+        "经验只写一次性材料包",
+        "退役线内容污染活动搜索面"
+      ],
+      "engineering_address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000D_经验复盘写回_新窗口强制入口.md",
+      "engineering_action": "把验证过的方法写回 000C/000E_B/总账/137/138 等正确层",
+      "note": "这是工程会学习和恢复的维护门。"
+    }
+  ],
+  "global_prohibitions": [
+    "禁止把 000E 当执行入口",
+    "禁止恢复退役前门正文到活动搜索面",
+    "禁止查询阶段改 SQLite",
+    "禁止旧 person/object/time_axis 作为正式主入口",
+    "禁止坐标候选绕过原文裁判",
+    "禁止没有 04 入池凭证就声称进入材料池",
+    "禁止未完成材料池四态、精读材料词、写作前原文追证就写最终答案"
+  ],
+  "ledger_node_design": {
+    "ledger_file": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/outputs/红楼梦对谈查证室/135_坐标工程总账.md",
+    "node_id": "HLM_AI_CONSULTING_UNIQUE_OPTIMAL_RESTORE_POINT_20260624",
+    "node_name": "红楼梦人工智能咨询工程｜唯一最优版复原点｜2026-06-24机器硬化版",
+    "is_unique_optimal_version": true,
+    "recovery_read_order": [
+      "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/outputs/红楼梦对谈查证室/135_坐标工程总账.md",
+      "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/outputs/红楼梦对谈查证室/137_红楼梦人工智能咨询工程_机器硬化复原点_唯一最优版_20260624.json",
+      "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000C_进入坐标查询_新窗口强制入口.md",
+      "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000E_B_坐标工程查询逻辑策略经验模板组_新窗口学习入口.md",
+      "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/work/formal_honglou_coordinate_material_gate.py",
+      "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/work/formal_honglou_coordinate_material_pack_cli.py"
+    ],
+    "recovery_success_condition": "读完总账、137 JSON 和 138 方法说明后，能无歧义恢复两个入口令牌、一条活动查询线、中心库路径、13步机器硬化流程、HLM-AI-02内部取词子动作、阻断条件和验收字段。"
+  },
+  "source_artifacts": [
+    {
+      "key": "entry_000c",
+      "path": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000C_进入坐标查询_新窗口强制入口.md",
+      "role": "入口活动文件；双入口令牌归一；坐标查询线第一门",
+      "required": true,
+      "exists": true,
+      "byte_size": 26737,
+      "mtime_epoch": 1782293732,
+      "sha256": "6f88408924865101fc777dc671051892b4187682d66b9f3a76327bc89a483f71"
+    },
+    {
+      "key": "strategy_000e_b",
+      "path": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000E_B_坐标工程查询逻辑策略经验模板组_新窗口学习入口.md",
+      "role": "活动策略文件；取词后选择查询逻辑策略",
+      "required": true,
+      "exists": true,
+      "byte_size": 92392,
+      "mtime_epoch": 1782293772,
+      "sha256": "09387caec38e27b2392a28c1e7f98a085db47aaf6ece4c6ab75c56592b4c7139"
+    },
+    {
+      "key": "registry_000e",
+      "path": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000E_查询逻辑策略模板组_新窗口学习入口.md",
+      "role": "维护登记；不作执行入口",
+      "required": true,
+      "exists": true,
+      "byte_size": 2128,
+      "mtime_epoch": 1782293772,
+      "sha256": "d03b4963e5779c5fd5d52a284013c54c530735e5cd0ccffe610bb3fde1100a82"
+    },
+    {
+      "key": "experience_000d",
+      "path": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000D_经验复盘写回_新窗口强制入口.md",
+      "role": "经验写回入口；不改 SQLite",
+      "required": true,
+      "exists": true,
+      "byte_size": 5878,
+      "mtime_epoch": 1782293676,
+      "sha256": "b270eda93db8607dd7fb012b52fbc882b133f2fabb4d43bc1e575e47b48580a3"
+    },
+    {
+      "key": "ledger_135",
+      "path": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/outputs/红楼梦对谈查证室/135_坐标工程总账.md",
+      "role": "总账与复原点人工索引",
+      "required": true,
+      "exists": true,
+      "byte_size": 9193,
+      "mtime_epoch": 1782293733,
+      "sha256": "b662dee5345892ceea28de6999128e61fd35fe2bac7517d73e2cb6b7c50dcf77"
+    },
+    {
+      "key": "audit_136",
+      "path": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/outputs/红楼梦对谈查证室/136_坐标查询系统链路严审与硬规则优化_20260624.md",
+      "role": "链路严审报告",
+      "required": true,
+      "exists": true,
+      "byte_size": 6700,
+      "mtime_epoch": 1782293733,
+      "sha256": "8cad21a8beb86e5710ce349e25a6f50ea27796ab4215d683b03e2ee08c386f3f"
+    },
+    {
+      "key": "gate_script",
+      "path": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/work/formal_honglou_coordinate_material_gate.py",
+      "role": "坐标材料门脚本",
+      "required": true,
+      "exists": true,
+      "byte_size": 64061,
+      "mtime_epoch": 1782293126,
+      "sha256": "6956b83d7e1c7ad7bbb1e84f9c53edab12cb34fd2db7ef857d1cabaceca1d02a"
+    },
+    {
+      "key": "pack_cli_script",
+      "path": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/work/formal_honglou_coordinate_material_pack_cli.py",
+      "role": "坐标取材包脚本",
+      "required": true,
+      "exists": true,
+      "byte_size": 22176,
+      "mtime_epoch": 1782292991,
+      "sha256": "89411b9e7025dab620f1e2a62fab21f38723553ec1107fe0971006ce7f46a6b8"
+    },
+    {
+      "key": "center_db",
+      "path": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/红楼梦坐标查询中心库_CH001_120.sqlite",
+      "role": "坐标查询唯一中心大库",
+      "required": true,
+      "exists": true,
+      "byte_size": 1268432896,
+      "mtime_epoch": 1782293868,
+      "sha256": null,
+      "sha256_reason": "large_file_not_hashed_in_restore_manifest; use sqlite_fingerprint instead"
+    },
+    {
+      "key": "speech_atom_db",
+      "path": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/话语坐标投影库/红楼梦话语入原子段投影库_CH001_120.sqlite",
+      "role": "话语入原子段投影库",
+      "required": true,
+      "exists": true,
+      "byte_size": 74809344,
+      "mtime_epoch": 1782200871,
+      "sha256": null,
+      "sha256_reason": "large_file_not_hashed_in_restore_manifest; use sqlite_fingerprint instead"
+    },
+    {
+      "key": "speech_total_db",
+      "path": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/话语坐标投影库/红楼梦话语坐标投影总库_CH001_120.sqlite",
+      "role": "话语坐标投影总库",
+      "required": true,
+      "exists": true,
+      "byte_size": 739102720,
+      "mtime_epoch": 1782249968,
+      "sha256": null,
+      "sha256_reason": "large_file_not_hashed_in_restore_manifest; use sqlite_fingerprint instead"
+    },
+    {
+      "key": "flow_method_138",
+      "path": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/outputs/红楼梦对谈查证室/138_红楼梦人工智能咨询工程_八步法与13步机器环境合一说明_20260624.md",
+      "role": "八步法与13步机器环境合一说明；人读解释层",
+      "required": true,
+      "exists": true,
+      "byte_size": 10818,
+      "mtime_epoch": 1782298568
+    }
+  ],
+  "center_db_contract": {
+    "exists": true,
+    "byte_size": 1268432896,
+    "tables_or_views": [
+      "atom_coordinates",
+      "atom_time_projection",
+      "baochai_fate_progression_edges",
+      "baochai_fate_stage_story_time_summary",
+      "baochai_fate_story_time_alignment",
+      "baochai_fate_story_time_audit",
+      "baodai_relationship_arc_design_rules",
+      "baodai_relationship_arc_points",
+      "baodai_story_time_alignment",
+      "baoyu_fate_progression_edges",
+      "baoyu_fate_stage_story_time_summary",
+      "baoyu_fate_story_time_alignment",
+      "baoyu_fate_story_time_audit",
+      "build_meta",
+      "center_person_alias_authority",
+      "center_person_alias_conflict_rules",
+      "center_person_identity_hub",
+      "center_person_identity_projection",
+      "center_person_mention_resolution",
+      "center_person_segment_edges_enriched",
+      "clothing_fullscan_hits",
+      "clothing_wearing_fullscan_candidates",
+      "container_variable_index",
+      "container_variable_index_retired_old_person_direct_projection_pre_identity_hub",
+      "daiyu_fate_progression_edges",
+      "daiyu_fate_stage_story_time_summary",
+      "daiyu_fate_story_time_alignment",
+      "daiyu_fate_story_time_audit",
+      "description_axis_lexicon",
+      "description_axis_points",
+      "description_passage_cards",
+      "drug_food_formula_candidates",
+      "drug_food_fullscan_hits",
+      "fate_function_arc_design_rules",
+      "fate_function_arc_points",
+      "fate_function_story_time_alignment",
+      "function_evaluation_axis_points",
+      "function_evaluation_cards",
+      "function_evaluation_unit_cards",
+      "long_axis_story_time_alignment_audit",
+      "material_presentation_axis_points",
+      "material_presentation_bridge",
+      "material_presentation_cards",
+      "nominal_objects",
+      "nominal_occurrence_distance",
+      "nominal_occurrences",
+      "nominal_single_item_flow",
+      "nominal_single_item_formal_flow",
+      "nominal_single_item_registry",
+      "nominal_terms",
+      "object_fullscan_cooccurrence_candidates",
+      "object_fullscan_hits",
+      "object_fullscan_terms",
+      "pair_fate_convergence_audit",
+      "pair_fate_convergence_edges",
+      "pair_fate_convergence_person_nodes",
+      "pair_fate_convergence_points",
+      "recipe_formula_items",
+      "recipe_formula_point_links",
+      "recipe_formula_spectrum_cards",
+      "recipe_formula_term_hits",
+      "reference_time_points",
+      "speech_content_annotation_cards",
+      "speech_content_axis_lexicon",
+      "speech_content_axis_points",
+      "speech_dialogue_edges_refined",
+      "speech_dialogue_edges_refined_before_second_pass_20260623_222606",
+      "speech_dialogue_edges_refined_before_speaker_resolution_20260623_221353",
+      "speech_dialogue_pair_refined_summary",
+      "speech_neighborhood_points",
+      "speech_neighborhood_summary",
+      "speech_pair_scene_density",
+      "speech_person_scene_density",
+      "speech_refined_addressee_projection",
+      "speech_refined_addressee_projection_before_second_pass_20260623_222606",
+      "speech_refined_addressee_projection_before_speaker_resolution_20260623_221353",
+      "speech_sequence_points",
+      "speech_sequence_points_before_second_pass_20260623_222606",
+      "speech_sequence_points_before_speaker_resolution_20260623_221353",
+      "speech_speaker_resolution",
+      "speech_speaker_resolution_before_second_pass_20260623_222606",
+      "speech_speaker_resolution_second_pass",
+      "speech_utterance_mood_primary",
+      "speech_utterance_mood_primary_before_second_pass_20260623_222606",
+      "speech_utterance_mood_primary_before_speaker_resolution_20260623_221353",
+      "speech_utterance_mood_refined",
+      "speech_utterance_mood_refined_before_second_pass_20260623_222606",
+      "speech_utterance_mood_refined_before_speaker_resolution_20260623_221353",
+      "story_progression_edges",
+      "story_progression_layer_stats",
+      "story_progression_nodes",
+      "story_time_alignment_edges",
+      "story_time_alignment_layer_stats",
+      "story_time_alignment_nodes",
+      "time_anchor_distance",
+      "time_nodes",
+      "time_qualities",
+      "time_spans",
+      "trio_fate_convergence_audit",
+      "trio_fate_convergence_edges",
+      "trio_fate_convergence_person_nodes",
+      "trio_fate_convergence_points",
+      "v_atom_distance_directed",
+      "v_speech_utterance_distance",
+      "v_variable_point_context",
+      "variable_dictionary",
+      "variable_dictionary_retired_old_person_direct_projection_pre_identity_hub",
+      "variable_points",
+      "variable_points_retired_old_objects_axis_pre_fullscan",
+      "variable_points_retired_old_person_direct_projection_pre_identity_hub"
+    ],
+    "required_table_exists": {
+      "variable_points": true,
+      "v_variable_point_context": true,
+      "atom_coordinates": true,
+      "center_person_identity_hub": true,
+      "center_person_alias_authority": true,
+      "nominal_single_item_formal_flow": true
+    },
+    "variable_type_counts": {
+      "person": 0,
+      "person_identity": 5050,
+      "object": 0,
+      "object_fullscan_item": 1598,
+      "object_fullscan_class": 1598,
+      "time_axis": 0,
+      "time_point": 0,
+      "time_node_projection": 1939,
+      "time_span_projection": 2590,
+      "speech_speaker": 6643,
+      "speech_dialogue_pair_refined": 2845,
+      "nominal_object_item": 19407,
+      "nominal_single_item_formal_flow": 21
+    },
+    "build_meta_count": 50
+  },
+  "verification_contract": {
+    "must_pass": [
+      "all required files exist",
+      "center DB exists",
+      "variable_points exists",
+      "person_identity count > 0",
+      "object_fullscan_item count > 0",
+      "speech_speaker count > 0",
+      "scripts py_compile pass"
+    ],
+    "latest_manual_verification": {
+      "py_compile": "passed before restore-point creation in current thread",
+      "entry_token_sync": "000C/000E/000E_B/135/136 synchronized before restore-point creation",
+      "step_model": "13-step hardening flow is the machine environment interpretation of the human eight-step method; term understanding is nested under HLM-AI-02 as subactions."
+    }
+  },
+  "eight_step_static_audit": {
+    "audit_id": "EIGHT_STEP_TERM_STRATEGY_STATIC_AUDIT_20260624",
+    "audit_type": "static_contract_check_not_runtime_trial",
+    "status": "passed",
+    "meaning": "不跑真实题、不生成材料包，只检查八步法与13步机器环境是否在同一文件、入口、策略层、脚本和复原点中闭合；取词细化动作属于 HLM-AI-02 内部子动作。",
+    "checked_items": {
+      "000E_B_has_eight_step_table": true,
+      "term_understanding_is_subactions_under_HLM_AI_02": true,
+      "000C_has_term_strategy_loop": true,
+      "pack_cli_blocks_missing_terms_strategy_structure": true,
+      "gate_validates_strategy_and_structure": true,
+      "restore_point_has_13_hardening_steps": true,
+      "eight_and_thirteen_steps_have_address_action_mapping": true,
+      "eight_and_thirteen_steps_unified_in_single_file": true
+    },
+    "eight_step_mapping": [
+      {
+        "eight_step": "1 读题",
+        "points_to_address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000C_进入坐标查询_新窗口强制入口.md",
+        "points_to_action": "HLM-AI-02 内部：定中心、定主查词",
+        "note": "读题不是回答，是把自然问题转成可查对象。"
+      },
+      {
+        "eight_step": "2 判型",
+        "points_to_address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000E_B_坐标工程查询逻辑策略经验模板组_新窗口学习入口.md",
+        "points_to_action": "HLM-AI-03：选择模板00-11和查询逻辑策略",
+        "note": "判型决定进人物、描写、推进、证据结构，或话语模板。"
+      },
+      {
+        "eight_step": "3 拆对象",
+        "points_to_address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000E_B_坐标工程查询逻辑策略经验模板组_新窗口学习入口.md",
+        "points_to_action": "HLM-AI-02 定强复合 + HLM-AI-03 模板00子问题策略队列",
+        "note": "复杂题必须拆成两两可查对象。"
+      },
+      {
+        "eight_step": "4 定主轴",
+        "points_to_address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000E_B_坐标工程查询逻辑策略经验模板组_新窗口学习入口.md",
+        "points_to_action": "HLM-AI-03 Codex结构转化表：查询编码/交叉办法/下一步动作",
+        "note": "主轴就是先用哪个查询编码进中心库。"
+      },
+      {
+        "eight_step": "5 归一",
+        "points_to_address": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/红楼梦坐标查询中心库_CH001_120.sqlite",
+        "points_to_action": "HLM-AI-04：person_identity / 人物身份中枢 / 对象归一",
+        "note": "先认人和对象，再查坐标点。"
+      },
+      {
+        "eight_step": "6 交叉",
+        "points_to_address": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/红楼梦坐标查询中心库_CH001_120.sqlite",
+        "points_to_action": "HLM-AI-05 到 HLM-AI-07：中心库命中、专项补查、距离共场交集",
+        "note": "两个或多个编码同点、同场、同事件才形成候选关系。"
+      },
+      {
+        "eight_step": "7 放宽",
+        "points_to_address": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/红楼梦坐标查询中心库_CH001_120.sqlite",
+        "points_to_action": "HLM-AI-07：utterance_id -> old_segment_no -> atom_code -> scene_id -> event_id -> global_atom_order",
+        "note": "放宽必须记录层级，不能把最近距离当结论。"
+      },
+      {
+        "eight_step": "8 回原文",
+        "points_to_address": "atom_code / scene_id / segment_no 对应原文窗口",
+        "points_to_action": "HLM-AI-08 到 HLM-AI-10：原文窗口裁判、取材包、04入池凭证",
+        "note": "原文裁判通过后才有资格进入材料池。"
+      }
+    ],
+    "term_strategy_chain": [
+      "自然问题",
+      "HLM-AI-02 AI读题取词：定中心/定主查词/定强复合/定词角色/定查询词策略/定材料升级条件",
+      "HLM-AI-03 进入000E_B选择查询逻辑策略并结构转化",
+      "脚本预检缺Codex查询词策略/Codex查询词/查询逻辑策略/结构转化表即阻断",
+      "中心库与原文裁判",
+      "04入池凭证"
+    ],
+    "verdict": "完整。八步法与13步机器环境已经写成同一文件；取词细化动作收在 HLM-AI-02 内部，机器主流程仍为13步。"
+  },
+  "flow_method_explanation": {
+    "path": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/outputs/红楼梦对谈查证室/138_红楼梦人工智能咨询工程_八步法与13步机器环境合一说明_20260624.md",
+    "role": "八步法与13步机器环境合一说明；同一方法的两种读法，搜索八步法/8步法/13步/十三步都落本文件。",
+    "relationship": "137 JSON 是机器硬化合同；138 MD 是人的设计方法与机器流程的解释层。"
+  },
+  "step_address_action_mapping": {
+    "eight_step_method": [
+      {
+        "eight_step": "1 读题",
+        "points_to_address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000C_进入坐标查询_新窗口强制入口.md",
+        "points_to_action": "HLM-AI-02 内部：定中心、定主查词",
+        "note": "读题不是回答，是把自然问题转成可查对象。"
+      },
+      {
+        "eight_step": "2 判型",
+        "points_to_address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000E_B_坐标工程查询逻辑策略经验模板组_新窗口学习入口.md",
+        "points_to_action": "HLM-AI-03：选择模板00-11和查询逻辑策略",
+        "note": "判型决定进人物、描写、推进、证据结构，或话语模板。"
+      },
+      {
+        "eight_step": "3 拆对象",
+        "points_to_address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000E_B_坐标工程查询逻辑策略经验模板组_新窗口学习入口.md",
+        "points_to_action": "HLM-AI-02 定强复合 + HLM-AI-03 模板00子问题策略队列",
+        "note": "复杂题必须拆成两两可查对象。"
+      },
+      {
+        "eight_step": "4 定主轴",
+        "points_to_address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000E_B_坐标工程查询逻辑策略经验模板组_新窗口学习入口.md",
+        "points_to_action": "HLM-AI-03 Codex结构转化表：查询编码/交叉办法/下一步动作",
+        "note": "主轴就是先用哪个查询编码进中心库。"
+      },
+      {
+        "eight_step": "5 归一",
+        "points_to_address": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/红楼梦坐标查询中心库_CH001_120.sqlite",
+        "points_to_action": "HLM-AI-04：person_identity / 人物身份中枢 / 对象归一",
+        "note": "先认人和对象，再查坐标点。"
+      },
+      {
+        "eight_step": "6 交叉",
+        "points_to_address": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/红楼梦坐标查询中心库_CH001_120.sqlite",
+        "points_to_action": "HLM-AI-05 到 HLM-AI-07：中心库命中、专项补查、距离共场交集",
+        "note": "两个或多个编码同点、同场、同事件才形成候选关系。"
+      },
+      {
+        "eight_step": "7 放宽",
+        "points_to_address": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/红楼梦坐标查询中心库_CH001_120.sqlite",
+        "points_to_action": "HLM-AI-07：utterance_id -> old_segment_no -> atom_code -> scene_id -> event_id -> global_atom_order",
+        "note": "放宽必须记录层级，不能把最近距离当结论。"
+      },
+      {
+        "eight_step": "8 回原文",
+        "points_to_address": "atom_code / scene_id / segment_no 对应原文窗口",
+        "points_to_action": "HLM-AI-08 到 HLM-AI-10：原文窗口裁判、取材包、04入池凭证",
+        "note": "原文裁判通过后才有资格进入材料池。"
+      }
+    ],
+    "thirteen_machine_steps": [
+      {
+        "machine_step": "HLM-AI-00 入口令牌归一",
+        "points_to_address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000C_进入坐标查询_新窗口强制入口.md",
+        "points_to_action": "识别两个活动入口令牌并归一到坐标查询线",
+        "note": "这是进门令牌层，不是查询层。"
+      },
+      {
+        "machine_step": "HLM-AI-01 读 000C 活动入口",
+        "points_to_address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000C_进入坐标查询_新窗口强制入口.md",
+        "points_to_action": "读取入口铁律、取材门、固定工具、坐标门规则",
+        "note": "000C 管进门第一动作。"
+      },
+      {
+        "machine_step": "HLM-AI-02 AI 读题取词",
+        "points_to_address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000C_进入坐标查询_新窗口强制入口.md",
+        "points_to_action": "在查库前把自然问题转成可执行查询令牌",
+        "note": "六个取词动作是本步骤内部子动作，不升格为独立机器步骤。"
+      },
+      {
+        "machine_step": "HLM-AI-03 读 000E_B 选择策略并结构转化",
+        "points_to_address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000E_B_坐标工程查询逻辑策略经验模板组_新窗口学习入口.md",
+        "points_to_action": "选择模板00-11，写结构转化表，把问题落到查询编码和查证顺序",
+        "note": "000E_B 是活动策略层；000E 只登记名称。"
+      },
+      {
+        "machine_step": "HLM-AI-04 人物身份归一",
+        "points_to_address": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/红楼梦坐标查询中心库_CH001_120.sqlite",
+        "points_to_action": "用人物身份中枢与 person_identity 回收人物聚点",
+        "note": "人物题先认人，再查点。"
+      },
+      {
+        "machine_step": "HLM-AI-05 进入坐标查询唯一中心大库",
+        "points_to_address": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/红楼梦坐标查询中心库_CH001_120.sqlite",
+        "points_to_action": "按 variable_points / v_variable_point_context 定位中心坐标点",
+        "note": "正式查询入口只有中心库。"
+      },
+      {
+        "machine_step": "HLM-AI-06 专项投影与补查",
+        "points_to_address": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/话语坐标投影库/红楼梦话语坐标投影总库_CH001_120.sqlite",
+        "points_to_action": "题型触发词位、字位桥表、话语投影等专项补查",
+        "note": "专项不是另开主入口，只是中心库后的补证层。"
+      },
+      {
+        "machine_step": "HLM-AI-07 距离共场交集",
+        "points_to_address": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/红楼梦坐标查询中心库_CH001_120.sqlite",
+        "points_to_action": "计算同句/同聚点/同场/同事件/最近距离并记录放宽层级",
+        "note": "距离和共场只产候选，不产最终结论。"
+      },
+      {
+        "machine_step": "HLM-AI-08 原文窗口裁判",
+        "points_to_address": "atom_code / scene_id / segment_no 对应原文窗口",
+        "points_to_action": "回原文看证据是否真的能证明问题",
+        "note": "这是从工程候选变成可入池材料的裁判门。"
+      },
+      {
+        "machine_step": "HLM-AI-09 生成坐标取材包",
+        "points_to_address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/work/formal_honglou_coordinate_material_pack_cli.py",
+        "points_to_action": "由坐标取材包脚本写出候选包",
+        "note": "取材包不是最终答案。"
+      },
+      {
+        "machine_step": "HLM-AI-10 生成 04 坐标入池凭证",
+        "points_to_address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/work/formal_honglou_coordinate_material_pack_cli.py",
+        "points_to_action": "生成 material_admission_status 和 codex_query_lane=coordinate 的入池凭证",
+        "note": "04 凭证是材料池前门。"
+      },
+      {
+        "machine_step": "HLM-AI-11 材料池以后公共流程",
+        "points_to_address": "材料池以后公共流程",
+        "points_to_action": "进入材料池四态、精读材料词、写作前追证和写作条件判断",
+        "note": "坐标查询只负责把材料送到公共后半段。"
+      },
+      {
+        "machine_step": "HLM-AI-12 经验写回与复原点维护",
+        "points_to_address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000D_经验复盘写回_新窗口强制入口.md",
+        "points_to_action": "把验证过的方法写回 000C/000E_B/总账/137/138 等正确层",
+        "note": "这是工程会学习和恢复的维护门。"
+      }
+    ]
+  },
+  "eight_step_thirteen_step_unified_mapping": [
+    {
+      "eight_step": "入场前置",
+      "machine_steps": [
+        "HLM-AI-00",
+        "HLM-AI-01"
+      ],
+      "meaning": "八步法开始前的工程入口环境。",
+      "address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000C_进入坐标查询_新窗口强制入口.md"
+    },
+    {
+      "eight_step": "1 读题",
+      "machine_steps": [
+        "HLM-AI-02"
+      ],
+      "meaning": "自然问题转成题目中心、查询词策略、主查词和材料升级条件。",
+      "address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000C_进入坐标查询_新窗口强制入口.md"
+    },
+    {
+      "eight_step": "2 判型",
+      "machine_steps": [
+        "HLM-AI-03"
+      ],
+      "meaning": "进入000E_B选择模板和查询逻辑策略。",
+      "address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000E_B_坐标工程查询逻辑策略经验模板组_新窗口学习入口.md"
+    },
+    {
+      "eight_step": "3 拆对象",
+      "machine_steps": [
+        "HLM-AI-02",
+        "HLM-AI-03"
+      ],
+      "meaning": "定强复合、定词角色、拆子问题队列。",
+      "address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000C_进入坐标查询_新窗口强制入口.md ; /Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000E_B_坐标工程查询逻辑策略经验模板组_新窗口学习入口.md"
+    },
+    {
+      "eight_step": "4 定主轴",
+      "machine_steps": [
+        "HLM-AI-03",
+        "HLM-AI-05"
+      ],
+      "meaning": "结构转化表落到查询编码和中心库主轴。",
+      "address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000E_B_坐标工程查询逻辑策略经验模板组_新窗口学习入口.md ; /Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/红楼梦坐标查询中心库_CH001_120.sqlite"
+    },
+    {
+      "eight_step": "5 归一",
+      "machine_steps": [
+        "HLM-AI-04"
+      ],
+      "meaning": "人物、别名、称谓和对象归一。",
+      "address": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/红楼梦坐标查询中心库_CH001_120.sqlite"
+    },
+    {
+      "eight_step": "6 交叉",
+      "machine_steps": [
+        "HLM-AI-05",
+        "HLM-AI-06",
+        "HLM-AI-07"
+      ],
+      "meaning": "中心库命中、专项投影、距离共场交集。",
+      "address": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/红楼梦坐标查询中心库_CH001_120.sqlite ; /Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/话语坐标投影库/红楼梦话语坐标投影总库_CH001_120.sqlite"
+    },
+    {
+      "eight_step": "7 放宽",
+      "machine_steps": [
+        "HLM-AI-07"
+      ],
+      "meaning": "按证据层级放宽并记录边界。",
+      "address": "/Users/yu/Documents/Codex/2026-06-21/new-chat-3/outputs/红楼梦正式取材专库/00_双中心取材总库/02_坐标查询中心库/红楼梦坐标查询中心库_CH001_120.sqlite"
+    },
+    {
+      "eight_step": "8 回原文",
+      "machine_steps": [
+        "HLM-AI-08",
+        "HLM-AI-09",
+        "HLM-AI-10",
+        "HLM-AI-11"
+      ],
+      "meaning": "原文裁判、取材包、04入池凭证、材料池后半段。",
+      "address": "atom_code / scene_id / segment_no ; /Users/yu/Documents/Codex/2026-06-03/notion-3-crv/work/formal_honglou_coordinate_material_pack_cli.py"
+    },
+    {
+      "eight_step": "后置维护",
+      "machine_steps": [
+        "HLM-AI-12"
+      ],
+      "meaning": "经验写回和复原点维护。",
+      "address": "/Users/yu/Documents/Codex/2026-06-03/notion-3-crv/000D_经验复盘写回_新窗口强制入口.md"
+    }
+  ]
+}
