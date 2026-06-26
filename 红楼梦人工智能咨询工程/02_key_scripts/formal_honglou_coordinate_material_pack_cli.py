@@ -454,7 +454,7 @@ def render_admission_voucher_markdown(voucher: dict[str, Any]) -> str:
         "- 后续流程：材料池四态判定 -> 精读材料词 -> 写作前原文追证",
         "- 硬阻断：本凭证门不是最终答案。",
         "",
-        "## 坐标工程八步状态",
+        "## 坐标工程六步证据状态",
         "",
         f"- 入口令牌：{clean(eight_step_status.get('query_head'))}",
         f"- 坐标主线：{' -> '.join(eight_step_status.get('coordinate_spine') or [])}",
