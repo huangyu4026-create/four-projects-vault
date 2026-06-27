@@ -27,4 +27,4 @@
 window.WORK_LIFE_CLOUD_SYNC_URL = "https://script.google.com/macros/s/xxxxx/exec";
 ```
 
-这个版本只保存一份很小的 JSON 文件，适合 2000 字以内的共享计划。
+这个版本用 Google Apps Script 的脚本属性分块保存一份共享 JSON，不依赖电脑后台，也不依赖 Google Drive 文件。适合三部手机共用轻量计划，并能容纳当前随包带入的原计划内容。
