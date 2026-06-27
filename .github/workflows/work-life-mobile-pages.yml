@@ -25,6 +25,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          sparse-checkout: work-life-mobile
+          sparse-checkout-cone-mode: true
 
       - name: Prepare static site
         run: |
