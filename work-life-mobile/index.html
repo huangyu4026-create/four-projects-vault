@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#2f6f62" />
   <title>清风显化 · 本身即美 生活本身</title>
   <link rel="manifest" href="./manifest.webmanifest" />
+  <script src="./cloud-config.js"></script>
   <style>
     :root {
       --bg: #eef1ed;
@@ -758,6 +759,8 @@
     const stateApi = `${recallApi}/api/state`;
     const stateHostCacheKey = "workCockpitStateHost";
     const stateFallbackKey = "workCockpitStateFallback";
+    const cloudSyncUrlKey = "workLifeCloudSyncUrl";
+    const cloudClientIdKey = "workLifeCloudClientId";
     const bundledOriginalStateUrl = "./original-work-cockpit-state.json";
     const bundledOriginalStateVersion = "20260617-072430";
     const bundledOriginalStateImportKey = "workCockpitBundledOriginalImportVersion";
@@ -892,6 +895,7 @@
     const stateSyncChannel = typeof BroadcastChannel === "function" ? new BroadcastChannel("workCockpitStateSync") : null;
     const pollingEntries = new Set();
     const $ = id => document.getElementById(id);
+    let cloudSyncLastAt = 0;
 
     function load() {
       try { return JSON.parse(localStorage.getItem(storageKey)) || structuredClone(seed); }
@@ -902,7 +906,7 @@
     let stateSyncPending = false;
 
     function queueStateSync() {
-      if (STANDALONE_MOBILE_MODE) return;
+      if (STANDALONE_MOBILE_MODE && !isCloudSyncEnabled()) return;
       stateSyncPending = true;
       if (stateSyncPushTimer) clearTimeout(stateSyncPushTimer);
       stateSyncPushTimer = setTimeout(() => {
@@ -913,7 +917,7 @@
     }
 
     async function flushPendingStateSync() {
-      if (STANDALONE_MOBILE_MODE) return true;
+      if (STANDALONE_MOBILE_MODE && !isCloudSyncEnabled()) return true;
       if (!stateSyncPending) return;
       if (stateSyncPushTimer) {
         clearTimeout(stateSyncPushTimer);
@@ -921,6 +925,148 @@
       }
       stateSyncPending = false;
       await (stateSyncPromise = syncStateToServer().catch(() => false));
+    }
+
+    function getCloudClientId() {
+      let id = localStorage.getItem(cloudClientIdKey);
+      if (id) return id;
+      id = `phone-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      localStorage.setItem(cloudClientIdKey, id);
+      return id;
+    }
+
+    function configuredCloudSyncUrl() {
+      const queryUrl = new URLSearchParams(location.search).get("cloud");
+      if (queryUrl && /^https?:\/\//i.test(queryUrl.trim())) {
+        localStorage.setItem(cloudSyncUrlKey, queryUrl.trim());
+      }
+      const configUrl = String(window.WORK_LIFE_CLOUD_SYNC_URL || "").trim();
+      const storedUrl = String(localStorage.getItem(cloudSyncUrlKey) || "").trim();
+      return (configUrl || storedUrl).replace(/\/$/, "");
+    }
+
+    function isCloudSyncEnabled() {
+      return /^https?:\/\//i.test(configuredCloudSyncUrl());
+    }
+
+    function cloudUrl(action) {
+      const endpoint = configuredCloudSyncUrl();
+      if (!endpoint) return "";
+      const url = new URL(endpoint);
+      url.searchParams.set("action", action);
+      url.searchParams.set("client", getCloudClientId());
+      url.searchParams.set("t", String(Date.now()));
+      return url.toString();
+    }
+
+    function taskMergeKey(task) {
+      return String(task?.id || `${task?.name || ""}||${task?.due || ""}`);
+    }
+
+    function mergeSharedTask(remoteTask, localTask) {
+      const next = { ...(remoteTask || {}), ...(localTask || {}) };
+      if (remoteTask?.status === "已完成" || localTask?.status === "已完成") {
+        next.status = "已完成";
+        next.completedAt = localTask?.completedAt || remoteTask?.completedAt || iso(today);
+      } else if (remoteTask?.status === "已取消" || localTask?.status === "已取消") {
+        next.status = "已取消";
+      }
+      return next;
+    }
+
+    function mergeSharedState(remoteState, localState) {
+      const remote = normalize(remoteState || {});
+      const local = normalize(localState || {});
+      const taskMap = new Map();
+      remote.tasks.forEach(task => taskMap.set(taskMergeKey(task), task));
+      local.tasks.forEach(task => {
+        const key = taskMergeKey(task);
+        const existing = taskMap.get(key);
+        taskMap.set(key, existing ? mergeSharedTask(existing, task) : task);
+      });
+      remote.tasks = [...taskMap.values()].sort((a, b) => {
+        return String(a.due || "").localeCompare(String(b.due || "")) || String(a.name || "").localeCompare(String(b.name || ""));
+      });
+
+      const messageMap = new Map();
+      remote.messages.forEach(msg => messageMap.set(String(msg.id || msg.entryId || msg.text || Math.random()), msg));
+      local.messages.forEach(msg => {
+        const key = String(msg.id || msg.entryId || msg.text || Math.random());
+        messageMap.set(key, { ...(messageMap.get(key) || {}), ...msg });
+      });
+      remote.messages = [...messageMap.values()].sort((a, b) => String(b.time || "").localeCompare(String(a.time || "")));
+
+      remote.dailyCheckin = normalizeDailyCheckin({
+        ...(remote.dailyCheckin || {}),
+        ...(local.dailyCheckin || {}),
+        records: {
+          ...(remote.dailyCheckin?.records || {}),
+          ...(local.dailyCheckin?.records || {})
+        },
+        history: {
+          ...(remote.dailyCheckin?.history || {}),
+          ...(local.dailyCheckin?.history || {})
+        }
+      });
+      return remote;
+    }
+
+    async function fetchCloudState() {
+      if (!isCloudSyncEnabled()) return null;
+      const res = await fetch(cloudUrl("get"), { cache: "no-store", redirect: "follow" });
+      if (!res.ok) throw new Error(`云端读取失败：HTTP ${res.status}`);
+      const body = await res.json().catch(() => null);
+      if (body?.ok === false) throw new Error(body.error || "云端返回失败");
+      const state = body?.state && typeof body.state === "object" ? body.state : null;
+      return state ? { state, updatedAt: body.updatedAt || "" } : null;
+    }
+
+    async function postCloudState(state) {
+      if (!isCloudSyncEnabled()) return null;
+      const payload = {
+        action: "save",
+        clientId: getCloudClientId(),
+        updatedAt: new Date().toISOString(),
+        state
+      };
+      const res = await fetch(configuredCloudSyncUrl(), {
+        method: "POST",
+        cache: "no-store",
+        redirect: "follow",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error(`云端写入失败：HTTP ${res.status}`);
+      const body = await res.json().catch(() => null);
+      if (body?.ok === false) throw new Error(body.error || "云端保存失败");
+      return body;
+    }
+
+    async function syncStateToCloud() {
+      const remote = await fetchCloudState().catch(() => null);
+      if (remote?.state) data = mergeSharedState(remote.state, data);
+      const saved = await postCloudState(data);
+      if (saved?.state) data = mergeSharedState(saved.state, data);
+      cloudSyncLastAt = Date.now();
+      localStorage.setItem(storageKey, JSON.stringify(data));
+      writeLocalStateFallback();
+      emitStateSyncPulse();
+      if ($("syncStatus")) {
+        $("syncStatus").className = "service-status ok";
+        $("syncStatus").textContent = `已同步到云端：${data.tasks.length} 项。${nowClock()}`;
+      }
+      return true;
+    }
+
+    async function refreshStateFromCloud() {
+      const remote = await fetchCloudState();
+      if (!remote?.state) return false;
+      data = mergeSharedState(remote.state, data);
+      cloudSyncLastAt = Date.now();
+      localStorage.setItem(storageKey, JSON.stringify(data));
+      writeLocalStateFallback();
+      emitStateSyncPulse();
+      return true;
     }
 
     function todayDate() {
@@ -1153,6 +1299,7 @@
 
     async function syncStateToServer() {
       if (STANDALONE_MOBILE_MODE) {
+        if (isCloudSyncEnabled()) return syncStateToCloud();
         writeLocalStateFallback();
         emitStateSyncPulse();
         return true;
@@ -1196,6 +1343,7 @@
 
     async function refreshStateFromServer() {
       if (STANDALONE_MOBILE_MODE) {
+        if (isCloudSyncEnabled()) return refreshStateFromCloud();
         const snapshot = data;
         data = mergePendingLocalTasks(load(), snapshot);
         localStorage.setItem(storageKey, JSON.stringify(data));
@@ -1223,7 +1371,11 @@
       return true;
     }
     async function readBackStateFromServer() {
-      if (STANDALONE_MOBILE_MODE) return data;
+      if (STANDALONE_MOBILE_MODE) {
+        if (!isCloudSyncEnabled()) return data;
+        const remote = await fetchCloudState().catch(() => null);
+        return remote?.state || data;
+      }
       if (!isHttpBase(stateApiBase)) {
         return null;
       }
@@ -1239,7 +1391,7 @@
       localStorage.setItem(storageKey, JSON.stringify(data));
       writeLocalStateFallback();
       emitStateSyncPulse();
-      if (!STANDALONE_MOBILE_MODE) queueStateSync();
+      queueStateSync();
     }
     function loadTaskCompletionLocks() {
       try {
@@ -1513,7 +1665,9 @@
       if (!el) return;
       if (STANDALONE_MOBILE_MODE) {
         el.className = "service-status ok";
-        el.textContent = "同步检测：手机独立保存，不等待电脑编号。";
+        el.textContent = isCloudSyncEnabled()
+          ? `云同步：已配置，三部手机可共用。${cloudSyncLastAt ? `上次 ${new Date(cloudSyncLastAt).toLocaleTimeString("zh-CN", { hour12: false })}` : ""}`
+          : "同步检测：手机独立保存，不等待电脑编号。";
         return;
       }
       const probe = data.syncProbe || {};
@@ -1803,7 +1957,7 @@
       const clearButtons = [$("clearInboxTop"), $("clearInbox")].filter(Boolean);
       const syncStatus = $("syncStatus");
       const oldLabels = clearButtons.map(btn => btn.textContent);
-      let synced = STANDALONE_MOBILE_MODE;
+      let synced = STANDALONE_MOBILE_MODE && !isCloudSyncEnabled();
       clearButtons.forEach(btn => {
         btn.disabled = true;
         btn.textContent = "清空中…";
@@ -1818,7 +1972,7 @@
       localStorage.setItem(inboxAutoFillDisableKey, "1");
       localStorage.setItem(storageKey, JSON.stringify(data));
       save();
-      if (!STANDALONE_MOBILE_MODE) {
+      if (!STANDALONE_MOBILE_MODE || isCloudSyncEnabled()) {
         try {
           synced = await syncStateToServer();
           if (!synced && syncStatus) {
@@ -1928,19 +2082,31 @@
       const tasksBtn = $("refreshReceipts");
       const syncStatus = $("syncStatus");
       if (STANDALONE_MOBILE_MODE) {
-        const snapshot = data;
-        data = mergePendingLocalTasks(load(), snapshot);
-        localStorage.setItem(storageKey, JSON.stringify(data));
-        if (syncStatus) {
-          syncStatus.className = "service-status ok";
-          syncStatus.textContent = `已刷新手机本地数据：${data.tasks.length} 项。${nowClock()}`;
-        }
         if (btn) {
           btn.disabled = true;
-          btn.textContent = `已刷新 ${data.tasks.length} 项`;
+          btn.textContent = "刷新中…";
+        }
+        try {
+          const ok = await refreshStateFromServer();
+          if (syncStatus) {
+            syncStatus.className = ok ? "service-status ok" : "service-status warn";
+            syncStatus.textContent = isCloudSyncEnabled()
+              ? (ok ? `已从云端刷新：${data.tasks.length} 项。${nowClock()}` : `云端暂不可用，仍使用本机数据。${nowClock()}`)
+              : `已刷新手机本地数据：${data.tasks.length} 项。${nowClock()}`;
+          }
+          if (btn) btn.textContent = ok ? `已刷新 ${data.tasks.length} 项` : "使用本机数据";
+        } catch (err) {
+          if (syncStatus) {
+            syncStatus.className = "service-status warn";
+            syncStatus.textContent = `刷新失败，仍使用本机数据：${err.message || err}。${nowClock()}`;
+          }
+          if (btn) btn.textContent = "刷新失败";
+        } finally {
           setTimeout(() => {
-            btn.disabled = false;
-            btn.textContent = label || "刷新最新状态";
+            if (btn) {
+              btn.disabled = false;
+              btn.textContent = label || "刷新最新状态";
+            }
           }, 1100);
         }
         render();
@@ -2433,7 +2599,9 @@
     async function checkServiceHealth() {
       if (STANDALONE_MOBILE_MODE) {
         $("serviceStatus").className = "service-status ok";
-        $("serviceStatus").textContent = `手机独立模式正常：计划和打卡保存在本机。${nowClock()}`;
+        $("serviceStatus").textContent = isCloudSyncEnabled()
+          ? `云同步模式正常：计划和打卡会保存到同一份云端数据。${nowClock()}`
+          : `手机独立模式正常：计划和打卡保存在本机。${nowClock()}`;
         return true;
       }
       try {
