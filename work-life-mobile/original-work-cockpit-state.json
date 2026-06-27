@@ -1,0 +1,584 @@
+{
+  "categories": [
+    {
+      "id": "xiaohongshu",
+      "name": "小红书",
+      "desc": "触发词类型：小红书。选题、脚本、拍摄、剪辑、发布、复盘。",
+      "tone": "内容"
+    },
+    {
+      "id": "qingfeng",
+      "name": "清风别墅",
+      "desc": "触发词类型：清风别墅。场地、素材、别墅相关安排。",
+      "tone": "清风"
+    },
+    {
+      "id": "life",
+      "name": "生活",
+      "desc": "触发词类型：生活。家务、日常、生活安排。",
+      "tone": "生活"
+    },
+    {
+      "id": "study",
+      "name": "学习",
+      "desc": "触发词类型：学习。课程、读书、研究、笔记。",
+      "tone": "学习"
+    },
+    {
+      "id": "outside",
+      "name": "外出",
+      "desc": "触发词类型：外出。出门、行程、路上安排。",
+      "tone": "外出"
+    },
+    {
+      "id": "other",
+      "name": "其他",
+      "desc": "触发词类型：其他。暂时无法归入前五类的事务。",
+      "tone": "其他"
+    }
+  ],
+  "projects": [
+    {
+      "id": "p1",
+      "name": "数字生命工程",
+      "desc": "脚本、结构、输出、同步与复盘。",
+      "type": "数字生命"
+    },
+    {
+      "id": "p2",
+      "name": "小红书视频工程",
+      "desc": "选题、脚本、素材、剪辑、发布、数据复盘。",
+      "type": "内容制作"
+    },
+    {
+      "id": "p3",
+      "name": "清风别墅工程",
+      "desc": "场地、外出生活、内容素材与执行安排。",
+      "type": "运营"
+    }
+  ],
+  "people": [
+    {
+      "id": "u1",
+      "name": "帅哥"
+    },
+    {
+      "id": "u2",
+      "name": "鸽伟"
+    },
+    {
+      "id": "u3",
+      "name": "经纬"
+    },
+    {
+      "id": "u0",
+      "name": "待指定"
+    }
+  ],
+  "messages": [
+    {
+      "id": "m51z45sg",
+      "entryId": "WP-20260617-072428",
+      "status": "排队中",
+      "categoryIds": [
+        "xiaohongshu"
+      ],
+      "categoryId": "xiaohongshu",
+      "projectId": "p1",
+      "time": "2026-06-17 07:24:28",
+      "text": "拍豆角焖面",
+      "receipt": "已正式收件，编号 WP-20260617-072428。当前在排队中，等待 Codex 接手。",
+      "resultHtml": "",
+      "resultSummary": ""
+    },
+    {
+      "id": "md3fmrp0",
+      "entryId": "WP-20260617-072327",
+      "status": "排队中",
+      "categoryIds": [
+        "xiaohongshu"
+      ],
+      "categoryId": "xiaohongshu",
+      "projectId": "p1",
+      "time": "2026-06-17 07:23:27",
+      "text": "拍湖上瑜伽",
+      "receipt": "已正式收件，编号 WP-20260617-072327。当前在排队中，等待 Codex 接手。",
+      "resultHtml": "",
+      "resultSummary": ""
+    },
+    {
+      "id": "m1okmllp",
+      "entryId": "WP-20260617-072318",
+      "status": "排队中",
+      "categoryIds": [
+        "xiaohongshu"
+      ],
+      "categoryId": "xiaohongshu",
+      "projectId": "p1",
+      "time": "2026-06-17 07:23:18",
+      "text": "拍吃冰棍",
+      "receipt": "已正式收件，编号 WP-20260617-072318。当前在排队中，等待 Codex 接手。",
+      "resultHtml": "",
+      "resultSummary": ""
+    },
+    {
+      "id": "mcdchn32",
+      "entryId": "WP-20260617-072313",
+      "status": "排队中",
+      "categoryIds": [
+        "xiaohongshu"
+      ],
+      "categoryId": "xiaohongshu",
+      "projectId": "p1",
+      "time": "2026-06-17 07:23:13",
+      "text": "拍紫豆子",
+      "receipt": "已正式收件，编号 WP-20260617-072313。当前在排队中，等待 Codex 接手。",
+      "resultHtml": "",
+      "resultSummary": ""
+    }
+  ],
+  "tasks": [
+    {
+      "id": "tfp26i4t",
+      "categoryIds": [
+        "xiaohongshu"
+      ],
+      "categoryId": "xiaohongshu",
+      "category": "小红书",
+      "projectId": "p1",
+      "name": "拍豆角焖面",
+      "ownerId": "u0",
+      "type": "运营",
+      "timeType": "",
+      "status": "待办",
+      "priority": "P2普通",
+      "start": "2026-06-17",
+      "due": "2026-06-17",
+      "done": "由工作推进总驾驶舱生成，需确认完成标准",
+      "next": "按时间计划推进",
+      "reason": "本地规则离线生成",
+      "completedAt": "",
+      "sourceEntryId": "WP-20260617-072428"
+    },
+    {
+      "id": "ta1x0ugw",
+      "categoryIds": [
+        "xiaohongshu"
+      ],
+      "categoryId": "xiaohongshu",
+      "category": "小红书",
+      "projectId": "p1",
+      "name": "拍湖上瑜伽",
+      "ownerId": "u0",
+      "type": "运营",
+      "timeType": "",
+      "status": "待办",
+      "priority": "P2普通",
+      "start": "2026-06-17",
+      "due": "2026-06-17",
+      "done": "由工作推进总驾驶舱生成，需确认完成标准",
+      "next": "按时间计划推进",
+      "reason": "本地规则离线生成",
+      "completedAt": "",
+      "sourceEntryId": "WP-20260617-072327"
+    },
+    {
+      "id": "tndqu0rm",
+      "categoryIds": [
+        "xiaohongshu"
+      ],
+      "categoryId": "xiaohongshu",
+      "category": "小红书",
+      "projectId": "p1",
+      "name": "拍吃冰棍",
+      "ownerId": "u0",
+      "type": "运营",
+      "timeType": "",
+      "status": "待办",
+      "priority": "P2普通",
+      "start": "2026-06-17",
+      "due": "2026-06-17",
+      "done": "由工作推进总驾驶舱生成，需确认完成标准",
+      "next": "按时间计划推进",
+      "reason": "本地规则离线生成",
+      "completedAt": "",
+      "sourceEntryId": "WP-20260617-072318"
+    },
+    {
+      "id": "tizfmago",
+      "categoryIds": [
+        "xiaohongshu"
+      ],
+      "categoryId": "xiaohongshu",
+      "category": "小红书",
+      "projectId": "p1",
+      "name": "拍紫豆子",
+      "ownerId": "u0",
+      "type": "运营",
+      "timeType": "",
+      "status": "待办",
+      "priority": "P2普通",
+      "start": "2026-06-17",
+      "due": "2026-06-17",
+      "done": "由工作推进总驾驶舱生成，需确认完成标准",
+      "next": "按时间计划推进",
+      "reason": "本地规则离线生成",
+      "completedAt": "",
+      "sourceEntryId": "WP-20260617-072313"
+    },
+    {
+      "id": "tg8polem",
+      "categoryIds": [
+        "xiaohongshu"
+      ],
+      "categoryId": "xiaohongshu",
+      "category": "小红书",
+      "projectId": "p1",
+      "name": "今天的工作任务就是楼下玻璃房的玻璃的细节卫生，还有摆放的一些东西，床上的一些东西就是外面这个区域可以达到拍摄的要求，把树种了，有",
+      "ownerId": "u0",
+      "type": "拍摄",
+      "timeType": "",
+      "status": "待办",
+      "priority": "P1重要",
+      "start": "2026-06-17",
+      "due": "2026-06-17",
+      "done": "由工作推进总驾驶舱生成，需确认完成标准",
+      "next": "按时间计划推进",
+      "reason": "本地规则离线生成",
+      "completedAt": "",
+      "sourceEntryId": "WP-20260617-065923"
+    },
+    {
+      "id": "tkwxf9nt",
+      "categoryIds": [
+        "xiaohongshu"
+      ],
+      "categoryId": "xiaohongshu",
+      "category": "小红书",
+      "projectId": "p1",
+      "name": "今天请把南岳的那个到场的礼物就是短裤和食品给他寄上去",
+      "ownerId": "u0",
+      "type": "运营",
+      "timeType": "",
+      "status": "待办",
+      "priority": "P2普通",
+      "start": "2026-06-17",
+      "due": "2026-06-17",
+      "done": "由工作推进总驾驶舱生成，需确认完成标准",
+      "next": "按时间计划推进",
+      "reason": "本地规则离线生成",
+      "completedAt": "",
+      "sourceEntryId": "WP-20260617-065416"
+    },
+    {
+      "id": "tilv2du3",
+      "categoryIds": [
+        "qingfeng"
+      ],
+      "categoryId": "qingfeng",
+      "category": "清风别墅",
+      "projectId": "p1",
+      "name": "明天早上嗯，9:15下楼的时候给2楼花草浇水",
+      "ownerId": "u0",
+      "type": "运营",
+      "timeType": "",
+      "status": "已完成",
+      "priority": "P1重要",
+      "start": "2026-06-16",
+      "due": "2026-06-17",
+      "done": "由工作推进总驾驶舱生成，需确认完成标准",
+      "next": "按时间计划推进",
+      "reason": "本地规则离线生成",
+      "completedAt": "2026-06-16",
+      "sourceEntryId": "WP-20260616-171331"
+    },
+    {
+      "id": "tfc3e127",
+      "categoryIds": [
+        "xiaohongshu"
+      ],
+      "categoryId": "xiaohongshu",
+      "category": "小红书",
+      "projectId": "p2",
+      "name": "明天会上考虑一下，把那个纸扁豆是否可以拍一个那个就是采摘和做饭的小视频做出烟火气了",
+      "ownerId": "u0",
+      "type": "剪辑",
+      "timeType": "",
+      "status": "待办",
+      "priority": "P2普通",
+      "start": "2026-06-16",
+      "due": "2026-06-17",
+      "done": "由工作推进总驾驶舱生成，需确认完成标准",
+      "next": "按时间计划推进",
+      "reason": "本地规则离线生成",
+      "completedAt": "",
+      "sourceEntryId": "WP-20260616-152610"
+    },
+    {
+      "id": "tnak936h",
+      "categoryIds": [
+        "xiaohongshu"
+      ],
+      "categoryId": "xiaohongshu",
+      "category": "小红书",
+      "projectId": "p1",
+      "name": "今天小哥要写一篇毛笔的道德经",
+      "ownerId": "u1",
+      "type": "运营",
+      "timeType": "",
+      "status": "待办",
+      "priority": "P2普通",
+      "start": "2026-06-16",
+      "due": "2026-06-17",
+      "done": "由工作推进总驾驶舱生成，需确认完成标准",
+      "next": "按时间计划推进",
+      "reason": "本地规则离线生成",
+      "completedAt": "",
+      "sourceEntryId": "WP-20260616-144609"
+    },
+    {
+      "id": "trj0w7u6",
+      "categoryIds": [
+        "xiaohongshu"
+      ],
+      "categoryId": "xiaohongshu",
+      "category": "小红书",
+      "projectId": "p1",
+      "name": "和小哥一起把那个第二阶段的录音的嗯事情往前推一步，要做一下口播的录入测试，找一下感觉，为下一个笔记中口播做准备",
+      "ownerId": "u1",
+      "type": "拍摄",
+      "timeType": "",
+      "status": "待办",
+      "priority": "P2普通",
+      "start": "2026-06-16",
+      "due": "2026-06-18",
+      "done": "完成口播试录音、设备参数调整，并形成下一期口播视频制作方式",
+      "next": "准备设备并安排试录",
+      "reason": "本地规则离线生成",
+      "completedAt": "",
+      "sourceEntryId": "offline-trj0w7u6"
+    },
+    {
+      "id": "t9c5gijd",
+      "categoryIds": [
+        "xiaohongshu",
+        "outside"
+      ],
+      "categoryId": "xiaohongshu",
+      "category": "小红书",
+      "projectId": "p1",
+      "name": "另外就是这个星期四以前要把这个护照办一个新的，小哥的护照要问询问去英国怎么办理",
+      "ownerId": "u1",
+      "type": "沟通",
+      "timeType": "",
+      "status": "待办",
+      "priority": "P2普通",
+      "start": "2026-06-16",
+      "due": "2026-06-18",
+      "done": "明确办理路径、材料清单、预约方式和下一步时间",
+      "next": "按时间计划推进",
+      "reason": "本地规则离线生成",
+      "completedAt": "",
+      "sourceEntryId": "offline-t9c5gijd"
+    },
+    {
+      "id": "tp250jj5",
+      "categoryIds": [
+        "xiaohongshu",
+        "outside"
+      ],
+      "categoryId": "xiaohongshu",
+      "category": "小红书",
+      "projectId": "p1",
+      "name": "明天要打个电话咨询一下我同学这一件事情，就是办护照的这个事",
+      "ownerId": "u0",
+      "type": "沟通",
+      "timeType": "",
+      "status": "已完成",
+      "priority": "P1重要",
+      "start": "2026-06-16",
+      "due": "2026-06-17",
+      "done": "明确办理路径、材料清单、预约方式和下一步时间",
+      "next": "先咨询办理流程",
+      "reason": "本地规则离线生成",
+      "completedAt": "2026-06-16",
+      "sourceEntryId": "offline-tp250jj5"
+    },
+    {
+      "id": "tpkt31lr",
+      "categoryIds": [
+        "xiaohongshu",
+        "life"
+      ],
+      "categoryId": "xiaohongshu",
+      "category": "小红书",
+      "projectId": "p1",
+      "name": "下个礼拜一之前要把给姐姐关于龙海港龙安港汇城，龙安港汇城的这个房子的转让书写好给他",
+      "ownerId": "u0",
+      "type": "文案",
+      "timeType": "",
+      "status": "已完成",
+      "priority": "P2普通",
+      "start": "2026-06-16",
+      "due": "2026-06-18",
+      "done": "整理转让书并交给姐姐确认",
+      "next": "整理材料并发给姐姐",
+      "reason": "本地规则离线生成",
+      "completedAt": "2026-06-17",
+      "sourceEntryId": "offline-tpkt31lr"
+    },
+    {
+      "id": "tudtvanj",
+      "categoryIds": [
+        "xiaohongshu",
+        "life"
+      ],
+      "categoryId": "xiaohongshu",
+      "category": "小红书",
+      "projectId": "p1",
+      "name": "还有呢就是啊这个下个礼拜一之前吧，要不要给姐姐的关于龙安港汇，这个龙安港汇城的房子的这个啊转让书给他",
+      "ownerId": "u0",
+      "type": "文案",
+      "timeType": "后天",
+      "status": "已完成",
+      "priority": "P1重要",
+      "start": "2026-06-14",
+      "due": "2026-06-16",
+      "done": "整理转让书并交给姐姐确认",
+      "next": "整理材料并发给姐姐",
+      "reason": "桌面入口写入工作事务推进驾驶舱",
+      "completedAt": "2026-06-14"
+    },
+    {
+      "id": "txpepki1",
+      "categoryIds": [
+        "xiaohongshu",
+        "life",
+        "outside"
+      ],
+      "categoryId": "xiaohongshu",
+      "category": "小红书",
+      "projectId": "p1",
+      "name": "另外就是啊这个星期四以前要把这个啊啊我的这个护照新办一个，小哥的护照要询问去英国的怎么办理？明天要打个电话咨询一下我的同学这一件",
+      "ownerId": "u1",
+      "type": "沟通",
+      "timeType": "明天",
+      "status": "已完成",
+      "priority": "P1重要",
+      "start": "2026-06-14",
+      "due": "2026-06-15",
+      "done": "明确办理路径、材料清单、预约方式和下一步时间",
+      "next": "先咨询办理流程",
+      "reason": "桌面入口写入工作事务推进驾驶舱",
+      "completedAt": "2026-06-14"
+    },
+    {
+      "id": "t5a4q0sj",
+      "categoryIds": [
+        "xiaohongshu",
+        "life"
+      ],
+      "categoryId": "xiaohongshu",
+      "category": "小红书",
+      "projectId": "p1",
+      "name": "测试，找一下感觉，为下一个笔记做口播做准备",
+      "ownerId": "u0",
+      "type": "拍摄",
+      "timeType": "后天",
+      "status": "已完成",
+      "priority": "P2普通",
+      "start": "2026-06-14",
+      "due": "2026-06-16",
+      "done": "完成口播试录音、设备参数调整，并形成下一期口播视频制作方式",
+      "next": "准备设备并安排试录",
+      "reason": "桌面入口写入工作事务推进驾驶舱",
+      "completedAt": "2026-06-14"
+    },
+    {
+      "id": "t6ncw2f3",
+      "categoryIds": [
+        "xiaohongshu",
+        "life"
+      ],
+      "categoryId": "xiaohongshu",
+      "category": "小红书",
+      "projectId": "p2",
+      "name": "明天要和小哥一起把那个第二阶段的视频录音的事往前推进一步，要做一下口播的录入",
+      "ownerId": "u1",
+      "type": "拍摄",
+      "timeType": "明天",
+      "status": "已完成",
+      "priority": "P1重要",
+      "start": "2026-06-14",
+      "due": "2026-06-15",
+      "done": "完成口播试录音、设备参数调整，并形成下一期口播视频制作方式",
+      "next": "准备设备并安排试录",
+      "reason": "桌面入口写入工作事务推进驾驶舱",
+      "completedAt": "2026-06-14"
+    }
+  ],
+  "notes": [
+    {
+      "id": "n9d9gj5d",
+      "title": "明天要和小哥一起把那个第二阶段的视频录音的事往前",
+      "type": "语音",
+      "date": "2026-06-14",
+      "raw": "明天要和小哥一起把那个第二阶段的视频录音的事往前推进一步，要做一下口播的录入。测试，找一下感觉，为下一个笔记做口播做准备。另外就是啊这个星期四以前要把这个啊啊我的这个护照新办一个，小哥的护照要询问去英国的怎么办理？明天要打个电话咨询一下我的同学这一件事情。还有呢就是啊这个下个礼拜一之前吧，要不要给姐姐的关于龙安港汇，这个龙安港汇城的房子的这个啊转让书给他。啊就是这么几件事情，请录入计划。",
+      "status": "已提取任务",
+      "taskIds": [
+        "t6ncw2f3",
+        "t5a4q0sj",
+        "txpepki1",
+        "tudtvanj"
+      ]
+    }
+  ],
+  "assets": [],
+  "pushes": [],
+  "dailyCheckin": {
+    "lastDate": "2026-06-17",
+    "records": {
+      "2026-06-16": {
+        "coldShower": true,
+        "brewCoffee": true,
+        "morningStandup": true,
+        "villa": true,
+        "dinner": true,
+        "publishNotes": true,
+        "shoot": true,
+        "gym": true
+      },
+      "2026-06-17": {}
+    },
+    "history": {
+      "2026-06-16": {
+        "date": "2026-06-16",
+        "doneCount": 8,
+        "totalCount": 13,
+        "completionRate": 62,
+        "isFull": false,
+        "missingIds": [
+          "红楼梦学习（30 分钟）",
+          "阅读学习（12:30 前）",
+          "自我学习修养",
+          "白茶（30 分钟）",
+          "洗澡并准备入睡"
+        ]
+      }
+    },
+    "lastArchiveDate": "2026-06-16",
+    "analysis": {
+      "updatedAt": 0,
+      "monthly": []
+    }
+  },
+  "inboxAutoFillEnabled": false,
+  "inboxAutoClearEpoch": 1781601986948,
+  "syncProbe": {
+    "id": "SYNC-MQGNB5FG",
+    "source": "desktop",
+    "time": "2026/6/16 13:56:01",
+    "taskCount": 8,
+    "text": "刷新测试 SYNC-MQGNB5FG"
+  }
+}

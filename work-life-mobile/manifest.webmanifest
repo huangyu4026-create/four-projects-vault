@@ -1,0 +1,19 @@
+{
+  "name": "工作生活计划",
+  "short_name": "工作计划",
+  "description": "清风显化 · 本身即美 生活本身，手机独立使用的工作生活计划工具",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eef1ed",
+  "theme_color": "#2f6f62",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

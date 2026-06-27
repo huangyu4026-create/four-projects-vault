@@ -1,0 +1,2577 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#2f6f62" />
+  <title>清风显化 · 本身即美 生活本身</title>
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <style>
+    :root {
+      --bg: #eef1ed;
+      --surface: #ffffff;
+      --soft: #f7f8f5;
+      --ink: #202627;
+      --muted: #66706c;
+      --line: #dce2da;
+      --green: #2f6f62;
+      --teal: #2d6f78;
+      --red: #b9444b;
+      --amber: #a8622a;
+      --blue: #3f6797;
+      --shadow: 0 20px 60px rgba(28, 36, 34, .10);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      letter-spacing: 0;
+    }
+    button, input, textarea, select { font: inherit; color: inherit; }
+    button {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      min-height: 34px;
+      padding: 7px 10px;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+    button:hover { border-color: #aebbb5; }
+    button.primary { background: var(--green); border-color: var(--green); color: white; }
+    button.ghost { background: transparent; }
+    button.icon {
+      width: 34px;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+    }
+    button:active { transform: translateY(1px); }
+    a.btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      min-height: 34px;
+      padding: 7px 10px;
+      border-radius: 7px;
+      color: inherit;
+      text-decoration: none;
+      font-size: 13px;
+    }
+    a.btn:hover { border-color: #aebbb5; }
+    a.btn.primary { background: var(--green); border-color: var(--green); color: white; }
+    input, textarea, select {
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: white;
+      padding: 8px 10px;
+      min-height: 36px;
+    }
+    textarea { resize: vertical; line-height: 1.55; width: 100%; }
+    .desktop {
+      display: grid;
+      grid-template-columns: 268px minmax(0, 1fr) 374px;
+      min-height: 100vh;
+    }
+    .rail {
+      border-right: 1px solid var(--line);
+      background: #e6ebe5;
+      padding: 18px 14px;
+      overflow: auto;
+    }
+    .brand {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 4px 4px 16px;
+    }
+    .mark {
+      width: 58px;
+      height: 38px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: var(--green);
+      color: white;
+      font-weight: 900;
+      font-size: 12px;
+      line-height: 1.1;
+      white-space: pre-line;
+      text-align: center;
+      padding: 4px 2px;
+      box-sizing: border-box;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-size: 18px; line-height: 1.2; margin-bottom: 2px; }
+    h1 span { display: block; }
+    h2 { font-size: 24px; margin-bottom: 7px; }
+    h3 { font-size: 15px; margin-bottom: 0; }
+    .muted { color: var(--muted); }
+    .small { font-size: 12px; }
+    .section-title {
+      color: var(--muted);
+      font-size: 12px;
+      margin: 14px 7px 7px;
+    }
+    .project {
+      display: grid;
+      gap: 3px;
+      width: 100%;
+      text-align: left;
+      border-color: transparent;
+      background: transparent;
+      padding: 10px;
+      margin-bottom: 6px;
+    }
+    .project.active {
+      background: white;
+      border-color: var(--line);
+      box-shadow: 0 10px 24px rgba(28, 36, 34, .06);
+    }
+    .project strong { font-size: 14px; }
+    .count {
+      display: inline-grid;
+      place-items: center;
+      min-width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: #dde9e6;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .quick {
+      display: inline-flex;
+      gap: 0;
+    }
+    .quick button {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      border-radius: 0;
+      border-top: 0;
+      border-bottom: 0;
+      text-align: left;
+      gap: 7px;
+    }
+    .quick button.active {
+      background: var(--green);
+      color: white;
+    }
+    .main {
+      padding: 22px;
+      min-width: 0;
+      overflow: auto;
+    }
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .statusbar {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(110px, 1fr));
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .metric {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 10px;
+    }
+    .metric span { display: block; color: var(--muted); font-size: 12px; }
+    .metric strong { display: block; font-size: 20px; margin-top: 2px; }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .seg {
+      display: inline-flex;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: white;
+    }
+    .seg button {
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      white-space: nowrap;
+    }
+    .seg button.active { background: var(--green); color: white; }
+    .timeline {
+      display: grid;
+      gap: 14px;
+    }
+    .bucket {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 12px 32px rgba(28, 36, 34, .06);
+      overflow: hidden;
+    }
+    .bucket-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfa;
+    }
+    .bucket-body {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 10px;
+      padding: 12px;
+    }
+    .group {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+      min-height: 88px;
+    }
+    .group-title {
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .task {
+      display: grid;
+      grid-template-columns: 26px minmax(0, 1fr) auto;
+      gap: 8px;
+      padding: 10px;
+      border-bottom: 1px solid var(--line);
+      align-items: start;
+    }
+    .task:last-child { border-bottom: 0; }
+    .task input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      min-height: auto;
+      margin: 2px 0 0;
+      accent-color: var(--green);
+    }
+    .task strong {
+      display: block;
+      line-height: 1.35;
+      font-size: 14px;
+    }
+    .task-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 7px;
+    }
+    .task-actions {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .task-action {
+      min-height: 24px;
+      padding: 2px 8px;
+      font-size: 12px;
+      background: #f2f4f2;
+      color: #5a635f;
+      border-color: #d5ddd8;
+      transition: all 0.2s ease;
+    }
+    .task-action.is-important {
+      background: #f8d7dd;
+      color: #b4233a;
+      border-color: #f5b7c2;
+      font-weight: 700;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 12px;
+      white-space: nowrap;
+      background: #e9eeea;
+      color: #43504c;
+    }
+    .pill.red { background: #f6e1e4; color: var(--red); }
+    .pill.amber { background: #faeadb; color: var(--amber); }
+    .pill.green { background: #e0f0e7; color: var(--green); }
+    .pill.neutral { background: #efefef; color: #5a635f; }
+    .pill.blue { background: #e3edf8; color: var(--blue); }
+    .pill.teal { background: #dceeee; color: var(--teal); }
+    .panel {
+      border-left: 1px solid var(--line);
+      background: #f9faf7;
+      padding: 18px 14px;
+      overflow: auto;
+    }
+    .box {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 12px 30px rgba(28, 36, 34, .06);
+      margin-bottom: 14px;
+      overflow: hidden;
+    }
+    .box-head {
+      padding: 12px 13px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .box-body { padding: 13px; }
+    .composer {
+      display: grid;
+      gap: 9px;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+    .chip {
+      border-radius: 999px;
+      background: #edf2ef;
+      border-color: transparent;
+      min-height: 30px;
+      font-size: 12px;
+    }
+    .chip.active {
+      background: #1f6f5f;
+      color: white;
+      box-shadow: 0 4px 10px rgba(31, 111, 95, .18);
+    }
+    .category-picker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+    .category-choice {
+      border-radius: 999px;
+      min-height: 30px;
+      font-size: 12px;
+      background: white;
+    }
+    .category-choice.active {
+      background: #263d37;
+      color: white;
+      border-color: #263d37;
+    }
+    .inbox {
+      display: grid;
+      gap: 9px;
+      max-height: 280px;
+      overflow: auto;
+    }
+    .message {
+      border: 1px solid var(--line);
+      background: var(--soft);
+      border-radius: 8px;
+      padding: 9px;
+    }
+    .message p {
+      margin: 4px 0 0;
+      line-height: 1.45;
+      font-size: 13px;
+    }
+    .receipt {
+      display: grid;
+      gap: 8px;
+    }
+    .daily-checkin { display: grid; gap: 4px; }
+    .daily-checkin-row {
+      display: grid;
+      grid-template-columns: 18px minmax(0, 1fr);
+      gap: 8px;
+      align-items: start;
+      padding: 4px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .daily-checkin-row:last-child { border-bottom: 0; }
+    .daily-checkin-row.pending {
+      border-left: 2px solid var(--red);
+      padding-left: 6px;
+    }
+    .daily-checkin-today { color: #153a33; font-weight: 600; margin-bottom: 2px; }
+    .daily-checkin-progress.missing { color: var(--red); }
+    .daily-checkin-time { color: var(--muted); font-size: 11px; margin-top: 1px; }
+    .daily-checkin-title { font-size: 13px; line-height: 1.3; }
+    .daily-checkin-report { margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--line); font-size: 11px; line-height: 1.4; color: var(--muted); }
+    .daily-checkin-actions { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .daily-checkin-actions button { min-height: 28px; }
+    .service-status {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 10px;
+      background: #f4f7f4;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    .service-status.ok {
+      background: #e5f2ec;
+      color: var(--green);
+      border-color: #c5ded3;
+    }
+    .service-status.warn {
+      background: #fff4e8;
+      color: var(--amber);
+      border-color: #efd4b5;
+    }
+    .receipt-flow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 5px;
+      margin-top: 8px;
+    }
+    .receipt-step {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 3px 6px;
+      color: var(--muted);
+      background: white;
+      text-align: center;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+    .receipt-step.on {
+      background: #e5f2ec;
+      border-color: #b9d9cc;
+      color: var(--green);
+      font-weight: 700;
+    }
+    .receipt-step.fail {
+      background: #f7e4e5;
+      border-color: #e7b9be;
+      color: var(--red);
+      font-weight: 700;
+    }
+    .empty {
+      padding: 20px;
+      text-align: center;
+      color: var(--muted);
+    }
+    .drawer {
+      position: fixed;
+      inset: 0;
+      background: rgba(24, 31, 30, .24);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 10;
+    }
+    .drawer.open { display: flex; }
+    .dialog {
+      width: min(720px, 100%);
+      max-height: 92vh;
+      overflow: auto;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+    }
+    .form {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .field { display: grid; gap: 5px; }
+    .field.full { grid-column: 1 / -1; }
+    label { color: var(--muted); font-size: 12px; }
+    .hidden { display: none !important; }
+    .topbar-actions {
+      display: grid;
+      grid-template-columns: auto auto;
+      gap: 8px;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    .quick-actions-row {
+      display: inline-flex;
+      gap: 0;
+      justify-content: flex-end;
+    }
+    .status-refresh-wrap {
+      display: inline-flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .status-refresh-wrap button {
+      min-height: 34px;
+      white-space: nowrap;
+    }
+    @media (max-width: 1180px) {
+      .desktop { grid-template-columns: 230px minmax(0, 1fr); }
+      .panel { grid-column: 1 / -1; border-left: 0; border-top: 1px solid var(--line); }
+    }
+    @media (max-width: 760px) {
+      body { padding-bottom: env(safe-area-inset-bottom); }
+      .desktop { grid-template-columns: 1fr; }
+      .rail {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        padding: 12px;
+      }
+      .main { padding: 12px; }
+      .panel { padding: 12px; }
+      .statusbar { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .top { flex-direction: column; }
+      .topbar-actions,
+      .status-refresh-wrap,
+      .quick-actions-row {
+        justify-content: stretch;
+        width: 100%;
+      }
+      .topbar-actions {
+        grid-template-columns: 1fr;
+      }
+      .quick-actions-row {
+        width: 100%;
+        overflow: auto;
+      }
+      .quick-actions-row::-webkit-scrollbar { display: none; }
+      .toolbar {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 8px;
+      }
+      #searchBox {
+        grid-column: 1 / -1;
+      }
+      .seg button {
+        min-height: 38px;
+        padding: 0 10px;
+      }
+      .task { grid-template-columns: 26px minmax(0, 1fr) auto; }
+      .receipt-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .form { grid-template-columns: 1fr; }
+      .inbox { max-height: 320px; }
+      .box-head { gap: 6px; }
+      .timeline { gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="desktop">
+    <aside class="rail">
+      <div class="brand">
+        <div class="mark">清风<br>显化</div>
+        <div>
+          <h1><span>本身即美</span><span>生活本身</span></h1>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="box">
+        <div class="box-head">
+          <h3>任务入口</h3>
+          <span class="pill teal" id="activeProjectPill"></span>
+        </div>
+        <div class="box-body composer">
+          <div class="field">
+            <label>触发词类型（可多选）</label>
+            <div class="category-picker" id="messageCategories"></div>
+          </div>
+          <textarea id="messageText" rows="5" placeholder="把零散纪要、任务、提醒粘贴到这里。可以同时选择“提取纪要 / 排连续日期 / 重要提醒”，再生成计划。"></textarea>
+          <div class="chips">
+            <button class="chip" data-mode="extract">提取纪要</button>
+            <button class="chip" data-mode="continuous">排连续日期</button>
+            <button class="chip" data-mode="important">重要提醒</button>
+          </div>
+          <button id="sendMessage" class="primary">加入手机本地计划</button>
+          <div id="serviceStatus" class="service-status ok">手机独立模式：不连接电脑后台，计划保存在本机。</div>
+        </div>
+      </div>
+
+      <div class="top">
+        <div>
+          <h2 id="projectTitle" class="hidden"></h2>
+          <p id="projectDesc" class="muted hidden"></p>
+        </div>
+        <div class="topbar-actions">
+          <div class="quick-actions-row">
+          <div class="seg" id="quickActions"></div>
+          </div>
+          <div class="status-refresh-wrap">
+            <button id="hardRefreshBtn" onclick="refreshAllState()">刷新最新状态</button>
+            <button id="clearInboxTop" onclick="clearAndSyncInbox()">清空消息</button>
+            <button id="exportBtn">导出</button>
+          </div>
+          <div id="syncStatus" class="service-status ok">手机独立模式：刷新只读取本机数据。</div>
+          <div id="syncProbeStatus" class="service-status ok">同步检测：已关闭电脑后台依赖。</div>
+        </div>
+      </div>
+      <div class="statusbar" id="metrics"></div>
+        <div class="toolbar">
+          <div class="seg" id="displayMode"></div>
+          <select id="typeFilter" aria-label="分类类型"></select>
+          <select id="ownerFilter" aria-label="负责人分类"></select>
+          <input id="searchBox" placeholder="搜索任务 / 分类 / 工程 / 完成标准" />
+        </div>
+      <div class="box">
+        <div class="box-head"><h3>每日动作打卡</h3></div>
+        <div class="box-body daily-checkin" id="dailyCheckinBox"></div>
+      </div>
+      <section class="timeline" id="timeline"></section>
+    </main>
+
+    <aside class="panel">
+      <div class="box">
+        <div class="box-head">
+          <h3>消息与回执</h3>
+          <div style="display:flex;gap:8px;">
+            <button id="clearInbox" class="ghost" onclick="clearAndSyncInbox()">清空消息</button>
+          <button id="refreshReceipts" class="ghost">刷新</button>
+          </div>
+        </div>
+        <div class="box-body inbox" id="inbox"></div>
+      </div>
+
+      <div class="box">
+        <div class="box-head"><h3>本地库入口</h3></div>
+        <div class="box-body receipt">
+          <button id="localTaskLibrary" class="primary">本地任务库</button>
+          <button id="localScheduleView">本地日程视图</button>
+          <button id="localCategoryView">本地分类视图</button>
+          <button id="localReceiptView">消息回执</button>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+
+  <script>
+    if (typeof structuredClone !== "function") {
+      window.structuredClone = value => JSON.parse(JSON.stringify(value));
+    }
+    const STANDALONE_MOBILE_MODE = true;
+    const today = new Date();
+    today.setHours(9, 0, 0, 0);
+    const iso = d => {
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    };
+    const add = n => { const d = new Date(today); d.setDate(d.getDate() + n); return iso(d); };
+    const schema = {
+      statuses: ["待确认", "待办", "进行中", "等待反馈", "已完成", "已取消", "已延期"],
+      priorities: ["P0紧急", "P1重要", "P2普通", "P3低"],
+      types: ["策划", "文案", "拍摄", "剪辑", "发布", "复盘", "开发", "设计", "沟通", "运营", "其他"],
+      timeTypes: ["今天", "明天", "后天", "3天后", "4天后", "5天后", "以后", "逾期"],
+      ranges: [
+        ["7", "近期7天"],
+        ["14", "近期14天"],
+        ["30", "近期30天"],
+        ["late", "只看逾期"]
+      ]
+    };
+    const DAILY_CHECKIN_PLAN = [
+      { id: "coldShower", time: "09:00", title: "早上冷水澡冲凉" },
+      { id: "brewCoffee", time: "09:30", title: "早上冲咖啡" },
+      { id: "morningStandup", time: "09:30-11:00", title: "早间晨会（到 11:00）" },
+      { id: "hongloumeng", time: "11:00-11:30", title: "红楼梦学习（30 分钟）" },
+      { id: "publishNotes", time: "11:30-12:00", title: "各平台笔记发布" },
+      { id: "reading", time: "12:30以前", title: "阅读学习（12:30 前）" },
+      { id: "shoot", time: "12:30-15:00", title: "小红书拍摄（1 小时，自行安排）" },
+      { id: "gym", time: "15:00-16:30", title: "运动训练（1.5 小时）" },
+      { id: "villa", time: "16:30-18:00", title: "花园/别墅整理（1.5 小时）" },
+      { id: "dinner", time: "19:30-20:00", title: "开始吃饭" },
+      { id: "selfStudy", time: "21:00-24:00", title: "自我学习修养" },
+      { id: "whiteTea", time: "22:00-22:30", title: "白茶（30 分钟）" },
+      { id: "bathSleep", time: "00:00前", title: "洗澡并准备入睡" }
+    ];
+    const DAILY_CHECKIN_IDS = DAILY_CHECKIN_PLAN.map(item => item.id);
+    const seed = {
+      categories: [
+        { id: "xiaohongshu", name: "小红书", desc: "触发词类型：小红书。选题、脚本、拍摄、剪辑、发布、复盘。", tone: "内容" },
+        { id: "qingfeng", name: "清风别墅", desc: "触发词类型：清风别墅。场地、素材、别墅相关安排。", tone: "清风" },
+        { id: "life", name: "生活", desc: "触发词类型：生活。家务、日常、生活安排。", tone: "生活" },
+        { id: "study", name: "学习", desc: "触发词类型：学习。课程、读书、研究、笔记。", tone: "学习" },
+        { id: "outside", name: "外出", desc: "触发词类型：外出。出门、行程、路上安排。", tone: "外出" },
+        { id: "other", name: "其他", desc: "触发词类型：其他。暂时无法归入前五类的事务。", tone: "其他" }
+      ],
+      projects: [
+        { id: "p1", name: "数字生命工程", desc: "脚本、结构、输出、同步与复盘。", type: "数字生命" },
+        { id: "p2", name: "小红书视频工程", desc: "选题、脚本、素材、剪辑、发布、数据复盘。", type: "内容制作" },
+        { id: "p3", name: "清风别墅工程", desc: "场地、外出生活、内容素材与执行安排。", type: "运营" }
+      ],
+      people: [
+        { id: "u1", name: "帅哥" },
+        { id: "u2", name: "鸽伟" },
+        { id: "u3", name: "经纬" },
+        { id: "u0", name: "待指定" }
+      ],
+      messages: [],
+      tasks: [],
+      notes: [],
+      assets: [],
+      pushes: [],
+      dailyCheckin: {
+        lastDate: "",
+        records: {},
+        history: {},
+        lastArchiveDate: "",
+        analysis: {
+          updatedAt: 0,
+          monthly: []
+        }
+      },
+      inboxAutoFillEnabled: true
+    };
+    const storageKey = "workCockpitState";
+    const taskCompletionLocksKey = "workCockpitTaskCompletionLocks";
+    const inboxAutoFillDisableKey = "workCockpitInboxAutoFillDisabled";
+    const inboxHardClearKey = "workCockpitInboxHardClearTs";
+    const inboxResetVersionKey = "workCockpitInboxResetVersion";
+    const inboxResetVersion = "20260616-0918";
+    let data = normalize(load());
+    let selectedCategories = ["xiaohongshu"];
+    let activeRange = "30";
+    let viewMode = "date";
+    const recallApi = location.origin.replace(/\/$/, "");
+    const stateApi = `${recallApi}/api/state`;
+    const stateHostCacheKey = "workCockpitStateHost";
+    const stateFallbackKey = "workCockpitStateFallback";
+    const bundledOriginalStateUrl = "./original-work-cockpit-state.json";
+    const bundledOriginalStateVersion = "20260617-072430";
+    const bundledOriginalStateImportKey = "workCockpitBundledOriginalImportVersion";
+    const stateHostCandidates = (() => {
+      const ports = [];
+      for (let port = 8790; port <= 8799; port++) ports.push(port);
+      for (let port = 8800; port <= 8801; port++) ports.push(port);
+      const baseHosts = ports.flatMap(port => [`http://127.0.0.1:${port}`, `http://localhost:${port}`]);
+      const priorityHosts = ["http://192.168.0.100:8798", "http://127.0.0.1:8798", "http://localhost:8798", "http://127.0.0.1:8801", "http://localhost:8801"];
+      return [...new Set([`${location.origin}`, ...baseHosts, ...priorityHosts].filter(Boolean))].map(x => String(x).replace(/\/$/, ""));
+    })();
+    const stateProbeState = {
+      lastHost: "",
+      lastPath: "",
+      lastError: "",
+      lastFailureAt: ""
+    };
+    const stateHostProbeTimeoutMs = 2200;
+    let stateApiBase = stateApi.replace(/\/api\/state$/, "");
+    function isHttpBase(url) {
+      return /^https?:\/\//i.test(url || "");
+    }
+    function buildStateHostCandidates() {
+      const query = new URLSearchParams(location.search);
+      const localIp = (query.get("localIp") || "").trim();
+      const extra = [];
+      if (localIp) {
+        [8798, 8799, 8800, 8801].forEach(port => extra.push(`http://${localIp}:${port}`));
+      }
+      return [...new Set([...extra, ...stateHostCandidates])];
+    }
+    function markStateHostProbeFailure(base, path, errorText) {
+      stateProbeState.lastHost = base || "";
+      stateProbeState.lastPath = path || "";
+      stateProbeState.lastError = errorText || "";
+      stateProbeState.lastFailureAt = new Date().toLocaleTimeString("zh-CN", { hour12: false });
+    }
+    function formatStateHostFailureTip() {
+      if (!stateProbeState.lastError) return "";
+      const when = stateProbeState.lastFailureAt ? `（${stateProbeState.lastFailureAt}）` : "";
+      const host = stateProbeState.lastHost ? stateProbeState.lastHost : "候选主机";
+      const path = stateProbeState.lastPath ? stateProbeState.lastPath : "";
+      return `${when}${host}${path} ${stateProbeState.lastError}`;
+    }
+    function readLocalStateFallback() {
+      const raw = localStorage.getItem(stateFallbackKey);
+      if (!raw) return null;
+      try {
+        const payload = JSON.parse(raw);
+        if (payload && typeof payload.state === "object") return payload.state;
+        if (typeof payload === "object") return payload;
+      } catch {
+        return null;
+      }
+      return null;
+    }
+    function writeLocalStateFallback() {
+      const payload = { state: data, updated: Date.now() };
+      localStorage.setItem(stateFallbackKey, JSON.stringify(payload));
+    }
+    async function probeStateBase(base) {
+      const checks = ["/api/health", "/api/state"];
+      for (const checkPath of checks) {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), stateHostProbeTimeoutMs);
+        try {
+          const res = await fetch(`${base}${checkPath}?t=${Date.now()}`, {
+            cache: "no-store",
+            signal: controller.signal
+          });
+          clearTimeout(timer);
+          if (!res.ok) {
+            markStateHostProbeFailure(base, checkPath, `HTTP ${res.status}`);
+            continue;
+          }
+          const body = await res.json().catch(() => ({}));
+          if (body?.ok === false) {
+            markStateHostProbeFailure(base, checkPath, "服务返回 ok:false");
+            continue;
+          }
+          stateProbeState.lastError = "";
+          stateProbeState.lastHost = "";
+          stateProbeState.lastPath = "";
+          stateProbeState.lastFailureAt = "";
+          return true;
+        } catch (err) {
+          clearTimeout(timer);
+          const reason = controller.signal.aborted ? "请求超时" : (err?.message || "网络请求失败");
+          markStateHostProbeFailure(base, checkPath, reason);
+          continue;
+        }
+      }
+      return false;
+    }
+    async function resolveStateApiBase() {
+      if (location.protocol !== "file:") return stateApiBase;
+      const overrideHost = new URLSearchParams(location.search).get("stateHost");
+      const normalizedOverride = typeof overrideHost === "string" ? overrideHost.trim().replace(/\/$/, "") : "";
+      if (isHttpBase(normalizedOverride)) {
+        if (await probeStateBase(normalizedOverride)) {
+          stateApiBase = normalizedOverride;
+          localStorage.setItem(stateHostCacheKey, normalizedOverride);
+          return normalizedOverride;
+        }
+        try { localStorage.removeItem(stateHostCacheKey); } catch {}
+      }
+      if (isHttpBase(stateApiBase)) {
+        const ok = await probeStateBase(stateApiBase);
+        if (ok) return stateApiBase;
+        try { localStorage.removeItem(stateHostCacheKey); } catch {}
+        stateApiBase = stateApi.replace(/\/api\/state$/, "");
+      }
+      const cachedHost = localStorage.getItem(stateHostCacheKey) || "";
+      if (isHttpBase(cachedHost)) {
+        if (await probeStateBase(cachedHost)) {
+          stateApiBase = cachedHost;
+          return cachedHost;
+        }
+        try { localStorage.removeItem(stateHostCacheKey); } catch {}
+      }
+      for (const candidate of buildStateHostCandidates()) {
+        if (!candidate || !candidate.startsWith("http")) continue;
+        if (await probeStateBase(candidate)) {
+          stateApiBase = candidate;
+          localStorage.setItem(stateHostCacheKey, candidate);
+          return candidate;
+        }
+      }
+      return null;
+    }
+    const statePulseKey = "workCockpitStatePulse";
+    const stateSyncChannel = typeof BroadcastChannel === "function" ? new BroadcastChannel("workCockpitStateSync") : null;
+    const pollingEntries = new Set();
+    const $ = id => document.getElementById(id);
+
+    function load() {
+      try { return JSON.parse(localStorage.getItem(storageKey)) || structuredClone(seed); }
+      catch { return structuredClone(seed); }
+    }
+    let stateSyncPromise = Promise.resolve();
+    let stateSyncPushTimer = null;
+    let stateSyncPending = false;
+
+    function queueStateSync() {
+      if (STANDALONE_MOBILE_MODE) return;
+      stateSyncPending = true;
+      if (stateSyncPushTimer) clearTimeout(stateSyncPushTimer);
+      stateSyncPushTimer = setTimeout(() => {
+        stateSyncPushTimer = null;
+        stateSyncPending = false;
+        stateSyncPromise = syncStateToServer().catch(() => false);
+      }, 700);
+    }
+
+    async function flushPendingStateSync() {
+      if (STANDALONE_MOBILE_MODE) return true;
+      if (!stateSyncPending) return;
+      if (stateSyncPushTimer) {
+        clearTimeout(stateSyncPushTimer);
+        stateSyncPushTimer = null;
+      }
+      stateSyncPending = false;
+      await (stateSyncPromise = syncStateToServer().catch(() => false));
+    }
+
+    function todayDate() {
+      return iso(new Date());
+    }
+
+    function isDateText(value) {
+      return typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value);
+    }
+    const DAILY_CHECKIN_HISTORY_MONTHS = 6;
+    const DAILY_CHECKIN_HISTORY_DAYS = 365;
+
+    function normalizeDailyCheckin(raw) {
+      const records = {};
+      if (raw && typeof raw.records === "object") {
+        Object.entries(raw.records).forEach(([date, row]) => {
+          if (!isDateText(date) || !row || typeof row !== "object") return;
+          records[date] = { ...row };
+        });
+      }
+      const history = {};
+      if (raw && typeof raw.history === "object") {
+        Object.entries(raw.history).forEach(([date, row]) => {
+          if (!isDateText(date) || !row || typeof row !== "object") return;
+          const doneCount = Number(row.doneCount);
+          const totalCount = Number(row.totalCount);
+          const completionRate = Number(row.completionRate);
+          if (!Number.isFinite(doneCount) || !Number.isFinite(totalCount) || !Number.isFinite(completionRate)) return;
+          history[date] = {
+            date,
+            doneCount,
+            totalCount,
+            completionRate: Math.max(0, Math.min(100, completionRate)),
+            isFull: !!row.isFull,
+            missingIds: Array.isArray(row.missingIds) ? [...row.missingIds] : []
+          };
+        });
+      }
+      const analysis = raw && typeof raw.analysis === "object" ? raw.analysis : {};
+      const monthly = Array.isArray(analysis.monthly) ? analysis.monthly : [];
+      return {
+        lastDate: isDateText(raw?.lastDate) ? raw.lastDate : "",
+        records,
+        history,
+        lastArchiveDate: isDateText(raw?.lastArchiveDate) ? raw.lastArchiveDate : "",
+        analysis: {
+          updatedAt: Number(analysis.updatedAt) || 0,
+          monthly
+        }
+      };
+    }
+
+    function pruneDailyCheckinHistory(history) {
+      const dates = Object.keys(history).sort();
+      if (dates.length <= DAILY_CHECKIN_HISTORY_DAYS) return;
+      dates.slice(0, dates.length - DAILY_CHECKIN_HISTORY_DAYS).forEach(date => { delete history[date]; });
+    }
+
+    function pruneDailyCheckinRecords(records) {
+      const dates = Object.keys(records).sort();
+      if (dates.length <= 50) return;
+      dates.slice(0, dates.length - 50).forEach(date => { delete records[date]; });
+    }
+
+    function buildDailyCheckinSnapshot(date, row = {}) {
+      const doneCount = DAILY_CHECKIN_IDS.filter(id => !!row[id]).length;
+      const totalCount = DAILY_CHECKIN_IDS.length || 1;
+      const missingIds = DAILY_CHECKIN_IDS.filter(id => !row[id]).map(id => DAILY_CHECKIN_PLAN.find(x => x.id === id)?.title || id);
+      return {
+        date,
+        doneCount,
+        totalCount,
+        completionRate: Math.round((doneCount / totalCount) * 100),
+        isFull: doneCount >= totalCount,
+        missingIds
+      };
+    }
+
+    function collectDailyCheckinForDate(date, { force = false } = {}) {
+      if (!isDateText(date) || !data.dailyCheckin || typeof data.dailyCheckin !== "object") return false;
+      if (!data.dailyCheckin.history || typeof data.dailyCheckin.history !== "object") {
+        data.dailyCheckin.history = {};
+      }
+      const row = data.dailyCheckin.records?.[date] || {};
+      const rowHasValue = DAILY_CHECKIN_IDS.some(id => row[id]);
+      if (!force && !rowHasValue && !data.dailyCheckin.history[date]) return false;
+      const snapshot = buildDailyCheckinSnapshot(date, row);
+      data.dailyCheckin.history[date] = snapshot;
+      data.dailyCheckin.lastArchiveDate = date;
+      pruneDailyCheckinHistory(data.dailyCheckin.history);
+      return true;
+    }
+
+    function buildDailyCheckinAnalytics(months = DAILY_CHECKIN_HISTORY_MONTHS) {
+      const targetMonths = Math.max(1, Math.min(Number(months) || 1, DAILY_CHECKIN_HISTORY_MONTHS));
+      const today = todayDate();
+      const todayDateObj = new Date(today + "T00:00:00");
+      const history = data.dailyCheckin?.history || {};
+      const records = data.dailyCheckin?.records || {};
+      const monthly = [];
+      for (let i = 0; i < targetMonths; i++) {
+        const monthBase = new Date(todayDateObj.getFullYear(), todayDateObj.getMonth() - i, 1);
+        const monthStartText = iso(monthBase).slice(0, 7);
+        const rows = Object.keys(history)
+          .filter(date => date.startsWith(monthStartText))
+          .map(date => history[date])
+          .sort((a, b) => (a.date > b.date ? 1 : -1));
+        if (i === 0 && records[today]) {
+          const todaySnapshot = buildDailyCheckinSnapshot(today, records[today]);
+          const existing = rows.find(item => item.date === today);
+          if (!existing) rows.push(todaySnapshot);
+        }
+        const totalDays = rows.length;
+        const completedDays = rows.filter(item => item.isFull).length;
+        const avgRate = totalDays ? Math.round(rows.reduce((acc, item) => acc + item.completionRate, 0) / totalDays) : 0;
+        const missingCounter = {};
+        rows.forEach(item => {
+          (item.missingIds || []).forEach(id => { missingCounter[id] = (missingCounter[id] || 0) + 1; });
+        });
+        const topMissing = Object.entries(missingCounter)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 3)
+          .map(([id, count]) => ({ id, count }));
+        monthly.push({
+          month: monthStartText,
+          totalDays,
+          completedDays,
+          avgRate,
+          topMissing
+        });
+      }
+      return {
+        updatedAt: Date.now(),
+        periodMonths: targetMonths,
+        monthly
+      };
+    }
+
+    function ensureDailyCheckinForToday() {
+      if (!data.dailyCheckin || typeof data.dailyCheckin !== "object") {
+        data.dailyCheckin = { lastDate: "", records: {} };
+      }
+      if (!data.dailyCheckin.records || typeof data.dailyCheckin.records !== "object") {
+        data.dailyCheckin.records = {};
+      }
+      const date = todayDate();
+      if (data.dailyCheckin.lastDate !== date) {
+        if (data.dailyCheckin.lastDate) {
+          collectDailyCheckinForDate(data.dailyCheckin.lastDate, { force: true });
+        }
+        data.dailyCheckin.lastDate = date;
+      }
+      if (!data.dailyCheckin.records[date]) data.dailyCheckin.records[date] = {};
+      pruneDailyCheckinRecords(data.dailyCheckin.records);
+    }
+
+    function isDailyChecked(id) {
+      ensureDailyCheckinForToday();
+      return Boolean(data.dailyCheckin.records[todayDate()]?.[id]);
+    }
+
+    function setDailyChecked(id, checked) {
+      ensureDailyCheckinForToday();
+      const date = todayDate();
+      const bucket = data.dailyCheckin.records[date] || {};
+      bucket[id] = !!checked;
+      data.dailyCheckin.records[date] = bucket;
+      save();
+      renderDailyCheckin();
+    }
+
+    function clearTodayDailyCheckin() {
+      ensureDailyCheckinForToday();
+      collectDailyCheckinForDate(todayDate(), { force: true });
+      data.dailyCheckin.records[todayDate()] = {};
+      save();
+      renderDailyCheckin();
+    }
+
+    function buildDailyCheckinReport() {
+      const today = new Date();
+      const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+      const currentDate = todayDate();
+      const cursor = new Date(monthStart.getFullYear(), monthStart.getMonth(), monthStart.getDate());
+      const entries = [];
+      const missed = [];
+      const incomplete = [];
+      const todayRow = data.dailyCheckin?.records?.[currentDate] || {};
+      const todayDoneCount = DAILY_CHECKIN_IDS.filter(id => todayRow[id]).length;
+      const todayMissing = DAILY_CHECKIN_IDS.filter(id => !todayRow[id]).map(id => DAILY_CHECKIN_PLAN.find(x => x.id === id)?.title || id);
+      while (cursor <= today) {
+        const date = iso(cursor);
+        const row = data.dailyCheckin?.records?.[date] || {};
+        const doneCount = DAILY_CHECKIN_IDS.filter(id => row[id]).length;
+        if (doneCount === DAILY_CHECKIN_IDS.length) {
+          entries.push(date);
+        } else {
+          const missingItems = DAILY_CHECKIN_IDS.filter(id => !row[id]).map(id => DAILY_CHECKIN_PLAN.find(x => x.id === id)?.title || id);
+          if (data.dailyCheckin?.records?.[date]) {
+            incomplete.push({ date, missingItems });
+          } else {
+            missed.push(date);
+          }
+          entries.push(`${date}`);
+        }
+        cursor.setDate(cursor.getDate() + 1);
+      }
+      const completedDays = entries.filter(date => {
+        const row = data.dailyCheckin?.records?.[date] || {};
+        return DAILY_CHECKIN_IDS.every(id => row[id]);
+      }).length;
+      const totalDays = entries.length;
+      const missDates = entries.filter(date => {
+        const row = data.dailyCheckin?.records?.[date] || {};
+        if (!data.dailyCheckin?.records?.[date]) return true;
+        return !DAILY_CHECKIN_IDS.every(id => row[id]);
+      });
+      const list = (missDates.length ? missDates : []).slice(0, 12).join("，");
+      const more = missDates.length > 12 ? `，还有 ${missDates.length - 12} 天` : "";
+      return {
+        completedDays,
+        totalDays,
+        missCount: missDates.length,
+        missList: missDates,
+        todayDoneCount,
+        todayMissing,
+        text: `本月已完成打卡天数：${completedDays}/${totalDays}。` + (missDates.length ? `未完成：${list}${more}` : "全部完成")
+      };
+    }
+
+    async function syncStateToServer() {
+      if (STANDALONE_MOBILE_MODE) {
+        writeLocalStateFallback();
+        emitStateSyncPulse();
+        return true;
+      }
+      const base = await resolveStateApiBase();
+      if (!base) {
+        writeLocalStateFallback();
+        if (location.protocol === "file:" || readLocalStateFallback()) return false;
+        throw new Error(`未检测到可用同步端口，无法将桌面任务写入后台状态。请确认 8790x 或 8800/8801 端口服务已启动。${formatStateHostFailureTip() ? ` 最近失败：${formatStateHostFailureTip()}` : ""}`);
+      }
+      localStorage.setItem(stateHostCacheKey, base);
+      const payload = { state: data };
+      const res = await fetch(`${base}/api/state`, {
+        method: "POST",
+        cache: "no-store",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) {
+        throw new Error(`写入状态失败：HTTP ${res.status}`);
+      }
+      const body = await res.json().catch(() => null);
+      if (body && body.ok === false) throw new Error(`服务返回失败：${body.error || "ok:false"}`);
+      return true;
+    }
+
+    function emitStateSyncPulse() {
+      try {
+        localStorage.setItem(statePulseKey, String(Date.now()));
+      } catch {
+      }
+      if (!stateSyncChannel) return;
+      try {
+        stateSyncChannel.postMessage({
+          type: "workCockpitStateSync",
+          state: data
+        });
+      } catch {
+      }
+    }
+
+    async function refreshStateFromServer() {
+      if (STANDALONE_MOBILE_MODE) {
+        const snapshot = data;
+        data = mergePendingLocalTasks(load(), snapshot);
+        localStorage.setItem(storageKey, JSON.stringify(data));
+        return true;
+      }
+      if (location.protocol === "file:") {
+        const base = await resolveStateApiBase();
+        if (!base) {
+          return false;
+        }
+        stateApiBase = base;
+      }
+      if (!isHttpBase(stateApiBase)) {
+        return false;
+      }
+      const res = await fetch(`${stateApiBase}/api/state?t=${Date.now()}`, { cache: "no-store" });
+      if (!res.ok) return false;
+      const body = await res.json().catch(() => null);
+      if (body && body.ok === false) return false;
+      const state = body?.state && typeof body.state === "object" ? body.state : (body && typeof body === "object" ? body : null);
+      if (!state || typeof state !== "object") return false;
+      const snapshot = data;
+      data = mergePendingLocalTasks(state, snapshot);
+      localStorage.setItem(storageKey, JSON.stringify(data));
+      return true;
+    }
+    async function readBackStateFromServer() {
+      if (STANDALONE_MOBILE_MODE) return data;
+      if (!isHttpBase(stateApiBase)) {
+        return null;
+      }
+      const res = await fetch(`${stateApiBase}/api/state?t=${Date.now()}`, { cache: "no-store" });
+      if (!res.ok) return null;
+      const body = await res.json().catch(() => null);
+      if (body && body.ok === false) return null;
+      const state = body?.state && typeof body.state === "object" ? body.state : (body && typeof body === "object" ? body : null);
+      return state && typeof state === "object" ? state : null;
+    }
+
+    function save() {
+      localStorage.setItem(storageKey, JSON.stringify(data));
+      writeLocalStateFallback();
+      emitStateSyncPulse();
+      if (!STANDALONE_MOBILE_MODE) queueStateSync();
+    }
+    function loadTaskCompletionLocks() {
+      try {
+        const raw = JSON.parse(localStorage.getItem(taskCompletionLocksKey) || "{}");
+        return raw && typeof raw === "object" ? raw : {};
+      } catch {
+        return {};
+      }
+    }
+    function saveTaskCompletionLocks(locks) {
+      localStorage.setItem(taskCompletionLocksKey, JSON.stringify(locks || {}));
+    }
+    function setTaskCompletionLock(id, checked) {
+      const locks = loadTaskCompletionLocks();
+      if (checked) {
+        locks[id] = { status: "已完成", completedAt: iso(today), lockedAt: Date.now() };
+      } else {
+        delete locks[id];
+      }
+      saveTaskCompletionLocks(locks);
+    }
+    function normalize(raw) {
+      const next = { ...structuredClone(seed), ...raw };
+      next.categories = structuredClone(seed.categories);
+      next.projects = next.projects?.filter(p => p.id !== "all") || structuredClone(seed.projects);
+      next.people = structuredClone(seed.people);
+      if (localStorage.getItem(inboxResetVersionKey) !== inboxResetVersion) {
+        next.messages = [];
+        localStorage.setItem(inboxResetVersionKey, inboxResetVersion);
+      }
+      const hardClearTs = Number(localStorage.getItem(inboxHardClearKey) || 0);
+      const stateClearTs = Number(next.inboxAutoClearEpoch || 0);
+      if (hardClearTs && hardClearTs >= stateClearTs) {
+        next.inboxAutoFillEnabled = false;
+        next.inboxAutoClearEpoch = hardClearTs;
+        next.messages = [];
+      }
+      if (localStorage.getItem(inboxAutoFillDisableKey) === "1") {
+        next.inboxAutoFillEnabled = false;
+      }
+      next.tasks = (next.tasks || []).map(t => ({
+        ...t,
+        categoryIds: normalizeCategoryIds(t.categoryIds || [t.categoryId || categoryNameToId(t.category) || inferCategoryFromLegacy(t)]),
+        categoryId: normalizeCategoryId(t.categoryId || categoryNameToId(t.category) || inferCategoryFromLegacy(t)),
+        category: t.category || category(normalizeCategoryId(t.categoryId || categoryNameToId(t.category) || inferCategoryFromLegacy(t))).name,
+        projectId: t.projectId === "all" ? "p1" : (t.projectId || "p1"),
+        due: t.due || add(1)
+      }));
+      const taskLocks = loadTaskCompletionLocks();
+      next.tasks = next.tasks.map(t => taskLocks[t.id] ? {
+        ...t,
+        status: "已完成",
+        completedAt: taskLocks[t.id].completedAt || t.completedAt || iso(today)
+      } : t);
+      next.messages = normalizeMessages(next.messages || []);
+      if (next.inboxAutoFillEnabled === false) {
+        next.messages = [];
+      }
+      next.dailyCheckin = normalizeDailyCheckin(next.dailyCheckin || {});
+      return next;
+    }
+    function isLocalGeneratedTask(task) {
+      const sourceEntryId = String(task?.sourceEntryId || "");
+      return /^local-|^offline-/.test(sourceEntryId) || String(task?.reason || "").includes("本地规则离线生成");
+    }
+    function mergePendingLocalTasks(remoteState, fallbackState) {
+      const remote = normalize(remoteState || {});
+      const localTasks = Array.isArray(fallbackState?.tasks) ? fallbackState.tasks : [];
+      const pendingTasks = localTasks.filter(isLocalGeneratedTask);
+      if (!pendingTasks.length) return remote;
+      const seen = new Set(remote.tasks.map(t => `${t.name || ""}||${t.due || ""}`));
+      pendingTasks.forEach(task => {
+        if (!task?.name || !task?.due) return;
+        const key = `${task.name}||${task.due}`;
+        if (seen.has(key)) return;
+        remote.tasks = [task, ...remote.tasks];
+        seen.add(key);
+      });
+      return remote;
+    }
+
+    function mergeBundledOriginalState(importedState) {
+      const imported = normalize(importedState || {});
+      const existingTaskIds = new Set(data.tasks.map(task => String(task.id || "")).filter(Boolean));
+      const existingTaskKeys = new Set(data.tasks.map(task => `${task.name || ""}||${task.due || ""}`));
+      const importedTasks = (imported.tasks || []).filter(task => {
+        const id = String(task.id || "");
+        const key = `${task.name || ""}||${task.due || ""}`;
+        return task.name && task.due && !(id && existingTaskIds.has(id)) && !existingTaskKeys.has(key);
+      }).map(task => ({
+        ...task,
+        sourceEntryId: task.sourceEntryId || "original-work-plan-import"
+      }));
+      if (importedTasks.length) {
+        data.tasks = [...importedTasks, ...data.tasks];
+      }
+
+      const existingMessageKeys = new Set(data.messages.map(message => `${message.entryId || ""}||${message.time || ""}||${message.text || ""}`));
+      const importedMessages = (imported.messages || []).filter(message => {
+        const key = `${message.entryId || ""}||${message.time || ""}||${message.text || ""}`;
+        return message.text && !existingMessageKeys.has(key);
+      });
+      if (importedMessages.length) {
+        data.messages = [...importedMessages, ...data.messages];
+      }
+
+      if (imported.dailyCheckin?.records) {
+        ensureDailyCheckinForToday();
+        data.dailyCheckin.records = {
+          ...imported.dailyCheckin.records,
+          ...(data.dailyCheckin.records || {})
+        };
+        data.dailyCheckin.history = {
+          ...(imported.dailyCheckin.history || {}),
+          ...(data.dailyCheckin.history || {})
+        };
+      }
+
+      if (importedTasks.length || importedMessages.length) {
+        save();
+      }
+      return { tasks: importedTasks.length, messages: importedMessages.length };
+    }
+
+    async function importBundledOriginalState() {
+      if (localStorage.getItem(bundledOriginalStateImportKey) === bundledOriginalStateVersion) {
+        return { skipped: true, tasks: 0, messages: 0 };
+      }
+      try {
+        const res = await fetch(`${bundledOriginalStateUrl}?v=${encodeURIComponent(bundledOriginalStateVersion)}`, { cache: "no-store" });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const payload = await res.json();
+        const importedState = payload?.state && typeof payload.state === "object" ? payload.state : payload;
+        const result = mergeBundledOriginalState(importedState);
+        localStorage.setItem(bundledOriginalStateImportKey, bundledOriginalStateVersion);
+        if ((result.tasks || result.messages) && $("syncStatus")) {
+          $("syncStatus").className = "service-status ok";
+          $("syncStatus").textContent = `已同步原有计划：${result.tasks} 条任务，${result.messages} 条消息。${nowClock()}`;
+        }
+        return result;
+      } catch (err) {
+        if ($("syncStatus")) {
+          $("syncStatus").className = "service-status warn";
+          $("syncStatus").textContent = `原有计划暂未同步：${err.message || err}。${nowClock()}`;
+        }
+        return { error: true, tasks: 0, messages: 0 };
+      }
+    }
+
+    function normalizeMessages(rows) {
+      const seen = new Set();
+      const out = [];
+      rows.forEach(item => {
+        if (!item || typeof item !== "object") return;
+        const entryId = item.entryId || "";
+        const key = entryId ? `entry:${entryId}` : `id:${item.id || `time:${item.time || ""}-text:${item.text || ""}`}`;
+        if (seen.has(key)) return;
+        seen.add(key);
+        out.push({
+          ...item,
+          categoryIds: normalizeCategoryIds(item.categoryIds || [item.categoryId || inferCategoryFromLegacy(item)]),
+          categoryId: normalizeCategoryId(item.categoryId || inferCategoryFromLegacy(item)),
+          projectId: item.projectId === "all" ? "p1" : (item.projectId || "p1")
+        });
+      });
+      return out;
+    }
+    function normalizeCategoryIds(ids) {
+      const rows = (Array.isArray(ids) ? ids : [ids]).map(normalizeCategoryId);
+      return [...new Set(rows.length ? rows : ["other"])];
+    }
+    function normalizeCategoryId(id) {
+      if (id === "work") return "other";
+      if (seed.categories.some(c => c.id === id)) return id;
+      const byName = categoryNameToId(id);
+      if (byName) return byName;
+      return "other";
+    }
+    function categoryNameToId(name) {
+      const map = {
+        "小红书": "xiaohongshu",
+        "清风别墅": "qingfeng",
+        "生活": "life",
+        "学习": "study",
+        "外出": "outside",
+        "外出·生活": "life",
+        "数字生命": "other",
+        "其他": "other"
+      };
+      return map[name] || "";
+    }
+    function inferCategoryFromLegacy(row) {
+      const text = `${row.name || ""} ${row.text || ""} ${row.type || ""} ${row.projectId || ""}`;
+      if (/小红书|视频|发布|剪辑|脚本/.test(text)) return "xiaohongshu";
+      if (/清风|别墅/.test(text)) return "qingfeng";
+      if (/学习|读书|课程|论文|研究/.test(text)) return "study";
+      if (/外出|出门|行程/.test(text)) return "outside";
+      if (/生活|家务|日常/.test(text)) return "life";
+      return "other";
+    }
+    function uid(p) { return p + Math.random().toString(36).slice(2, 9); }
+    function esc(v) { return String(v || "").replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[m])); }
+    function project(id) { return data.projects.find(p => p.id === id) || data.projects[0]; }
+    function category(id) { return data.categories.find(c => c.id === id) || data.categories[0]; }
+    function person(id) { return data.people.find(p => p.id === id)?.name || "待指定"; }
+    function taskCategoryIds(t) { return normalizeCategoryIds(t.categoryIds || [t.categoryId]); }
+    function taskCategoryNames(t) { return taskCategoryIds(t).map(id => category(id).name).join("、"); }
+    function closed(t) { return t.status === "已完成" || t.status === "已取消"; }
+    function late(t) { return t.due < iso(today) && !closed(t); }
+    function timeBucket(t) {
+      if (late(t)) return "逾期";
+      const diff = Math.round((new Date(t.due + "T00:00:00") - new Date(iso(today) + "T00:00:00")) / 86400000);
+      if (diff === 0) return "今天";
+      if (diff === 1) return "明天";
+      if (diff === 2) return "后天";
+      if (diff > 2 && diff <= 5) return `${diff}天后`;
+      return "以后";
+    }
+    function dateLabel(date) {
+      const diff = Math.round((new Date(date + "T00:00:00") - new Date(iso(today) + "T00:00:00")) / 86400000);
+      const d = new Date(date + "T00:00:00");
+      const md = `${d.getMonth() + 1}/${d.getDate()}`;
+      if (diff === 0) return `今天 · ${md}`;
+      if (diff === 1) return `明天 · ${md}`;
+      if (diff === 2) return `后天 · ${md}`;
+      if (diff > 2) return `${diff}天后 · ${md}`;
+      return `逾期 ${Math.abs(diff)}天 · ${md}`;
+    }
+    function normalizePriorityLabel(rawPriority) {
+      const p = String(rawPriority || "").trim();
+      if (p === "P1重要" || p === "重要" || p === "P0紧急") return "重要";
+      return "不重要";
+    }
+    function advanceDateOneDay(dateStr) {
+      const base = String(dateStr || "").trim() || iso(today);
+      const hasIsoDate = /^\d{4}-\d{2}-\d{2}$/.test(base);
+      const d = new Date(hasIsoDate ? `${base}T00:00:00` : base);
+      if (Number.isNaN(d.getTime())) return add(1);
+      d.setDate(d.getDate() + 1);
+      return iso(d);
+    }
+    function pill(text) {
+      const cls = text === "重要" || text === "逾期" || text === "已取消" ? "red" :
+        text === "不重要" ? "neutral" :
+        text === "已延期" ? "amber" :
+        text === "P1重要" || text === "P0紧急" ? "red" :
+        text === "已完成" ? "green" :
+        text === "进行中" || text === "等待反馈" ? "teal" :
+        text === "待确认" ? "blue" : "";
+      return `<span class="pill ${cls}">${esc(text)}</span>`;
+    }
+    function visibleTasks() {
+      const q = $("searchBox").value.trim().toLowerCase();
+      const type = $("typeFilter").value;
+      const owner = $("ownerFilter").value;
+      return data.tasks.filter(t => {
+        if (closed(t)) return false;
+        if (activeRange === "late" && !late(t)) return false;
+        if (activeRange !== "late" && !late(t)) {
+          const diff = daysFromToday(t.due);
+          if (diff < 0 || diff >= Number(activeRange)) return false;
+        }
+        if (type && t.type !== type) return false;
+        if (owner && t.ownerId !== owner) return false;
+        if (q && !`${t.name} ${category(t.categoryId).name} ${project(t.projectId).name} ${t.done} ${t.next}`.toLowerCase().includes(q)) return false;
+        return true;
+      }).sort((a, b) => a.due.localeCompare(b.due) || schema.priorities.indexOf(a.priority) - schema.priorities.indexOf(b.priority));
+    }
+    function renderSyncProbeStatus() {
+      const el = $("syncProbeStatus");
+      if (!el) return;
+      if (STANDALONE_MOBILE_MODE) {
+        el.className = "service-status ok";
+        el.textContent = "同步检测：手机独立保存，不等待电脑编号。";
+        return;
+      }
+      const probe = data.syncProbe || {};
+      if (!probe.id) {
+        el.className = "service-status warn";
+        el.textContent = "同步检测：没有读到电脑刷新测试编号。";
+        return;
+      }
+      el.className = "service-status ok";
+      el.textContent = `同步检测：已读到电脑编号 ${probe.id}，电脑写入 ${probe.taskCount || 0} 项，${probe.time || ""}`;
+    }
+    function render() {
+      renderProjects();
+      renderQuick();
+      renderTop();
+      renderFilters();
+      renderDailyCheckin();
+      renderMetrics();
+      renderTimeline();
+      renderInbox();
+      renderFormOptions();
+      renderSyncProbeStatus();
+    }
+
+    function renderDailyCheckin() {
+      const container = $("dailyCheckinBox");
+      if (!container) return;
+      ensureDailyCheckinForToday();
+      const report = buildDailyCheckinReport();
+      container.innerHTML = DAILY_CHECKIN_PLAN.map(item => {
+        const checked = isDailyChecked(item.id);
+        const safeId = esc(item.id);
+        const rowClass = checked ? "" : "pending";
+        return `<label class="daily-checkin-row ${rowClass}">
+          <input type="checkbox" ${checked ? "checked" : ""} data-checkin="${safeId}" />
+          <div>
+            <div class="daily-checkin-title">${esc(item.title)}</div>
+            <div class="daily-checkin-time">${esc(item.time)}</div>
+          </div>
+        </label>`;
+      }).join("") + `
+        <div class="daily-checkin-today">今日打卡进度：${report.todayDoneCount}/${DAILY_CHECKIN_IDS.length}</div>
+        ${report.todayMissing.length ? `<div class="daily-checkin-progress missing">今日未完成：${report.todayMissing.join("、")}</div>` : ""}
+        <div class="daily-checkin-actions">
+          <button type="button" id="clearDailyCheckin" class="ghost">清空今日打卡</button>
+          <span class="muted">点击后清空今天所有动作，明天会自动重新开始。</span>
+        </div>
+        <div class="daily-checkin-report">
+          <div>${report.text}</div>
+        </div>`;
+      container.querySelectorAll("input[data-checkin]").forEach(el => {
+        el.onchange = () => setDailyChecked(el.dataset.checkin, el.checked);
+      });
+      const clearBtn = $("clearDailyCheckin");
+      if (clearBtn) clearBtn.onclick = clearTodayDailyCheckin;
+    }
+    function renderProjects() {
+      $("messageCategories").innerHTML = data.categories.map(c => `<button class="category-choice ${selectedCategories.includes(c.id) ? "active" : ""}" data-category="${c.id}">${c.name}</button>`).join("");
+      document.querySelectorAll("#messageCategories .category-choice").forEach(btn => btn.onclick = () => {
+        const id = btn.dataset.category;
+        selectedCategories = selectedCategories.includes(id) ? selectedCategories.filter(x => x !== id) : [...selectedCategories, id];
+        if (!selectedCategories.length) selectedCategories = ["other"];
+        renderProjects();
+        renderTop();
+      });
+    }
+    function renderQuick() {
+      $("quickActions").innerHTML = schema.ranges.map(([id, label]) => {
+        const c = countInRange(id);
+        return `<button class="${id === activeRange ? "active" : ""}" data-range="${id}"><span>${label}</span><span class="count">${c}</span></button>`;
+      }).join("");
+      document.querySelectorAll("#quickActions button").forEach(btn => btn.onclick = () => {
+        activeRange = btn.dataset.range;
+        viewMode = "date";
+        render();
+        jumpToPlan();
+      });
+    }
+    function countInRange(range) {
+      return data.tasks.filter(t => {
+        if (closed(t)) return false;
+        if (range === "late") return late(t);
+        const diff = daysFromToday(t.due);
+        return late(t) || (diff >= 0 && diff < Number(range));
+      }).length;
+    }
+    function renderTop() {
+      const selectedNames = selectedCategories.map(id => category(id).name).join("、");
+      const rangeLabel = schema.ranges.find(([id]) => id === activeRange)?.[1] || "近期";
+      $("projectTitle").textContent = "";
+      $("projectDesc").textContent = "";
+      $("activeProjectPill").textContent = selectedNames;
+    }
+    function renderFilters() {
+      $("displayMode").innerHTML = [
+        ["date", "日期清单"],
+        ["category", "分类视图"]
+      ].map(([id, label]) => `<button class="${id === viewMode ? "active" : ""}" data-mode="${id}">${label}</button>`).join("");
+      document.querySelectorAll("#displayMode button").forEach(btn => btn.onclick = () => { viewMode = btn.dataset.mode; renderTimeline(); renderFilters(); });
+      const typeValue = $("typeFilter").value;
+      $("typeFilter").innerHTML = `<option value="">分类类型</option>` + schema.types.map(x => `<option>${x}</option>`).join("");
+      $("typeFilter").value = schema.types.includes(typeValue) ? typeValue : "";
+      const ownerValue = $("ownerFilter").value;
+      $("ownerFilter").innerHTML = `<option value="">负责人分类</option>` + data.people.map(p => `<option value="${p.id}">${p.name}</option>`).join("");
+      $("ownerFilter").value = data.people.some(p => p.id === ownerValue) ? ownerValue : "";
+    }
+    function renderMetrics() {
+      const tasks = data.tasks;
+      const open = tasks.filter(t => !closed(t));
+      const m = [
+        ["未完成", open.length],
+        ["今天", open.filter(t => timeBucket(t) === "今天").length],
+        ["逾期", open.filter(late).length],
+        ["待确认", open.filter(t => t.status === "待确认").length],
+        ["已完成", tasks.filter(t => t.status === "已完成").length]
+      ];
+      $("metrics").innerHTML = m.map(([k, v]) => `<div class="metric"><span>${k}</span><strong>${v}</strong></div>`).join("");
+    }
+    function renderTimeline() {
+      const tasks = visibleTasks();
+      if (!tasks.length && data.tasks.some(t => !closed(t)) && activeRange !== "late" && activeRange !== "30") {
+        $("timeline").innerHTML = `<div class="empty">当前范围内没有未完成任务。点击下面按钮切换到未来30天查看全部。<button id="openFullRangeBtn" class="ghost" type="button">显示全部任务</button></div>`;
+        setTimeout(() => {
+          const btn = $("openFullRangeBtn");
+          if (btn) {
+            btn.onclick = () => {
+              activeRange = "30";
+              viewMode = "date";
+              renderTimeline();
+            };
+          }
+        }, 0);
+        return;
+      }
+      if (viewMode === "category") {
+        renderCategoryTimeline(tasks);
+        return;
+      }
+      const dates = visibleDates(tasks);
+      $("timeline").innerHTML = dates.map(date => {
+        const bucketTasks = tasks.filter(t => t.due === date);
+        return `<article class="bucket">
+          <div class="bucket-head"><h3>${dateLabel(date)}</h3><span class="pill">${bucketTasks.length ? `${bucketTasks.length} 项` : "空"}</span></div>
+          <div class="bucket-body">${bucketTasks.length ? `<div class="group"><div class="group-title"><span>全部任务</span><span>${bucketTasks.length}</span></div>${bucketTasks.map(taskCard).join("")}</div>` : `<div class="empty">这一天暂无安排</div>`}
+          </div>
+        </article>`;
+      }).join("") || `<div class="empty">当前没有需要推进的任务</div>`;
+    }
+    function jumpToPlan() {
+      document.getElementById("projectTitle").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    function renderCategoryTimeline(tasks) {
+      const byCategory = data.categories.map(c => [c, tasks.filter(t => taskCategoryIds(t).includes(c.id))]);
+      $("timeline").innerHTML = `<article class="bucket">
+        <div class="bucket-head"><h3>分类任务视图</h3><span class="pill">${tasks.length} 项</span></div>
+        <div class="bucket-body">${byCategory.map(([c, rows]) => `
+          <div class="group">
+            <div class="group-title"><span>${esc(c.name)}</span><span>${rows.length}</span></div>
+            ${rows.length ? rows.map(taskCard).join("") : `<div class="empty">暂无</div>`}
+          </div>
+        `).join("")}</div>
+      </article>`;
+    }
+    function daysFromToday(date) {
+      return Math.round((new Date(date + "T00:00:00") - new Date(iso(today) + "T00:00:00")) / 86400000);
+    }
+    function visibleDates(tasks) {
+      return [...new Set(tasks.map(t => t.due))].sort();
+    }
+    function taskCard(t) {
+        return `<div class="task">
+          <input type="checkbox" ${t.status === "已完成" ? "checked" : ""} onchange="toggleDone('${t.id}', this.checked)" title="完成后从当前计划消失" />
+          <div>
+            <strong>${esc(t.name)}</strong>
+            <div class="muted small">${esc(project(t.projectId).name)} · ${esc(taskCategoryNames(t))} · ${person(t.ownerId)} · 截止 ${t.due}</div>
+            <div class="task-actions">
+              <button type="button" class="task-action" onclick="postponeTaskToTomorrow('${t.id}')">明天</button>
+              <button type="button" class="task-action ${normalizePriorityLabel(t.priority) === "重要" ? "is-important" : ""}" onclick="toggleImportant('${t.id}')">重要</button>
+            </div>
+          </div>
+          <button class="icon" onclick="supplementTask('${t.id}')" title="补充条件">＋</button>
+        </div>`;
+    }
+    function missingConditions(t) {
+      const missing = [];
+      if (!t.ownerId || person(t.ownerId) === "待指定") missing.push("负责人");
+      if (!t.due) missing.push("截止时间");
+      if (!t.done || /人工确认|需人工|补充/.test(t.done)) missing.push("完成标准");
+      if (t.status === "待确认") missing.push("是否执行");
+      if (t.status === "已延期" && !t.reason) missing.push("延期原因");
+      return missing;
+    }
+    function renderInbox() {
+      const msgs = data.messages.slice(0, 8);
+      $("inbox").innerHTML = msgs.length ? msgs.map(m => `<div class="message">
+        <strong>${esc(m.entryId || project(m.projectId).name)} · ${m.time}</strong>
+        <p>${esc(m.text)}</p>
+        <p class="muted">${esc(m.receipt)}</p>
+        ${m.entryId && String(m.entryId).startsWith("WP-") ? renderReceiptFlow(m.status) : ""}
+        ${m.resultHtml ? `<p><a class="btn" href="${esc(resultHref(m.resultHtml))}" target="_blank">打开召回结果</a></p>` : ""}
+      </div>`).join("") : `<div class="empty">还没有消息</div>`;
+    }
+    function resultHref(resultHtml) {
+      if (!resultHtml) return "#";
+      if (location.protocol === "file:") {
+        const fileName = String(resultHtml).split("/").pop();
+        return new URL(`工作事务推进驾驶舱_Codex召回结果/${fileName}`, location.href).href;
+      }
+      return `${recallApi}${resultHtml}`;
+    }
+    function resultDataHref(resultJson) {
+      if (!resultJson) return "";
+      if (location.protocol === "file:") {
+        const fileName = String(resultJson).split("/").pop();
+        return new URL(`工作事务推进驾驶舱_Codex召回结果/${fileName}`, location.href).href;
+      }
+      return `${recallApi}${resultJson}`;
+    }
+    function stripRecallQuestion(question) {
+      const raw = String(question || "").trim();
+      if (!raw) return "";
+      if (!raw.includes("【原始输入】")) return raw;
+      return raw.split("【原始输入】").pop().trim();
+    }
+    function buildRecallMessage(item, existing) {
+      const displayText = existing?.text || stripRecallQuestion(item?.question || item?.summary || "") || item?.summary || item?.id || "";
+      const sourceText = displayText || "召回内容";
+      const inferred = inferCategories(sourceText, existing?.categoryIds?.length ? existing.categoryIds : selectedCategories);
+      const categoryIds = normalizeCategoryIds([...(existing?.categoryIds || []), ...inferred]);
+      return {
+        ...(existing || {}),
+        id: existing?.id || uid("m"),
+        entryId: item.id,
+        projectId: existing?.projectId || inferProject(sourceText),
+        categoryIds,
+        categoryId: existing?.categoryId || categoryIds[0] || "other",
+        time: item.updated || item.created || existing?.time || iso(today),
+        text: sourceText,
+        status: item.status,
+        receipt: userReceipt(item),
+        resultHtml: item.result_html || "",
+        resultSummary: item.result_summary || "",
+        result_json: item.result_json || existing?.result_json || ""
+      };
+    }
+    async function refreshRecallInboxFromService() {
+      if (STANDALONE_MOBILE_MODE) return [];
+      if (!isInboxAutoFillEnabled()) return [];
+      const res = await fetch(`${recallApi}/api/results?t=${Date.now()}`, { cache: "no-store" });
+      const body = await res.json();
+      if (!body.ok || !Array.isArray(body.items)) return [];
+      const remoteItems = [];
+      const remoteSeen = new Set();
+      body.items.forEach(item => {
+        if (!item || !item.id || remoteSeen.has(item.id)) return;
+        remoteSeen.add(item.id);
+        remoteItems.push(item);
+      });
+      const existing = new Map();
+      const offlineMessages = [];
+      data.messages.forEach(msg => {
+        if (isRecallMessage(msg)) {
+          existing.set(msg.entryId, msg);
+        } else {
+          offlineMessages.push(msg);
+        }
+      });
+      const merged = [];
+      const syncTasks = [];
+      remoteItems.forEach(item => {
+        if (!item || !item.id) return;
+        const now = existing.get(item.id);
+        const msg = buildRecallMessage(item, now);
+        merged.push(msg);
+        if (isFinalReceiptStatus(item.status) && (!now || now.status !== item.status || !now.resultHtml)) {
+          syncTasks.push(syncTasksFromRecallItem(item));
+        }
+      });
+      merged.sort((a, b) => (b.time || "").localeCompare(a.time || ""));
+      data.messages = [...merged, ...offlineMessages];
+      save();
+      await Promise.all(syncTasks);
+      return remoteItems;
+    }
+
+    async function clearAndSyncInbox() {
+      const clearButtons = [$("clearInboxTop"), $("clearInbox")].filter(Boolean);
+      const syncStatus = $("syncStatus");
+      const oldLabels = clearButtons.map(btn => btn.textContent);
+      let synced = STANDALONE_MOBILE_MODE;
+      clearButtons.forEach(btn => {
+        btn.disabled = true;
+        btn.textContent = "清空中…";
+      });
+      const persisted = load();
+      persisted.messages = [];
+      persisted.inboxAutoFillEnabled = false;
+      persisted.inboxAutoClearEpoch = Date.now();
+      const hardClearTs = persisted.inboxAutoClearEpoch;
+      localStorage.setItem(inboxHardClearKey, String(hardClearTs));
+      data = normalize(persisted);
+      localStorage.setItem(inboxAutoFillDisableKey, "1");
+      localStorage.setItem(storageKey, JSON.stringify(data));
+      save();
+      if (!STANDALONE_MOBILE_MODE) {
+        try {
+          synced = await syncStateToServer();
+          if (!synced && syncStatus) {
+            syncStatus.className = "service-status warn";
+            syncStatus.textContent = `清空消息未同步到服务端，请稍后重试。${formatStateHostFailureTip() ? ` 详情：${formatStateHostFailureTip()} ` : ""}${nowClock()}`;
+          }
+        } catch (err) {
+          synced = false;
+          if (syncStatus) {
+            syncStatus.className = "service-status warn";
+            syncStatus.textContent = `清空消息失败：${err.message || err}。${nowClock()}`;
+          }
+        }
+      } else if (syncStatus) {
+        syncStatus.className = "service-status ok";
+        syncStatus.textContent = `已清空手机本地消息。${nowClock()}`;
+      }
+      const feedback = synced ? "已清空" : "清空失败";
+      pollingEntries.clear();
+      render();
+      clearButtons.forEach((btn, index) => {
+        btn.textContent = feedback;
+        btn.disabled = false;
+        setTimeout(() => { btn.textContent = oldLabels[index] || "清空消息"; }, synced ? 900 : 1400);
+      });
+    }
+    function isInboxAutoFillEnabled() {
+      return localStorage.getItem(inboxAutoFillDisableKey) !== "1" && data.inboxAutoFillEnabled !== false;
+    }
+    function syncStateFromStorage() {
+      const snapshot = data;
+      data = mergePendingLocalTasks(load(), snapshot);
+      render();
+    }
+
+    function isRecallMessage(item) {
+      return item && String(item.entryId || "").startsWith("WP-");
+    }
+    function isFinalReceiptStatus(status) {
+      return ["已处理", "已答复", "运行失败"].includes(status);
+    }
+    function nowClock() {
+      return new Date().toLocaleTimeString("zh-CN", { hour12: false });
+    }
+    async function refreshReceiptOnce(entryId) {
+      if (STANDALONE_MOBILE_MODE) return null;
+      const res = await fetch(`${recallApi}/api/result?id=${encodeURIComponent(entryId)}&t=${Date.now()}`, { cache: "no-store" });
+      const body = await res.json();
+      if (!body.ok || !body.item) return null;
+      const msg = data.messages.find(m => m.entryId === entryId);
+      if (!msg) return null;
+      msg.status = body.item.status;
+      msg.receipt = userReceipt(body.item);
+      msg.resultHtml = body.item.result_html || "";
+      msg.resultSummary = body.item.result_summary || "";
+      if (body.item.status === "已处理" || body.item.status === "已答复") await syncTasksFromRecallItem(body.item);
+      return body.item;
+    }
+    async function refreshAllReceipts() {
+      if (STANDALONE_MOBILE_MODE) {
+        const btn = $("refreshReceipts");
+        if (btn) {
+          const label = btn.textContent;
+          btn.textContent = "已刷新";
+          setTimeout(() => { btn.textContent = label || "刷新"; }, 900);
+        }
+        renderInbox();
+        renderMetrics();
+        renderTimeline();
+        return;
+      }
+      if (!isInboxAutoFillEnabled()) return;
+      const btn = $("refreshReceipts");
+      if (!btn) return;
+      btn.textContent = "刷新中…";
+      btn.disabled = true;
+      try {
+        const remoteItems = await refreshRecallInboxFromService();
+        const running = remoteItems.filter(item => !isFinalReceiptStatus(item.status));
+        running.forEach(item => {
+          if (!pollingEntries.has(item.id)) pollRecallResult(item.id);
+        });
+        renderInbox();
+        renderMetrics();
+        renderTimeline();
+      } catch (err) {
+        const pending = data.messages.filter(isRecallMessage);
+        const tasks = pending.map(item => refreshReceiptOnce(item.entryId).catch(() => null));
+        const results = await Promise.all(tasks);
+        if (results.length) {
+          save();
+          render();
+        }
+        results.forEach(item => {
+          if (item && isRecallMessage(item) && !isFinalReceiptStatus(item.status) && !pollingEntries.has(item.id)) {
+            pollRecallResult(item.id);
+          }
+        });
+      } finally {
+        btn.textContent = "刷新";
+        btn.disabled = false;
+      }
+    }
+    async function refreshAllState() {
+      const btn = $("hardRefreshBtn");
+      const label = btn ? btn.textContent : "";
+      const tasksBtn = $("refreshReceipts");
+      const syncStatus = $("syncStatus");
+      if (STANDALONE_MOBILE_MODE) {
+        const snapshot = data;
+        data = mergePendingLocalTasks(load(), snapshot);
+        localStorage.setItem(storageKey, JSON.stringify(data));
+        if (syncStatus) {
+          syncStatus.className = "service-status ok";
+          syncStatus.textContent = `已刷新手机本地数据：${data.tasks.length} 项。${nowClock()}`;
+        }
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = `已刷新 ${data.tasks.length} 项`;
+          setTimeout(() => {
+            btn.disabled = false;
+            btn.textContent = label || "刷新最新状态";
+          }, 1100);
+        }
+        render();
+        return;
+      }
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = "刷新中…";
+      }
+      if (tasksBtn) tasksBtn.disabled = true;
+      try {
+        await flushPendingStateSync();
+        await stateSyncPromise;
+        const previousProbe = data.syncProbe?.id || "";
+        const ok = await refreshStateFromServer();
+        const backState = await readBackStateFromServer();
+        const backProbe = backState?.syncProbe?.id || "";
+        if (ok && backState) {
+          const snapshot = data;
+          data = mergePendingLocalTasks(backState, snapshot);
+          localStorage.setItem(storageKey, JSON.stringify(data));
+          if (previousProbe && backProbe && backProbe !== previousProbe) {
+            if (syncStatus) {
+              syncStatus.className = "service-status warn";
+              syncStatus.textContent = `检测编号校验中：上次 ${previousProbe}，本次服务端 ${backProbe}。请再点一次刷新。${nowClock()}`;
+            }
+          }
+        }
+        if (syncStatus) {
+          const probe = data.syncProbe || {};
+          syncStatus.className = ok ? "service-status ok" : "service-status warn";
+          syncStatus.textContent = ok
+            ? `已从电脑公共状态刷新：${data.tasks.length} 项。检测编号：${probe.id || "没有编号"}。${nowClock()}`
+            : `没有读到电脑公共状态。请先在电脑端点“刷新最新状态”。${formatStateHostFailureTip() ? ` 最近失败：${formatStateHostFailureTip()}。` : ""}${nowClock()}`;
+        }
+        if (btn) btn.textContent = ok ? `已刷新 ${data.tasks.length} 项` : "没有状态";
+        await Promise.allSettled([
+          checkServiceHealth(),
+          refreshAllReceipts()
+        ]);
+        render();
+      } catch (err) {
+        if (syncStatus) {
+          syncStatus.className = "service-status warn";
+          syncStatus.textContent = `同步失败：${err.message || err}。${nowClock()}`;
+        }
+        if (btn) btn.textContent = "刷新失败";
+      } finally {
+        if (tasksBtn) tasksBtn.disabled = false;
+        if (btn) {
+          setTimeout(() => {
+            btn.disabled = false;
+            btn.textContent = label || "刷新最新状态";
+          }, 1600);
+        }
+      }
+    }
+    function receiptStage(status) {
+      if (status === "运行失败") return "fail";
+      if (status === "已处理" || status === "已答复") return "answered";
+      if (status === "处理中") return "processing";
+      if (status === "排队中" || status === "待Codex处理") return "queued";
+      return "received";
+    }
+    function renderReceiptFlow(status) {
+      const stage = receiptStage(status);
+      const order = ["received", "queued", "processing", "answered"];
+      const labels = { received: "已收件", queued: "排队中", processing: "处理中", answered: "已答复" };
+      const activeIndex = order.indexOf(stage);
+      return `<div class="receipt-flow">${order.map((key, index) => {
+        const cls = stage === "fail" && key === "processing" ? "fail" : index <= activeIndex ? "on" : "";
+        return `<span class="receipt-step ${cls}">${labels[key]}</span>`;
+      }).join("")}</div>`;
+    }
+    function userReceipt(item) {
+      const id = item.id;
+      if (item.status === "已处理" || item.status === "已答复") return `已答复：${item.summary}`;
+      if (item.status === "处理中") return `已正式收件，编号 ${id}。Codex 正在处理，正在拆任务、排日期、生成计划表。`;
+      if (item.status === "运行失败") return `处理没有完成，编号 ${id}。原因：${item.result_summary || "后台接手失败，请查看服务窗口或稍后重试。"}`;
+      if (item.status === "排队中" || item.status === "待Codex处理") return `已正式收件，编号 ${id}。当前在排队中，等待 Codex 接手。`;
+      return `已正式收件，编号 ${id}。当前状态：${item.status || "已收件"}`;
+    }
+    function renderFormOptions() {
+      setOptions("taskCategory", data.categories.map(c => [c.id, c.name]));
+      setOptions("taskProject", data.projects.filter(p => p.id !== "all").map(p => [p.id, p.name]));
+      setOptions("taskOwner", data.people.map(p => [p.id, p.name]));
+      setOptions("taskTimeType", schema.timeTypes.map(x => [x, x]));
+      setOptions("taskType", schema.types.map(x => [x, x]));
+      setOptions("taskStatus", schema.statuses.map(x => [x, x]));
+      setOptions("taskPriority", schema.priorities.map(x => [x, x]));
+    }
+    function setOptions(id, rows) {
+      const el = $(id);
+      if (!el) return;
+      const old = el.value;
+      el.innerHTML = rows.map(([v, l]) => `<option value="${v}">${l}</option>`).join("");
+      if (rows.some(([v]) => v === old)) el.value = old;
+    }
+    function group(rows, fn) {
+      return rows.reduce((acc, r) => { (acc[fn(r)] ||= []).push(r); return acc; }, {});
+    }
+    function upcomingWeekday(targetDay) {
+      const current = today.getDay();
+      let diff = (targetDay - current + 7) % 7;
+      if (diff === 0) diff = 7;
+      return add(diff);
+    }
+    function weekdayForText(prefix, targetDay) {
+      if (/下/.test(prefix || "")) {
+        const current = today.getDay();
+        const daysToNextMonday = ((1 - current + 7) % 7) || 7;
+        const offset = targetDay === 0 ? 6 : targetDay - 1;
+        return add(daysToNextMonday + offset);
+      }
+      return upcomingWeekday(targetDay);
+    }
+    function dateFromText(text) {
+      const dayMap = { 一: 1, 二: 2, 三: 3, 四: 4, 五: 5, 六: 6, 日: 0, 天: 0 };
+      const explicitDay = text.match(/(下周|下星期|下礼拜|下个星期|下个礼拜|本周|这周|周|星期|礼拜)([一二三四五六日天])/);
+      const afterDays = text.match(/(\d+)天后/);
+      if (/明天|次日/.test(text)) return add(1);
+      if (/后天/.test(text)) return add(2);
+      if (/今天|今晚/.test(text)) return add(0);
+      if (afterDays) return add(Number(afterDays[1]));
+      if (explicitDay) return weekdayForText(explicitDay[1], dayMap[explicitDay[2]]);
+      if (/下周|下星期|下礼拜|下个星期|下个礼拜/.test(text)) return add(7);
+      return "";
+    }
+    function smartDate(text, index = 0, continuousMode = false, inheritedDue = "") {
+      const explicit = dateFromText(text);
+      if (explicit) return explicit;
+      if (inheritedDue) return inheritedDue;
+      if (continuousMode) return add(Math.min(index, 29));
+      return add(2);
+    }
+    function inferType(text) {
+      if (/脚本|文案|提纲|转让书|材料/.test(text)) return "文案";
+      if (/口播|录音|试录|设备|拍摄/.test(text)) return "拍摄";
+      if (/剪|视频|成片/.test(text)) return "剪辑";
+      if (/发布/.test(text)) return "发布";
+      if (/复盘|数据/.test(text)) return "复盘";
+      if (/设计|封面/.test(text)) return "设计";
+      if (/沟通|确认|咨询|护照|办理|过户/.test(text)) return "沟通";
+      return "运营";
+    }
+    function inferProject(text) {
+      if (/小红书|视频|发布|剪/.test(text)) return "p2";
+      if (/清风|别墅|外出/.test(text)) return "p3";
+      if (/数字生命|脚本|同步|结构/.test(text)) return "p1";
+      return "p1";
+    }
+    function inferCategories(text, fallbackIds = selectedCategories) {
+      const ids = [];
+      if (/小红书|视频|发布|拍摄|剪辑|脚本|口播|录音/.test(text)) ids.push("xiaohongshu");
+      if (/清风|别墅/.test(text)) ids.push("qingfeng");
+      if (/学习|读书|课程|论文|研究|训练/.test(text)) ids.push("study");
+      if (/外出|出门|行程|路上|护照|办理|英国/.test(text)) ids.push("outside");
+      if (/生活|家务|日常|吃饭|采购|姐姐|房屋|过户|转让书/.test(text)) ids.push("life");
+      return normalizeCategoryIds([...fallbackIds, ...ids]);
+    }
+    function inferCategory(text) {
+      return inferCategories(text)[0] || "other";
+    }
+    function inferOwner(text) {
+      if (/帅哥|小哥/.test(text)) return "u1";
+      if (/鸽伟/.test(text)) return "u2";
+      if (/经纬/.test(text)) return "u3";
+      return "u0";
+    }
+    function selectedPromptModes() {
+      return [...document.querySelectorAll(".chip.active[data-mode]")].map(btn => btn.dataset.mode);
+    }
+    function hasExplicitDate(text) {
+      return /今天|明天|后天|周[一二三四五六日天]|星期[一二三四五六日天]|礼拜[一二三四五六日天]|下周|下星期|下礼拜|下个星期|下个礼拜|\d+天后|\d{1,2}月|\d{1,2}[\/.-]\d{1,2}/.test(text);
+    }
+    function promptModeLabel(mode) {
+      return ({ extract: "提取纪要", continuous: "排连续日期", important: "重要提醒" })[mode] || mode;
+    }
+    function clearPromptModes() {
+      document.querySelectorAll(".chip.active[data-mode]").forEach(btn => btn.classList.remove("active"));
+    }
+    function splitWorkItems(text) {
+      const marked = text
+        .replace(/第[一二三四五六七八九十\d]+件事/g, "\n$&")
+        .replace(/还有就是|另外|再就是/g, "\n$&")
+        .replace(/[，,](明天|今天|后天|下周|本周|这周|这一周|周[一二三四五六日天]|星期[一二三四五六日天])/g, "\n$1");
+      return marked.split(/\n|。|；|;/)
+        .map(x => x.trim())
+        .filter(Boolean)
+        .filter(x => /要|需要|整理|剪|复盘|确认|发布|安排|给|做|推进|咨询|办理|过户|转让书|录音|口播|调整|训练/.test(x))
+        .map(x => x.replace(/^第[一二三四五六七八九十\d]+件事(就是|是)?/, "").replace(/^还有就是/, "").trim());
+    }
+    function cleanTaskName(text) {
+      return text
+        .replace(/^(请|需要|要|把|给这个工程|我|明天我要|今天我要)/, "")
+        .replace(/^(下周|下星期|下礼拜|下个星期|下个礼拜|本周|这周|这一周|周|星期|礼拜)?[一二三四五六日天]?(以前|前)?吧?[，,]?(这个)?(要|把|去|安排)?/, "")
+        .slice(0, 64);
+    }
+    function completionStandard(text, importantMode) {
+      if (/口播|录音|设备/.test(text)) return "完成口播试录音、设备参数调整，并形成下一期口播视频制作方式";
+      if (/护照|英国|咨询/.test(text)) return "明确办理路径、材料清单、预约方式和下一步时间";
+      if (/过户|转让书|房屋|姐姐/.test(text)) return "整理转让书并交给姐姐确认";
+      return importantMode ? "重要提醒：完成标准需要优先确认" : "由工作推进总驾驶舱生成，需确认完成标准";
+    }
+    function nextAction(text, importantMode) {
+      if (/咨询/.test(text)) return "先咨询办理流程";
+      if (/口播|录音/.test(text)) return "准备设备并安排试录";
+      if (/转让书|过户/.test(text)) return "整理材料并发给姐姐";
+      return importantMode ? "优先提醒并推进" : "按时间计划推进";
+    }
+    function ownerIdFromName(name) {
+      if (/帅哥|小哥/.test(name)) return "u1";
+      if (/鸽伟/.test(name)) return "u2";
+      if (/经纬/.test(name)) return "u3";
+      return "u0";
+    }
+    function priorityFromText(text) {
+      if (/P0|紧急/.test(text)) return "P0紧急";
+      if (/高|重要|P1/.test(text)) return "P1重要";
+      if (/低|P3/.test(text)) return "P3低";
+      return "P2普通";
+    }
+    function normalizeTaskType(text) {
+      if (schema.types.includes(text)) return text;
+      if (/测试|录音|口播|拍摄|执行/.test(text)) return "拍摄";
+      if (/咨询|确认|沟通|办理/.test(text)) return "沟通";
+      if (/文书|转让书|材料|脚本/.test(text)) return "文案";
+      if (/发布/.test(text)) return "发布";
+      if (/复盘/.test(text)) return "复盘";
+      return "运营";
+    }
+    function extractResultTable(markdown) {
+      const lines = String(markdown || "").split("\n").map(line => line.trim()).filter(Boolean);
+      const rows = [];
+      let inTable = false;
+      for (const line of lines) {
+        if (!line.startsWith("|") || !line.endsWith("|")) {
+          if (inTable && rows.length) break;
+          continue;
+        }
+        const cells = line.slice(1, -1).split("|").map(cell => cell.trim());
+        if (cells.every(cell => /^:?-{3,}:?$/.test(cell))) continue;
+        if (cells.includes("日期") && cells.includes("任务")) {
+          inTable = true;
+          continue;
+        }
+        if (inTable && cells.length >= 8) rows.push(cells);
+      }
+      return rows;
+    }
+    function taskFromRecallRow(row, item) {
+      const [dateText, name, owner, categoryText, typeText, priorityText, standard, next] = row;
+      const dueMatch = String(dateText).match(/\d{4}-\d{2}-\d{2}/);
+      const categoryIds = normalizeCategoryIds(String(categoryText).split(/[、/]/).map(categoryNameToId).filter(Boolean));
+      const due = dueMatch ? dueMatch[0] : smartDate(dateText, 0, false, "");
+      return {
+        id: `recall-${item.id}-${rowsafe(name).slice(0, 18)}`,
+        sourceEntryId: item.id,
+        categoryIds,
+        categoryId: categoryIds[0],
+        category: category(categoryIds[0]).name,
+        projectId: inferProject(`${name} ${categoryText}`),
+        name: String(name || item.summary || "召回任务").slice(0, 80),
+        ownerId: ownerIdFromName(owner),
+        type: normalizeTaskType(typeText),
+        timeType: "",
+        status: "待办",
+        priority: priorityFromText(priorityText),
+        start: iso(today),
+        due,
+        done: standard || "按 Codex 召回结果完成",
+        next: next || "按计划推进",
+        reason: `Codex召回结果 ${item.id}`,
+        completedAt: ""
+      };
+    }
+    function rowsafe(text) {
+      return String(text || "").replace(/[^\w\u4e00-\u9fff]+/g, "_");
+    }
+    async function syncTasksFromRecallItem(item) {
+      if (!item || !item.result_json) return;
+      try {
+        const res = await fetch(resultDataHref(item.result_json), { cache: "no-store" });
+        const payload = await res.json();
+        const rows = extractResultTable(payload.result || "");
+        if (!rows.length) return;
+        const imported = rows.map(row => taskFromRecallRow(row, item)).filter(task => task?.name && task.due);
+        if (!imported.length) return;
+        const existing = new Set(data.tasks.filter(t => t.sourceEntryId !== item.id).map(t => `${t.name}||${t.due}`));
+        const deduped = imported.filter(task => !existing.has(`${task.name}||${task.due}`));
+        if (!deduped.length) return;
+        data.tasks = data.tasks.filter(task => task.sourceEntryId !== item.id);
+        data.tasks = [...deduped, ...data.tasks];
+      } catch {}
+    }
+    function runCockpitFlow(text, modes) {
+      const continuousMode = modes.includes("continuous");
+      const importantMode = modes.includes("important");
+      const parts = splitWorkItems(text);
+      let inheritedDue = "";
+      return parts.map((part, index) => {
+        const categoryIds = inferCategories(part, selectedCategories);
+        const explicitDue = dateFromText(part);
+        const due = explicitDue || (continuousMode ? add(Math.min(index, 29)) : inheritedDue || add(0));
+        if (explicitDue) inheritedDue = due;
+        const priority = /P0|紧急/.test(part) ? "P0紧急" : importantMode || /P1|重要|明天|以前|护照|过户|转让书/.test(part) ? "P1重要" : "P2普通";
+        const status = /待指定|缺/.test(part) ? "待确认" : "待办";
+        return {
+          id: uid("t"),
+          categoryIds,
+          categoryId: categoryIds[0],
+          category: category(categoryIds[0]).name,
+          projectId: inferProject(part),
+          name: cleanTaskName(part),
+          ownerId: inferOwner(part),
+          type: inferType(part),
+          timeType: "",
+          status,
+          priority,
+          start: iso(today),
+          due,
+          done: completionStandard(part, importantMode),
+          next: nextAction(part, importantMode),
+          reason: "桌面入口写入工作事务推进驾驶舱",
+          completedAt: ""
+        };
+      });
+    }
+    function appendLocalTasksFromMessage(text, modes, sourceEntryId = "") {
+      const importantMode = modes.includes("important");
+      let parsed = runCockpitFlow(text, modes);
+      if (!Array.isArray(parsed) || parsed.length === 0) {
+        const inferredCategories = inferCategories(text, selectedCategories);
+        parsed = [{
+          id: uid("t"),
+          categoryIds: inferredCategories,
+          categoryId: inferredCategories[0],
+          category: category(inferredCategories[0]).name,
+          projectId: inferProject(text),
+          name: cleanTaskName(text) || "待确认任务",
+          ownerId: inferOwner(text),
+          type: inferType(text),
+          timeType: "",
+          status: /待指定|缺/.test(text) ? "待确认" : "待办",
+          priority: /P0|紧急/.test(text) ? "P0紧急" : importantMode || /P1|重要|明天|以前|护照|过户|转让书/.test(text) ? "P1重要" : "P2普通",
+          start: iso(today),
+          due: hasExplicitDate(text) ? dateFromText(text) : add(0),
+          done: completionStandard(text, importantMode),
+          next: nextAction(text, importantMode),
+          reason: "本地规则离线生成",
+          completedAt: ""
+        }];
+      }
+      const existing = new Set(data.tasks.map(task => `${task.name}||${task.due}`));
+      const toInsert = parsed.filter(task => !existing.has(`${task.name}||${task.due}`)).map(task => ({
+        ...task,
+        reason: "本地规则离线生成",
+        sourceEntryId: sourceEntryId ? `local-${sourceEntryId}` : `offline-${task.id}`
+      }));
+      if (toInsert.length) {
+        data.tasks = [...toInsert, ...data.tasks];
+      }
+      return toInsert;
+    }
+    async function sendMessage() {
+      const text = $("messageText").value.trim();
+      if (!text) return;
+      const modes = selectedPromptModes();
+      const draftToken = `send-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+      const draftTasks = appendLocalTasksFromMessage(text, modes, draftToken);
+      if (draftTasks.length) {
+        save();
+        render();
+      }
+      if (STANDALONE_MOBILE_MODE) {
+        data.messages.unshift({
+          id: uid("m"),
+          entryId: `手机本地-${Date.now()}`,
+          status: draftTasks.length ? "本地已生成" : "未生成任务",
+          categoryIds: selectedCategories,
+          categoryId: selectedCategories[0],
+          projectId: inferProject(text),
+          time: iso(today),
+          text,
+          receipt: draftTasks.length
+            ? `已加入手机本地计划：${draftTasks.length} 条。`
+            : "这段内容没有识别出任务，请补充“要做/安排/确认/发布/学习”等动作词。"
+        });
+        $("messageText").value = "";
+        clearPromptModes();
+        save();
+        render();
+        jumpToPlan();
+        return;
+      }
+      $("sendMessage").disabled = true;
+      try {
+        const payload = {
+          question: text,
+          categories: selectedCategories,
+          modes
+        };
+        const res = await fetch(`${recallApi}/api/submit`, {
+          method: "POST",
+          cache: "no-store",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const body = await res.json();
+        if (!body.ok) throw new Error(body.error || "提交失败");
+        const item = body.item;
+        if (draftTasks.length) {
+          data.tasks = data.tasks.map(task => task.sourceEntryId === `local-${draftToken}` ? { ...task, sourceEntryId: item.id } : task);
+        }
+        data.messages.unshift({
+          id: uid("m"),
+          entryId: item.id,
+          status: item.status,
+          categoryIds: selectedCategories,
+          categoryId: selectedCategories[0],
+          projectId: "p1",
+          time: item.created,
+          text,
+          receipt: userReceipt(item),
+          resultHtml: "",
+          resultSummary: ""
+        });
+        $("messageText").value = "";
+        clearPromptModes();
+        save();
+        render();
+        pollRecallResult(item.id);
+      } catch (err) {
+        const localGeneratedCount = draftTasks.length;
+        const statusMessage = localGeneratedCount
+          ? `服务暂时不可达，已按本地规则生成 ${localGeneratedCount} 条计划条。`
+          : `没有连上召回服务。请先启动全链路服务，再提交。错误：${err.message || err}`;
+        data.messages.unshift({
+          id: uid("m"),
+          entryId: "本地服务未连接",
+          status: localGeneratedCount ? "本地已生成" : "未送达",
+          categoryIds: selectedCategories,
+          categoryId: selectedCategories[0],
+          projectId: "p1",
+          time: iso(today),
+          text,
+          receipt: statusMessage
+        });
+        save();
+        render();
+      } finally {
+        $("sendMessage").disabled = false;
+      }
+    }
+    async function pollRecallResult(entryId) {
+      if (!isInboxAutoFillEnabled()) return;
+      if (pollingEntries.has(entryId)) return;
+      pollingEntries.add(entryId);
+      for (let i = 0; i < 90; i++) {
+        try {
+          const res = await fetch(`${recallApi}/api/result?id=${encodeURIComponent(entryId)}&t=${Date.now()}`, { cache: "no-store" });
+          const body = await res.json();
+          if (body.ok && body.item) {
+            const msg = data.messages.find(m => m.entryId === entryId);
+            if (msg) {
+              msg.status = body.item.status;
+              msg.receipt = userReceipt(body.item);
+              msg.resultHtml = body.item.result_html || "";
+              msg.resultSummary = body.item.result_summary || "";
+              if (body.item.status === "已处理" || body.item.status === "已答复") await syncTasksFromRecallItem(body.item);
+              save();
+              render();
+            }
+            if (body.item.status === "已处理" || body.item.status === "已答复" || body.item.status === "运行失败") {
+              pollingEntries.delete(entryId);
+              return;
+            }
+          }
+        } catch {}
+        await new Promise(resolve => setTimeout(resolve, 3000));
+      }
+      const msg = data.messages.find(m => m.entryId === entryId);
+      if (msg) {
+        msg.receipt = `后台可能仍在处理，编号 ${entryId}。可以稍后刷新，或打开消息回执查看最新状态。`;
+        save();
+        renderInbox();
+      }
+      pollingEntries.delete(entryId);
+    }
+    async function checkServiceHealth() {
+      if (STANDALONE_MOBILE_MODE) {
+        $("serviceStatus").className = "service-status ok";
+        $("serviceStatus").textContent = `手机独立模式正常：计划和打卡保存在本机。${nowClock()}`;
+        return true;
+      }
+      try {
+        const base = await resolveStateApiBase();
+        if (!base) {
+          throw new Error("未检测到可用端口");
+        }
+        const res = await fetch(`${base}/api/health?t=${Date.now()}`, { cache: "no-store" });
+        const body = await res.json();
+        if (!body.ok) throw new Error("服务未返回正常状态");
+        $("serviceStatus").className = "service-status ok";
+        const activeCount = (body.active || []).length;
+        const failedCount = (body.failed || []).length;
+        $("serviceStatus").textContent = `本地召回服务已连接。排队/处理中 ${activeCount} 条，失败 ${failedCount} 条。上次刷新 ${nowClock()}`;
+      } catch (err) {
+        $("serviceStatus").className = "service-status warn";
+        $("serviceStatus").textContent = location.protocol === "file:"
+          ? `未检测到可用召回服务端口。请先启动全链路服务（8790x 或 8800/8801）。${formatStateHostFailureTip() ? `${formatStateHostFailureTip()}。` : ""}上次检查 ${nowClock()}`
+          : `本地召回服务未连接：${err.message || err}（${nowClock()}）`;
+      }
+    }
+    function resumeRecallPolling() {
+      data.messages
+        .filter(m => m.entryId && String(m.entryId).startsWith("WP-") && !["已处理", "已答复", "运行失败"].includes(m.status))
+        .slice(0, 5)
+        .forEach(m => pollRecallResult(m.entryId));
+    }
+    window.toggleDone = (id, checked) => {
+      const t = data.tasks.find(x => String(x.id) === String(id));
+      if (!t) return;
+      setTaskCompletionLock(id, checked);
+      t.status = checked ? "已完成" : "待办";
+      t.completedAt = checked ? iso(today) : "";
+      save();
+      render();
+    };
+    window.postponeTaskToTomorrow = (id) => {
+      const t = data.tasks.find(x => String(x.id) === String(id));
+      if (!t) return;
+      t.status = "待办";
+      t.due = add(1);
+      t.completedAt = "";
+      save();
+      render();
+    };
+    window.toggleImportant = (id) => {
+      const t = data.tasks.find(x => String(x.id) === String(id));
+      if (!t) return;
+      const isImportant = normalizePriorityLabel(t.priority) === "重要";
+      t.priority = isImportant ? "P2普通" : "P1重要";
+      save();
+      render();
+    };
+    window.supplementTask = (id) => {
+      const t = data.tasks.find(x => x.id === id);
+      if (!t) return;
+      selectedCategories = taskCategoryIds(t);
+      $("messageText").value = `补充任务「${t.name}」：负责人、截止时间、完成标准、优先级、下一步动作。`;
+      renderProjects();
+      renderTop();
+      $("messageText").focus();
+    }
+    $("sendMessage").onclick = sendMessage;
+    $("localTaskLibrary").onclick = () => {
+      viewMode = "date";
+      activeRange = "30";
+      $("searchBox").value = "";
+      render();
+    };
+    $("localScheduleView").onclick = () => {
+      viewMode = "date";
+      activeRange = "7";
+      render();
+    };
+    $("localCategoryView").onclick = () => {
+      viewMode = "category";
+      render();
+    };
+    $("localReceiptView").onclick = () => {
+      document.getElementById("inbox").scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    $("hardRefreshBtn").onclick = refreshAllState;
+    $("refreshReceipts").onclick = refreshAllReceipts;
+    $("clearInbox").onclick = clearAndSyncInbox;
+    $("clearInboxTop").onclick = clearAndSyncInbox;
+    window.addEventListener("storage", (event) => {
+      if (event.key !== storageKey && event.key !== statePulseKey) return;
+      syncStateFromStorage();
+    });
+    if (stateSyncChannel) {
+      stateSyncChannel.onmessage = (event) => {
+        const payload = event.data;
+        if (!payload || payload.type !== "workCockpitStateSync") return;
+        if (!payload.state || typeof payload.state !== "object") return;
+        const snapshot = data;
+        data = mergePendingLocalTasks(payload.state, snapshot);
+        localStorage.setItem(storageKey, JSON.stringify(data));
+        render();
+      };
+    }
+    window.addEventListener("visibilitychange", () => {
+      if (!document.hidden) {
+        refreshStateFromServer().catch(() => {});
+      }
+    });
+    window.addEventListener("focus", () => {
+      syncStateFromStorage();
+    });
+    $("exportBtn").onclick = () => {
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "work-life-plan-mobile.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    };
+    $("typeFilter").onchange = renderTimeline;
+    $("ownerFilter").onchange = renderTimeline;
+    $("searchBox").oninput = renderTimeline;
+    document.querySelectorAll(".chip[data-mode]").forEach(btn => btn.onclick = () => {
+      btn.classList.toggle("active");
+      $("messageText").focus();
+    });
+    (async () => {
+      await refreshStateFromServer().catch(() => {});
+      await importBundledOriginalState().catch(() => {});
+      render();
+      if (new URLSearchParams(location.search).get("clearInbox") === "1") {
+        await clearAndSyncInbox().catch(() => {});
+      }
+      checkServiceHealth();
+      resumeRecallPolling();
+      setInterval(checkServiceHealth, 10000);
+      if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+        navigator.serviceWorker.register("./sw.js").catch(() => {});
+      }
+    })().catch(() => {});
+  </script>
+</body>
+</html>
