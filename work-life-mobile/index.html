@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#2f6f62" />
   <title>清风显化 · 本身即美 生活本身</title>
   <link rel="manifest" href="./manifest.webmanifest" />
-  <script src="./cloud-config.js?v=20260628-sync14"></script>
+  <script src="./cloud-config.js?v=20260628-sync15"></script>
   <style>
     :root {
       --bg: #eef1ed;
@@ -2749,6 +2749,7 @@
       }
     }
     function resumeRecallPolling() {
+      if (STANDALONE_MOBILE_MODE) return;
       data.messages
         .filter(m => m.entryId && String(m.entryId).startsWith("WP-") && !["已处理", "已答复", "运行失败"].includes(m.status))
         .slice(0, 5)
@@ -2862,7 +2863,7 @@
       resumeRecallPolling();
       setInterval(checkServiceHealth, 10000);
       if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-        navigator.serviceWorker.register("./sw.js?v=20260628-sync14").catch(() => {});
+        navigator.serviceWorker.register("./sw.js?v=20260628-sync15").catch(() => {});
       }
     })().catch(() => {});
   </script>
