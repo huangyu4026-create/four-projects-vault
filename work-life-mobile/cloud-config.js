@@ -88,6 +88,23 @@ window.WORK_LIFE_CLOUD_SYNC_URL = "";
     return String(task?.id || `${task?.name || ""}||${task?.due || ""}`);
   }
 
+  function messageKey(message) {
+    return String(message?.id || message?.entryId || message?.text || "");
+  }
+
+  function messageEpoch(message) {
+    const raw = `${message?.entryId || ""} ${message?.id || ""}`;
+    const match = raw.match(/\d{13}/);
+    if (match) {
+      const value = Number(match[0]);
+      if (value > 1500000000000 && value < 2200000000000) return value;
+    }
+    const time = String(message?.time || "").trim();
+    if (!time) return 0;
+    const parsed = Date.parse(time.includes(" ") ? time.replace(" ", "T") : time);
+    return Number.isFinite(parsed) ? parsed : 0;
+  }
+
   function mergeTask(remoteTask, localTask) {
     const next = { ...(remoteTask || {}), ...(localTask || {}) };
     if (remoteTask?.status === "已完成" || localTask?.status === "已完成") {
@@ -119,10 +136,13 @@ window.WORK_LIFE_CLOUD_SYNC_URL = "";
     if (localClear > remoteClear) {
       next.messages = Array.isArray(local.messages) ? local.messages : [];
     } else if (remoteClear > localClear) {
-      next.messages = Array.isArray(remote.messages) ? remote.messages : [];
+      const remoteMessages = Array.isArray(remote.messages) ? remote.messages : [];
+      const localMessages = (Array.isArray(local.messages) ? local.messages : []).filter(message => messageEpoch(message) > remoteClear);
+      next.messages = mergeArray(remoteMessages, localMessages, messageKey, (a, b) => ({ ...(a || {}), ...(b || {}) }))
+        .sort((a, b) => String(b.time || "").localeCompare(String(a.time || "")));
       next.inboxAutoClearEpoch = remoteClear;
     } else {
-      next.messages = mergeArray(remote.messages, local.messages, msg => String(msg?.id || msg?.entryId || msg?.text || ""), (a, b) => ({ ...(a || {}), ...(b || {}) }))
+      next.messages = mergeArray(remote.messages, local.messages, messageKey, (a, b) => ({ ...(a || {}), ...(b || {}) }))
         .sort((a, b) => String(b.time || "").localeCompare(String(a.time || "")));
     }
     next.dailyCheckin = {
