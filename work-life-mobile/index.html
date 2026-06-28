@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#2f6f62" />
   <title>清风显化 · 本身即美 生活本身</title>
   <link rel="manifest" href="./manifest.webmanifest" />
-  <script src="./cloud-config.js?v=20260628-sync12"></script>
+  <script src="./cloud-config.js?v=20260628-sync13"></script>
   <style>
     :root {
       --bg: #eef1ed;
@@ -761,6 +761,10 @@
     const stateFallbackKey = "workCockpitStateFallback";
     const cloudSyncUrlKey = "workLifeCloudSyncUrl";
     const cloudClientIdKey = "workLifeCloudClientId";
+    const telegraphSyncPathKey = "workLifeTelegraphPath";
+    const telegraphSyncTokenKey = "workLifeTelegraphToken";
+    const telegraphClientIdKey = "workLifeTelegraphClientId";
+    const telegraphApiBase = "https://api.telegra.ph";
     const bundledOriginalStateUrl = "./original-work-cockpit-state.json";
     const bundledOriginalStateVersion = "20260617-072430";
     const bundledOriginalStateImportKey = "workCockpitBundledOriginalImportVersion";
@@ -935,6 +939,35 @@
       return id;
     }
 
+    function getTelegraphClientId() {
+      let id = localStorage.getItem(telegraphClientIdKey);
+      if (id) return id;
+      id = `phone-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      localStorage.setItem(telegraphClientIdKey, id);
+      return id;
+    }
+
+    function configuredTelegraphSync() {
+      const query = new URLSearchParams(location.search || "");
+      const hashText = location.hash && location.hash.startsWith("#") ? location.hash.slice(1) : "";
+      const hash = new URLSearchParams(hashText);
+      const path = String(query.get("telegraphPath") || hash.get("telegraphPath") || localStorage.getItem(telegraphSyncPathKey) || "").trim();
+      const token = String(hash.get("telegraphToken") || query.get("telegraphToken") || localStorage.getItem(telegraphSyncTokenKey) || "").trim();
+      if (path) localStorage.setItem(telegraphSyncPathKey, path);
+      if (token) localStorage.setItem(telegraphSyncTokenKey, token);
+      if (hash.get("telegraphToken")) {
+        hash.delete("telegraphToken");
+        const nextHash = hash.toString();
+        history.replaceState(null, "", `${location.pathname}${location.search}${nextHash ? `#${nextHash}` : ""}`);
+      }
+      return { path, token };
+    }
+
+    function isTelegraphSyncEnabled() {
+      const config = configuredTelegraphSync();
+      return Boolean(config.path && config.token);
+    }
+
     function configuredCloudSyncUrl() {
       const queryUrl = new URLSearchParams(location.search).get("cloud");
       if (queryUrl && /^https?:\/\//i.test(queryUrl.trim())) {
@@ -946,7 +979,7 @@
     }
 
     function isCloudSyncEnabled() {
-      return /^https?:\/\//i.test(configuredCloudSyncUrl());
+      return isTelegraphSyncEnabled() || /^https?:\/\//i.test(configuredCloudSyncUrl());
     }
 
     function cloudUrl(action) {
@@ -961,6 +994,23 @@
 
     function taskMergeKey(task) {
       return String(task?.id || `${task?.name || ""}||${task?.due || ""}`);
+    }
+
+    function sharedMessageKey(message) {
+      return String(message?.id || message?.entryId || message?.text || "");
+    }
+
+    function sharedMessageEpoch(message) {
+      const raw = `${message?.entryId || ""} ${message?.id || ""}`;
+      const match = raw.match(/\d{13}/);
+      if (match) {
+        const value = Number(match[0]);
+        if (value > 1500000000000 && value < 2200000000000) return value;
+      }
+      const time = String(message?.time || "").trim();
+      if (!time) return 0;
+      const parsed = Date.parse(time.includes(" ") ? time.replace(" ", "T") : time);
+      return Number.isFinite(parsed) ? parsed : 0;
     }
 
     function mergeSharedTask(remoteTask, localTask) {
@@ -989,12 +1039,19 @@
       });
 
       const messageMap = new Map();
-      remote.messages.forEach(msg => messageMap.set(String(msg.id || msg.entryId || msg.text || Math.random()), msg));
-      local.messages.forEach(msg => {
-        const key = String(msg.id || msg.entryId || msg.text || Math.random());
+      const remoteClear = Number(remote.inboxAutoClearEpoch || 0);
+      const localClear = Number(local.inboxAutoClearEpoch || 0);
+      const localMessages = remoteClear > localClear
+        ? local.messages.filter(message => sharedMessageEpoch(message) > remoteClear)
+        : local.messages;
+      remote.messages.forEach(msg => messageMap.set(sharedMessageKey(msg), msg));
+      localMessages.forEach(msg => {
+        const key = sharedMessageKey(msg);
         messageMap.set(key, { ...(messageMap.get(key) || {}), ...msg });
       });
       remote.messages = [...messageMap.values()].sort((a, b) => String(b.time || "").localeCompare(String(a.time || "")));
+      remote.inboxAutoClearEpoch = Math.max(remoteClear, localClear);
+      remote.inboxAutoFillEnabled = true;
 
       remote.dailyCheckin = normalizeDailyCheckin({
         ...(remote.dailyCheckin || {}),
@@ -1011,8 +1068,61 @@
       return remote;
     }
 
+    function telegraphNodeText(node) {
+      if (typeof node === "string") return node;
+      if (!node || typeof node !== "object") return "";
+      if (Array.isArray(node.children)) return node.children.map(telegraphNodeText).join("");
+      return "";
+    }
+
+    function telegraphContentText(content) {
+      if (!Array.isArray(content)) return "";
+      return content.map(telegraphNodeText).join("\n").trim();
+    }
+
+    async function fetchTelegraphState() {
+      const config = configuredTelegraphSync();
+      if (!config.path) return null;
+      const res = await fetch(`${telegraphApiBase}/getPage/${encodeURIComponent(config.path)}?return_content=true&t=${Date.now()}`, { cache: "no-store" });
+      if (!res.ok) throw new Error(`Telegraph 读取失败：HTTP ${res.status}`);
+      const body = await res.json().catch(() => null);
+      if (body?.ok === false) throw new Error(body.error || "Telegraph 返回失败");
+      const text = telegraphContentText(body?.result?.content);
+      if (!text) return null;
+      const payload = JSON.parse(text);
+      const state = payload?.state && typeof payload.state === "object" ? payload.state : null;
+      return state ? { state, updatedAt: payload.updatedAt || "" } : null;
+    }
+
+    async function postTelegraphState(state) {
+      const config = configuredTelegraphSync();
+      if (!config.path || !config.token) return null;
+      const payload = {
+        ok: true,
+        updatedAt: new Date().toISOString(),
+        clientId: getTelegraphClientId(),
+        state: { ...(state || {}), inboxAutoFillEnabled: true }
+      };
+      const params = new URLSearchParams();
+      params.set("access_token", config.token);
+      params.set("title", "work-life-mobile-shared-state");
+      params.set("author_name", "Work Life Mobile");
+      params.set("content", JSON.stringify([{ tag: "pre", children: [JSON.stringify(payload)] }]));
+      params.set("return_content", "false");
+      const res = await fetch(`${telegraphApiBase}/editPage/${encodeURIComponent(config.path)}`, {
+        method: "POST",
+        cache: "no-store",
+        body: params
+      });
+      if (!res.ok) throw new Error(`Telegraph 写入失败：HTTP ${res.status}`);
+      const body = await res.json().catch(() => null);
+      if (body?.ok === false) throw new Error(body.error || "Telegraph 保存失败");
+      return payload;
+    }
+
     async function fetchCloudState() {
       if (!isCloudSyncEnabled()) return null;
+      if (isTelegraphSyncEnabled()) return fetchTelegraphState();
       const res = await fetch(cloudUrl("get"), { cache: "no-store", redirect: "follow" });
       if (!res.ok) throw new Error(`云端读取失败：HTTP ${res.status}`);
       const body = await res.json().catch(() => null);
@@ -1023,6 +1133,7 @@
 
     async function postCloudState(state) {
       if (!isCloudSyncEnabled()) return null;
+      if (isTelegraphSyncEnabled()) return postTelegraphState(state);
       const payload = {
         action: "save",
         clientId: getCloudClientId(),
@@ -1053,7 +1164,7 @@
       emitStateSyncPulse();
       if ($("syncStatus")) {
         $("syncStatus").className = "service-status ok";
-        $("syncStatus").textContent = `已同步到云端：${data.tasks.length} 项。${nowClock()}`;
+        $("syncStatus").textContent = `已同步到云端：${data.tasks.length} 项，${data.messages.length} 条消息。${nowClock()}`;
       }
       return true;
     }
@@ -1447,7 +1558,7 @@
         completedAt: taskLocks[t.id].completedAt || t.completedAt || iso(today)
       } : t);
       next.messages = normalizeMessages(next.messages || []);
-      if (next.inboxAutoFillEnabled === false) {
+      if (next.inboxAutoFillEnabled === false && !(STANDALONE_MOBILE_MODE && isCloudSyncEnabled())) {
         next.messages = [];
       }
       next.dailyCheckin = normalizeDailyCheckin(next.dailyCheckin || {});
@@ -2737,7 +2848,7 @@
       resumeRecallPolling();
       setInterval(checkServiceHealth, 10000);
       if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-        navigator.serviceWorker.register("./sw.js?v=20260628-sync12").catch(() => {});
+        navigator.serviceWorker.register("./sw.js?v=20260628-sync13").catch(() => {});
       }
     })().catch(() => {});
   </script>
