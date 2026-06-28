@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#2f6f62" />
   <title>清风显化 · 本身即美 生活本身</title>
   <link rel="manifest" href="./manifest.webmanifest" />
-  <script src="./cloud-config.js?v=20260628-sync13"></script>
+  <script src="./cloud-config.js?v=20260628-sync14"></script>
   <style>
     :root {
       --bg: #eef1ed;
@@ -1164,9 +1164,19 @@
       emitStateSyncPulse();
       if ($("syncStatus")) {
         $("syncStatus").className = "service-status ok";
-        $("syncStatus").textContent = `已同步到云端：${data.tasks.length} 项，${data.messages.length} 条消息。${nowClock()}`;
+        updateCloudSyncStatus("已同步到云端");
       }
       return true;
+    }
+
+    function updateCloudSyncStatus(prefix = "云同步已连接") {
+      const text = `${prefix}：${data.tasks.length} 项，${data.messages.length} 条消息。${nowClock()}`;
+      ["syncStatus", "syncProbeStatus"].forEach(id => {
+        const el = $(id);
+        if (!el) return;
+        el.className = "service-status ok";
+        el.textContent = text;
+      });
     }
 
     async function refreshStateFromCloud() {
@@ -1177,6 +1187,7 @@
       localStorage.setItem(storageKey, JSON.stringify(data));
       writeLocalStateFallback();
       emitStateSyncPulse();
+      updateCloudSyncStatus("云同步已读取");
       return true;
     }
 
@@ -2710,9 +2721,12 @@
     async function checkServiceHealth() {
       if (STANDALONE_MOBILE_MODE) {
         $("serviceStatus").className = "service-status ok";
-        $("serviceStatus").textContent = isCloudSyncEnabled()
-          ? `云同步模式正常：计划和打卡会保存到同一份云端数据。${nowClock()}`
-          : `手机独立模式正常：计划和打卡保存在本机。${nowClock()}`;
+        if (isCloudSyncEnabled()) {
+          $("serviceStatus").textContent = `云同步模式正常：计划和打卡会保存到同一份云端数据。${nowClock()}`;
+          updateCloudSyncStatus(cloudSyncLastAt ? "云同步已连接" : "云同步待读取");
+        } else {
+          $("serviceStatus").textContent = `手机独立模式正常：计划和打卡保存在本机。${nowClock()}`;
+        }
         return true;
       }
       try {
@@ -2848,7 +2862,7 @@
       resumeRecallPolling();
       setInterval(checkServiceHealth, 10000);
       if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-        navigator.serviceWorker.register("./sw.js?v=20260628-sync13").catch(() => {});
+        navigator.serviceWorker.register("./sw.js?v=20260628-sync14").catch(() => {});
       }
     })().catch(() => {});
   </script>
