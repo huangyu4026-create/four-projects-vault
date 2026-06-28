@@ -1,4 +1,4 @@
-const CACHE_NAME = "work-life-mobile-standalone-v6";
+const CACHE_NAME = "work-life-mobile-standalone-v7";
 const ASSETS = [
   "./",
   "./index.html",
