@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#2f6f62" />
   <title>清风显化 · 本身即美 生活本身</title>
   <link rel="manifest" href="./manifest.webmanifest" />
-  <script src="./cloud-config.js?v=20260628-sync11"></script>
+  <script src="./cloud-config.js?v=20260628-sync12"></script>
   <style>
     :root {
       --bg: #eef1ed;
@@ -2737,7 +2737,7 @@
       resumeRecallPolling();
       setInterval(checkServiceHealth, 10000);
       if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-        navigator.serviceWorker.register("./sw.js?v=20260628-sync11").catch(() => {});
+        navigator.serviceWorker.register("./sw.js?v=20260628-sync12").catch(() => {});
       }
     })().catch(() => {});
   </script>
