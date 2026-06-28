@@ -7,16 +7,27 @@ window.WORK_LIFE_CLOUD_SYNC_URL = "";
   const pathKey = "workLifeTelegraphPath";
   const tokenKey = "workLifeTelegraphToken";
   const clientIdKey = "workLifeTelegraphClientId";
+  const inboxAutoFillDisableKey = "workCockpitInboxAutoFillDisabled";
+  const inboxHardClearKey = "workCockpitInboxHardClearTs";
   const nativeSetItem = Storage.prototype.setItem;
+  const nativeGetItem = Storage.prototype.getItem;
   let applyingRemote = false;
   let pushTimer = null;
+
+  function storedItem(key) {
+    try {
+      return nativeGetItem.call(localStorage, key);
+    } catch {
+      return "";
+    }
+  }
 
   function readParams() {
     const query = new URLSearchParams(location.search || "");
     const hashText = location.hash && location.hash.startsWith("#") ? location.hash.slice(1) : "";
     const hash = new URLSearchParams(hashText);
-    const path = String(query.get("telegraphPath") || hash.get("telegraphPath") || localStorage.getItem(pathKey) || "").trim();
-    const token = String(hash.get("telegraphToken") || query.get("telegraphToken") || localStorage.getItem(tokenKey) || "").trim();
+    const path = String(query.get("telegraphPath") || hash.get("telegraphPath") || storedItem(pathKey) || "").trim();
+    const token = String(hash.get("telegraphToken") || query.get("telegraphToken") || storedItem(tokenKey) || "").trim();
     if (path) nativeSetItem.call(localStorage, pathKey, path);
     if (token) nativeSetItem.call(localStorage, tokenKey, token);
     if (hash.get("telegraphToken")) {
@@ -32,8 +43,20 @@ window.WORK_LIFE_CLOUD_SYNC_URL = "";
     return Boolean(config.path && config.token);
   }
 
+  function keepMessagesReadable(value) {
+    if (!hasSync() || typeof value !== "string" || !value.trim()) return value;
+    try {
+      const state = JSON.parse(value);
+      if (!state || typeof state !== "object" || Array.isArray(state)) return value;
+      state.inboxAutoFillEnabled = true;
+      return JSON.stringify(state);
+    } catch {
+      return value;
+    }
+  }
+
   function clientId() {
-    let id = localStorage.getItem(clientIdKey);
+    let id = storedItem(clientIdKey);
     if (id) return id;
     id = `phone-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
     nativeSetItem.call(localStorage, clientIdKey, id);
@@ -54,7 +77,7 @@ window.WORK_LIFE_CLOUD_SYNC_URL = "";
 
   function readLocalState() {
     try {
-      const state = JSON.parse(localStorage.getItem(storageKey) || "{}");
+      const state = JSON.parse(storedItem(storageKey) || "{}");
       return state && typeof state === "object" ? state : {};
     } catch {
       return {};
@@ -108,6 +131,7 @@ window.WORK_LIFE_CLOUD_SYNC_URL = "";
       records: { ...(remote.dailyCheckin?.records || {}), ...(local.dailyCheckin?.records || {}) },
       history: { ...(remote.dailyCheckin?.history || {}), ...(local.dailyCheckin?.history || {}) }
     };
+    next.inboxAutoFillEnabled = true;
     return next;
   }
 
@@ -131,7 +155,7 @@ window.WORK_LIFE_CLOUD_SYNC_URL = "";
       ok: true,
       updatedAt: new Date().toISOString(),
       clientId: clientId(),
-      state
+      state: { ...(state || {}), inboxAutoFillEnabled: true }
     };
     const params = new URLSearchParams();
     params.set("access_token", config.token);
@@ -151,7 +175,7 @@ window.WORK_LIFE_CLOUD_SYNC_URL = "";
   }
 
   function emitLocalState(state) {
-    const text = JSON.stringify(state);
+    const text = JSON.stringify({ ...(state || {}), inboxAutoFillEnabled: true });
     applyingRemote = true;
     try {
       nativeSetItem.call(localStorage, storageKey, text);
@@ -195,7 +219,7 @@ window.WORK_LIFE_CLOUD_SYNC_URL = "";
     pushTimer = setTimeout(async () => {
       pushTimer = null;
       try {
-        const local = value ? JSON.parse(value) : readLocalState();
+        const local = value ? JSON.parse(keepMessagesReadable(value)) : readLocalState();
         const remote = await fetchRemoteState().catch(() => null);
         const merged = mergeState(remote, local);
         await postRemoteState(merged);
@@ -208,9 +232,18 @@ window.WORK_LIFE_CLOUD_SYNC_URL = "";
   }
 
   try {
+    Storage.prototype.getItem = function (key) {
+      const value = nativeGetItem.apply(this, arguments);
+      if (this !== localStorage || !hasSync()) return value;
+      if (key === inboxAutoFillDisableKey) return null;
+      if (key === inboxHardClearKey) return "0";
+      if (key === storageKey) return keepMessagesReadable(value);
+      return value;
+    };
     Storage.prototype.setItem = function (key, value) {
-      nativeSetItem.apply(this, arguments);
-      if (this === localStorage && key === storageKey) schedulePush(value);
+      const nextValue = this === localStorage && key === storageKey ? keepMessagesReadable(String(value)) : value;
+      nativeSetItem.call(this, key, nextValue);
+      if (this === localStorage && key === storageKey) schedulePush(nextValue);
     };
   } catch {
   }
