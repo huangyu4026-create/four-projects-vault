@@ -7,7 +7,7 @@
   <title>清风显化 · 本身即美 生活本身</title>
   <link rel="icon" href="./icon.svg" type="image/svg+xml" />
   <link rel="manifest" href="./manifest.webmanifest" />
-  <script src="./cloud-config.js?v=20260629-sync33"></script>
+  <script src="./cloud-config.js?v=20260629-sync34"></script>
   <style>
     :root {
       --bg: #eef1ed;
@@ -1813,6 +1813,15 @@
       if (diff > 2) return `${diff}天后 · ${md}`;
       return `逾期 ${Math.abs(diff)}天 · ${md}`;
     }
+    function monthDayLabel(date) {
+      const d = new Date(String(date || "") + "T00:00:00");
+      if (Number.isNaN(d.getTime())) return date || "未定日期";
+      return `${d.getMonth() + 1}月${d.getDate()}日`;
+    }
+    function taskDueLine(t) {
+      if (late(t)) return `原截止 ${monthDayLabel(t.due)}，已逾期 ${Math.abs(daysFromToday(t.due))} 天`;
+      return `截止 ${monthDayLabel(t.due)}`;
+    }
     function normalizePriorityLabel(rawPriority) {
       const p = String(rawPriority || "").trim();
       if (p === "P1重要" || p === "重要" || p === "P0紧急") return "重要";
@@ -2014,15 +2023,22 @@
         renderCategoryTimeline(tasks);
         return;
       }
-      const dates = visibleDates(tasks);
-      $("timeline").innerHTML = dates.map(date => {
+      const lateTasks = tasks.filter(late);
+      const currentTasks = tasks.filter(t => !late(t));
+      const lateHtml = lateTasks.length ? `<article class="bucket">
+        <div class="bucket-head"><h3>逾期任务</h3><span class="pill">${lateTasks.length} 项</span></div>
+        <div class="bucket-body"><div class="group"><div class="group-title"><span>已超过截止时间</span><span>${lateTasks.length}</span></div>${lateTasks.map(taskCard).join("")}</div></div>
+      </article>` : "";
+      const dates = visibleDates(currentTasks);
+      const currentHtml = dates.map(date => {
         const bucketTasks = tasks.filter(t => t.due === date);
         return `<article class="bucket">
           <div class="bucket-head"><h3>${dateLabel(date)}</h3><span class="pill">${bucketTasks.length ? `${bucketTasks.length} 项` : "空"}</span></div>
           <div class="bucket-body">${bucketTasks.length ? `<div class="group"><div class="group-title"><span>全部任务</span><span>${bucketTasks.length}</span></div>${bucketTasks.map(taskCard).join("")}</div>` : `<div class="empty">这一天暂无安排</div>`}
           </div>
         </article>`;
-      }).join("") || `<div class="empty">当前没有需要推进的任务</div>`;
+      }).join("");
+      $("timeline").innerHTML = lateHtml + currentHtml || `<div class="empty">当前没有需要推进的任务</div>`;
     }
     function jumpToPlan() {
       document.getElementById("projectTitle").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -2050,7 +2066,7 @@
           <input type="checkbox" ${t.status === "已完成" ? "checked" : ""} onchange="toggleDone('${t.id}', this.checked)" title="完成后从当前计划消失" />
           <div>
             <strong>${esc(t.name)}</strong>
-            <div class="muted small">${esc(project(t.projectId).name)} · ${esc(taskCategoryNames(t))} · ${person(t.ownerId)} · 截止 ${t.due}</div>
+            <div class="muted small">${esc(project(t.projectId).name)} · ${esc(taskCategoryNames(t))} · ${person(t.ownerId)} · ${esc(taskDueLine(t))}</div>
             <div class="task-actions">
               <button type="button" class="task-action" onclick="postponeTaskToTomorrow('${t.id}')">明天</button>
               <button type="button" class="task-action ${normalizePriorityLabel(t.priority) === "重要" ? "is-important" : ""}" onclick="toggleImportant('${t.id}')">重要</button>
@@ -3043,7 +3059,7 @@
       resumeRecallPolling();
       setInterval(checkServiceHealth, 10000);
       if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-        navigator.serviceWorker.register("./sw.js?v=20260629-sync33").catch(() => {});
+        navigator.serviceWorker.register("./sw.js?v=20260629-sync34").catch(() => {});
       }
     })().catch(() => {});
   </script>
