@@ -7,7 +7,7 @@
   <title>清风显化 · 本身即美 生活本身</title>
   <link rel="icon" href="./icon.svg" type="image/svg+xml" />
   <link rel="manifest" href="./manifest.webmanifest" />
-  <script src="./cloud-config.js?v=20260629-sync26"></script>
+  <script src="./cloud-config.js?v=20260629-sync27"></script>
   <style>
     :root {
       --bg: #eef1ed;
@@ -909,6 +909,7 @@
     }
     let stateSyncPromise = Promise.resolve();
     let stateSyncPushTimer = null;
+    let cloudRepairTimers = [];
     let stateSyncPending = false;
 
     function queueStateSync() {
@@ -931,6 +932,20 @@
       }
       stateSyncPending = false;
       await (stateSyncPromise = syncStateToServer().catch(() => false));
+    }
+
+    function queueCloudRepairSweep() {
+      if (!STANDALONE_MOBILE_MODE || !isCloudSyncEnabled()) return;
+      cloudRepairTimers.forEach(timer => clearTimeout(timer));
+      cloudRepairTimers = [];
+      [1800, 5200, 11000].forEach(delay => {
+        const jitter = Math.floor(Math.random() * 900);
+        const timer = setTimeout(async () => {
+          cloudRepairTimers = cloudRepairTimers.filter(item => item !== timer);
+          await syncStateToCloud().catch(() => false);
+        }, delay + jitter);
+        cloudRepairTimers.push(timer);
+      });
     }
 
     function getCloudClientId() {
@@ -1516,6 +1531,7 @@
       writeLocalStateFallback();
       emitStateSyncPulse();
       queueStateSync();
+      queueCloudRepairSweep();
     }
     function loadTaskCompletionLocks() {
       try {
@@ -2969,7 +2985,7 @@
       resumeRecallPolling();
       setInterval(checkServiceHealth, 10000);
       if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-        navigator.serviceWorker.register("./sw.js?v=20260629-sync26").catch(() => {});
+        navigator.serviceWorker.register("./sw.js?v=20260629-sync27").catch(() => {});
       }
     })().catch(() => {});
   </script>
