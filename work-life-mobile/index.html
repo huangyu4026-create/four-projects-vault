@@ -7,7 +7,7 @@
   <title>清风显化 · 本身即美 生活本身</title>
   <link rel="icon" href="./icon.svg" type="image/svg+xml" />
   <link rel="manifest" href="./manifest.webmanifest" />
-  <script src="./cloud-config.js?v=20260629-sync29"></script>
+  <script src="./cloud-config.js?v=20260629-sync30"></script>
   <style>
     :root {
       --bg: #eef1ed;
@@ -962,7 +962,7 @@
         ? await flushPendingStateSync()
         : await syncStateToServer().catch(() => false);
       if (ok) {
-        cloudConfirmHoldUntil = Date.now() + 20000;
+        cloudConfirmHoldUntil = Date.now() + 90000;
         updateCloudSyncStatus("已确认写入云端");
         return true;
       }
@@ -1214,7 +1214,7 @@
     }
 
     function updateCloudSyncStatus(prefix = "云同步已连接") {
-      const displayPrefix = Date.now() < cloudConfirmHoldUntil && /云同步|已同步到云端/.test(prefix)
+      const displayPrefix = Date.now() < cloudConfirmHoldUntil && !/失败|暂未|正在|清空|原有计划/.test(prefix)
         ? "已确认写入云端"
         : prefix;
       const text = `${displayPrefix}：${data.tasks.length} 项，${data.messages.length} 条消息。${nowClock()}`;
@@ -3021,7 +3021,7 @@
       resumeRecallPolling();
       setInterval(checkServiceHealth, 10000);
       if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-        navigator.serviceWorker.register("./sw.js?v=20260629-sync29").catch(() => {});
+        navigator.serviceWorker.register("./sw.js?v=20260629-sync30").catch(() => {});
       }
     })().catch(() => {});
   </script>
