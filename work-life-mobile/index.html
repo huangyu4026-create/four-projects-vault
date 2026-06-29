@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#2f6f62" />
   <title>清风显化 · 本身即美 生活本身</title>
   <link rel="manifest" href="./manifest.webmanifest" />
-  <script src="./cloud-config.js?v=20260629-sync18"></script>
+  <script src="./cloud-config.js?v=20260629-sync19"></script>
   <style>
     :root {
       --bg: #eef1ed;
@@ -2015,7 +2015,7 @@
         <strong>${esc(m.entryId || project(m.projectId).name)} · ${m.time}</strong>
         <p>${esc(m.text)}</p>
         <p class="muted">${esc(m.receipt)}</p>
-        ${m.entryId && String(m.entryId).startsWith("WP-") ? renderReceiptFlow(m.status) : ""}
+        ${m.entryId && String(m.entryId).startsWith("WP-") && m.status !== "历史已导入" && !STANDALONE_MOBILE_MODE ? renderReceiptFlow(m.status) : ""}
         ${m.resultHtml ? `<p><a class="btn" href="${esc(resultHref(m.resultHtml))}" target="_blank">打开召回结果</a></p>` : ""}
       </div>`).join("") : `<div class="empty">还没有消息</div>`;
     }
@@ -2890,7 +2890,7 @@
       resumeRecallPolling();
       setInterval(checkServiceHealth, 10000);
       if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-        navigator.serviceWorker.register("./sw.js?v=20260629-sync18").catch(() => {});
+        navigator.serviceWorker.register("./sw.js?v=20260629-sync19").catch(() => {});
       }
     })().catch(() => {});
   </script>
