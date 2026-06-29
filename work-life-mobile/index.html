@@ -7,7 +7,7 @@
   <title>清风显化 · 本身即美 生活本身</title>
   <link rel="icon" href="./icon.svg" type="image/svg+xml" />
   <link rel="manifest" href="./manifest.webmanifest" />
-  <script src="./cloud-config.js?v=20260629-sync30"></script>
+  <script src="./cloud-config.js?v=20260629-sync31"></script>
   <style>
     :root {
       --bg: #eef1ed;
@@ -973,6 +973,18 @@
         el.textContent = `云端确认暂未完成，本机已保存，稍后会继续复核。${nowClock()}`;
       });
       return false;
+    }
+
+    function markMessageCloudConfirmed(text) {
+      const message = data.messages.find(item => item && item.text === text);
+      if (!message || String(message.receipt || "").includes("云端已确认")) return;
+      message.receipt = `${message.receipt} 云端已确认：${nowClock()}`;
+      localStorage.setItem(storageKey, JSON.stringify(data));
+      writeLocalStateFallback();
+      emitStateSyncPulse();
+      queueStateSync();
+      queueCloudRepairSweep();
+      renderInbox();
     }
 
     function getCloudClientId() {
@@ -2776,7 +2788,8 @@
           save();
           render();
           jumpToPlan();
-          await confirmCloudWriteNow();
+          const cloudConfirmed = await confirmCloudWriteNow();
+          if (cloudConfirmed) markMessageCloudConfirmed(text);
         } finally {
           $("sendMessage").disabled = false;
         }
@@ -3021,7 +3034,7 @@
       resumeRecallPolling();
       setInterval(checkServiceHealth, 10000);
       if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-        navigator.serviceWorker.register("./sw.js?v=20260629-sync30").catch(() => {});
+        navigator.serviceWorker.register("./sw.js?v=20260629-sync31").catch(() => {});
       }
     })().catch(() => {});
   </script>
