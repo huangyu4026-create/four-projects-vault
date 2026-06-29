@@ -1,8 +1,8 @@
-const CACHE_NAME = "work-life-mobile-standalone-v26";
+const CACHE_NAME = "work-life-mobile-standalone-v27";
 const ASSETS = [
   "./",
   "./index.html",
-  "./cloud-config.js?v=20260629-sync26",
+  "./cloud-config.js?v=20260629-sync27",
   "./manifest.webmanifest",
   "./icon.svg",
   "./original-work-cockpit-state.json"
