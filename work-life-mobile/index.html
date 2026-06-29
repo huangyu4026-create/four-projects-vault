@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#2f6f62" />
   <title>清风显化 · 本身即美 生活本身</title>
   <link rel="manifest" href="./manifest.webmanifest" />
-  <script src="./cloud-config.js?v=20260629-sync16"></script>
+  <script src="./cloud-config.js?v=20260629-sync17"></script>
   <style>
     :root {
       --bg: #eef1ed;
@@ -1791,7 +1791,22 @@
         if (owner && t.ownerId !== owner) return false;
         if (q && !`${t.name} ${category(t.categoryId).name} ${project(t.projectId).name} ${t.done} ${t.next}`.toLowerCase().includes(q)) return false;
         return true;
-      }).sort((a, b) => a.due.localeCompare(b.due) || schema.priorities.indexOf(a.priority) - schema.priorities.indexOf(b.priority));
+      }).sort((a, b) => taskDisplayRank(a) - taskDisplayRank(b)
+        || schema.priorities.indexOf(a.priority) - schema.priorities.indexOf(b.priority)
+        || String(a.due || "").localeCompare(String(b.due || ""))
+        || String(a.name || "").localeCompare(String(b.name || "")));
+    }
+
+    function dateDisplayRank(date) {
+      const diff = daysFromToday(date);
+      if (diff === 0) return 0;
+      if (diff === 1) return 1;
+      if (diff > 1) return 10 + diff;
+      return 1000 + Math.abs(diff);
+    }
+
+    function taskDisplayRank(task) {
+      return dateDisplayRank(task.due || "");
     }
     function renderSyncProbeStatus() {
       const el = $("syncProbeStatus");
@@ -1968,7 +1983,7 @@
       return Math.round((new Date(date + "T00:00:00") - new Date(iso(today) + "T00:00:00")) / 86400000);
     }
     function visibleDates(tasks) {
-      return [...new Set(tasks.map(t => t.due))].sort();
+      return [...new Set(tasks.map(t => t.due))].sort((a, b) => dateDisplayRank(a) - dateDisplayRank(b) || String(a).localeCompare(String(b)));
     }
     function taskCard(t) {
         return `<div class="task">
@@ -2874,7 +2889,7 @@
       resumeRecallPolling();
       setInterval(checkServiceHealth, 10000);
       if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-        navigator.serviceWorker.register("./sw.js?v=20260629-sync16").catch(() => {});
+        navigator.serviceWorker.register("./sw.js?v=20260629-sync17").catch(() => {});
       }
     })().catch(() => {});
   </script>
