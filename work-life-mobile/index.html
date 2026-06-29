@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#2f6f62" />
   <title>清风显化 · 本身即美 生活本身</title>
   <link rel="manifest" href="./manifest.webmanifest" />
-  <script src="./cloud-config.js?v=20260628-sync15"></script>
+  <script src="./cloud-config.js?v=20260629-sync16"></script>
   <style>
     :root {
       --bg: #eef1ed;
@@ -1663,20 +1663,31 @@
       }
     }
 
+    function normalizeLegacyMobileMessage(item) {
+      if (!STANDALONE_MOBILE_MODE || !String(item?.entryId || "").startsWith("WP-")) return item;
+      if (["已处理", "已答复", "运行失败", "历史已导入"].includes(item.status)) return item;
+      return {
+        ...item,
+        status: "历史已导入",
+        receipt: "历史电脑后台回执：对应任务已导入手机计划。手机独立版不再等待旧电脑后台处理。"
+      };
+    }
+
     function normalizeMessages(rows) {
       const seen = new Set();
       const out = [];
       rows.forEach(item => {
         if (!item || typeof item !== "object") return;
-        const entryId = item.entryId || "";
-        const key = entryId ? `entry:${entryId}` : `id:${item.id || `time:${item.time || ""}-text:${item.text || ""}`}`;
+        const normalizedItem = normalizeLegacyMobileMessage(item);
+        const entryId = normalizedItem.entryId || "";
+        const key = entryId ? `entry:${entryId}` : `id:${normalizedItem.id || `time:${normalizedItem.time || ""}-text:${normalizedItem.text || ""}`}`;
         if (seen.has(key)) return;
         seen.add(key);
         out.push({
-          ...item,
-          categoryIds: normalizeCategoryIds(item.categoryIds || [item.categoryId || inferCategoryFromLegacy(item)]),
-          categoryId: normalizeCategoryId(item.categoryId || inferCategoryFromLegacy(item)),
-          projectId: item.projectId === "all" ? "p1" : (item.projectId || "p1")
+          ...normalizedItem,
+          categoryIds: normalizeCategoryIds(normalizedItem.categoryIds || [normalizedItem.categoryId || inferCategoryFromLegacy(normalizedItem)]),
+          categoryId: normalizeCategoryId(normalizedItem.categoryId || inferCategoryFromLegacy(normalizedItem)),
+          projectId: normalizedItem.projectId === "all" ? "p1" : (normalizedItem.projectId || "p1")
         });
       });
       return out;
@@ -2863,7 +2874,7 @@
       resumeRecallPolling();
       setInterval(checkServiceHealth, 10000);
       if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-        navigator.serviceWorker.register("./sw.js?v=20260628-sync15").catch(() => {});
+        navigator.serviceWorker.register("./sw.js?v=20260629-sync16").catch(() => {});
       }
     })().catch(() => {});
   </script>
