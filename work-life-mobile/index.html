@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#2f6f62" />
   <title>清风显化 · 本身即美 生活本身</title>
   <link rel="manifest" href="./manifest.webmanifest" />
-  <script src="./cloud-config.js?v=20260629-sync24"></script>
+  <script src="./cloud-config.js?v=20260629-sync25"></script>
   <style>
     :root {
       --bg: #eef1ed;
@@ -2455,13 +2455,13 @@
       return add(2);
     }
     function inferType(text) {
+      if (/打电话|电话|联系|沟通|确认|咨询|护照|办理|过户/.test(text)) return "沟通";
       if (/脚本|文案|提纲|转让书|材料/.test(text)) return "文案";
       if (/口播|录音|试录|设备|拍摄/.test(text)) return "拍摄";
       if (/剪|视频|成片/.test(text)) return "剪辑";
       if (/发布/.test(text)) return "发布";
       if (/复盘|数据/.test(text)) return "复盘";
       if (/设计|封面/.test(text)) return "设计";
-      if (/沟通|确认|咨询|护照|办理|过户/.test(text)) return "沟通";
       return "运营";
     }
     function inferProject(text) {
@@ -2968,7 +2968,7 @@
       resumeRecallPolling();
       setInterval(checkServiceHealth, 10000);
       if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-        navigator.serviceWorker.register("./sw.js?v=20260629-sync24").catch(() => {});
+        navigator.serviceWorker.register("./sw.js?v=20260629-sync25").catch(() => {});
       }
     })().catch(() => {});
   </script>
