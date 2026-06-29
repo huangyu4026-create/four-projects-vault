@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#2f6f62" />
   <title>清风显化 · 本身即美 生活本身</title>
+  <link rel="icon" href="./icon.svg" type="image/svg+xml" />
   <link rel="manifest" href="./manifest.webmanifest" />
-  <script src="./cloud-config.js?v=20260629-sync25"></script>
+  <script src="./cloud-config.js?v=20260629-sync26"></script>
   <style>
     :root {
       --bg: #eef1ed;
@@ -2968,7 +2969,7 @@
       resumeRecallPolling();
       setInterval(checkServiceHealth, 10000);
       if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-        navigator.serviceWorker.register("./sw.js?v=20260629-sync25").catch(() => {});
+        navigator.serviceWorker.register("./sw.js?v=20260629-sync26").catch(() => {});
       }
     })().catch(() => {});
   </script>
