@@ -7,7 +7,7 @@
   <title>清风显化 · 本身即美 生活本身</title>
   <link rel="icon" href="./icon.svg" type="image/svg+xml" />
   <link rel="manifest" href="./manifest.webmanifest" />
-  <script src="./cloud-config.js?v=20260629-sync31"></script>
+  <script src="./cloud-config.js?v=20260629-sync32"></script>
   <style>
     :root {
       --bg: #eef1ed;
@@ -975,8 +975,8 @@
       return false;
     }
 
-    function markMessageCloudConfirmed(text) {
-      const message = data.messages.find(item => item && item.text === text);
+    function markMessageCloudConfirmed(messageId) {
+      const message = data.messages.find(item => item && item.id === messageId);
       if (!message || String(message.receipt || "").includes("云端已确认")) return;
       message.receipt = `${message.receipt} 云端已确认：${nowClock()}`;
       localStorage.setItem(storageKey, JSON.stringify(data));
@@ -2772,8 +2772,9 @@
       if (STANDALONE_MOBILE_MODE) {
         $("sendMessage").disabled = true;
         try {
+          const messageId = uid("m");
           data.messages.unshift({
-            id: uid("m"),
+            id: messageId,
             entryId: `手机本地-${Date.now()}`,
             status: draftTasks.length ? "本地已生成" : "未生成任务",
             categoryIds: selectedCategories,
@@ -2789,7 +2790,7 @@
           render();
           jumpToPlan();
           const cloudConfirmed = await confirmCloudWriteNow();
-          if (cloudConfirmed) markMessageCloudConfirmed(text);
+          if (cloudConfirmed) markMessageCloudConfirmed(messageId);
         } finally {
           $("sendMessage").disabled = false;
         }
@@ -3034,7 +3035,7 @@
       resumeRecallPolling();
       setInterval(checkServiceHealth, 10000);
       if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-        navigator.serviceWorker.register("./sw.js?v=20260629-sync31").catch(() => {});
+        navigator.serviceWorker.register("./sw.js?v=20260629-sync32").catch(() => {});
       }
     })().catch(() => {});
   </script>
