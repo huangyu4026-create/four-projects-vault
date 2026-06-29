@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#2f6f62" />
   <title>清风显化 · 本身即美 生活本身</title>
   <link rel="manifest" href="./manifest.webmanifest" />
-  <script src="./cloud-config.js?v=20260629-sync23"></script>
+  <script src="./cloud-config.js?v=20260629-sync24"></script>
   <style>
     :root {
       --bg: #eef1ed;
@@ -2690,6 +2690,16 @@
       }
       return toInsert;
     }
+
+    function generatedTaskReceipt(tasks) {
+      if (!Array.isArray(tasks) || !tasks.length) {
+        return "这段内容没有识别出任务，请补充“要做/安排/确认/发布/学习/买/取/填”等动作词。";
+      }
+      const rows = tasks.slice(0, 6).map(task => `${task.due || "未定日期"}：${task.name || "待确认任务"}`).join("；");
+      const more = tasks.length > 6 ? `；还有 ${tasks.length - 6} 条` : "";
+      return `已加入手机本地计划：${tasks.length} 条。${rows}${more}`;
+    }
+
     async function sendMessage() {
       const text = $("messageText").value.trim();
       if (!text) return;
@@ -2710,9 +2720,7 @@
           projectId: inferProject(text),
           time: iso(today),
           text,
-          receipt: draftTasks.length
-            ? `已加入手机本地计划：${draftTasks.length} 条。`
-            : "这段内容没有识别出任务，请补充“要做/安排/确认/发布/学习”等动作词。"
+          receipt: generatedTaskReceipt(draftTasks)
         });
         $("messageText").value = "";
         clearPromptModes();
@@ -2761,7 +2769,7 @@
       } catch (err) {
         const localGeneratedCount = draftTasks.length;
         const statusMessage = localGeneratedCount
-          ? `服务暂时不可达，已按本地规则生成 ${localGeneratedCount} 条计划条。`
+          ? generatedTaskReceipt(draftTasks)
           : `没有连上召回服务。请先启动全链路服务，再提交。错误：${err.message || err}`;
         data.messages.unshift({
           id: uid("m"),
@@ -2960,7 +2968,7 @@
       resumeRecallPolling();
       setInterval(checkServiceHealth, 10000);
       if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-        navigator.serviceWorker.register("./sw.js?v=20260629-sync23").catch(() => {});
+        navigator.serviceWorker.register("./sw.js?v=20260629-sync24").catch(() => {});
       }
     })().catch(() => {});
   </script>
