@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#2f6f62" />
   <title>清风显化 · 本身即美 生活本身</title>
   <link rel="manifest" href="./manifest.webmanifest" />
-  <script src="./cloud-config.js?v=20260629-sync17"></script>
+  <script src="./cloud-config.js?v=20260629-sync18"></script>
   <style>
     :root {
       --bg: #eef1ed;
@@ -689,6 +689,7 @@
         ["7", "近期7天"],
         ["14", "近期14天"],
         ["30", "近期30天"],
+        ["all", "全部有任务日期"],
         ["late", "只看逾期"]
       ]
     };
@@ -753,7 +754,7 @@
     const inboxResetVersion = "20260616-0918";
     let data = normalize(load());
     let selectedCategories = ["xiaohongshu"];
-    let activeRange = "30";
+    let activeRange = "all";
     let viewMode = "date";
     const recallApi = location.origin.replace(/\/$/, "");
     const stateApi = `${recallApi}/api/state`;
@@ -1783,7 +1784,7 @@
       return data.tasks.filter(t => {
         if (closed(t)) return false;
         if (activeRange === "late" && !late(t)) return false;
-        if (activeRange !== "late" && !late(t)) {
+        if (activeRange !== "late" && activeRange !== "all" && !late(t)) {
           const diff = daysFromToday(t.due);
           if (diff < 0 || diff >= Number(activeRange)) return false;
         }
@@ -1936,13 +1937,13 @@
     }
     function renderTimeline() {
       const tasks = visibleTasks();
-      if (!tasks.length && data.tasks.some(t => !closed(t)) && activeRange !== "late" && activeRange !== "30") {
-        $("timeline").innerHTML = `<div class="empty">当前范围内没有未完成任务。点击下面按钮切换到未来30天查看全部。<button id="openFullRangeBtn" class="ghost" type="button">显示全部任务</button></div>`;
+      if (!tasks.length && data.tasks.some(t => !closed(t)) && activeRange !== "late" && activeRange !== "all") {
+        $("timeline").innerHTML = `<div class="empty">当前范围内没有未完成任务。点击下面按钮切换到全部有任务日期查看。<button id="openFullRangeBtn" class="ghost" type="button">显示全部任务</button></div>`;
         setTimeout(() => {
           const btn = $("openFullRangeBtn");
           if (btn) {
             btn.onclick = () => {
-              activeRange = "30";
+              activeRange = "all";
               viewMode = "date";
               renderTimeline();
             };
@@ -2889,7 +2890,7 @@
       resumeRecallPolling();
       setInterval(checkServiceHealth, 10000);
       if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-        navigator.serviceWorker.register("./sw.js?v=20260629-sync17").catch(() => {});
+        navigator.serviceWorker.register("./sw.js?v=20260629-sync18").catch(() => {});
       }
     })().catch(() => {});
   </script>
