@@ -7,7 +7,7 @@
   <title>清风显化 · 本身即美 生活本身</title>
   <link rel="icon" href="./icon.svg" type="image/svg+xml" />
   <link rel="manifest" href="./manifest.webmanifest" />
-  <script src="./cloud-config.js?v=20260629-sync32"></script>
+  <script src="./cloud-config.js?v=20260629-sync33"></script>
   <style>
     :root {
       --bg: #eef1ed;
@@ -2759,6 +2759,14 @@
       return `已加入手机本地计划：${tasks.length} 条。${rows}${more}`;
     }
 
+    function mobileTaskReceipt(tasks) {
+      const receipt = generatedTaskReceipt(tasks);
+      if (STANDALONE_MOBILE_MODE && isCloudSyncEnabled()) {
+        return `${receipt} 云端同步中，稍后自动复核。`;
+      }
+      return receipt;
+    }
+
     async function sendMessage() {
       const text = $("messageText").value.trim();
       if (!text) return;
@@ -2782,7 +2790,7 @@
             projectId: inferProject(text),
             time: iso(today),
             text,
-            receipt: generatedTaskReceipt(draftTasks)
+            receipt: mobileTaskReceipt(draftTasks)
           });
           $("messageText").value = "";
           clearPromptModes();
@@ -3035,7 +3043,7 @@
       resumeRecallPolling();
       setInterval(checkServiceHealth, 10000);
       if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-        navigator.serviceWorker.register("./sw.js?v=20260629-sync32").catch(() => {});
+        navigator.serviceWorker.register("./sw.js?v=20260629-sync33").catch(() => {});
       }
     })().catch(() => {});
   </script>
