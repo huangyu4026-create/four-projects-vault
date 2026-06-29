@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#2f6f62" />
   <title>清风显化 · 本身即美 生活本身</title>
   <link rel="manifest" href="./manifest.webmanifest" />
-  <script src="./cloud-config.js?v=20260629-sync21"></script>
+  <script src="./cloud-config.js?v=20260629-sync22"></script>
   <style>
     :root {
       --bg: #eef1ed;
@@ -2433,6 +2433,7 @@
       const thisMonth = text.match(/(?:本月|这个月)([\d一二三四五六七八九十两]{1,3})[日号]/);
       const dayOnly = text.match(/(^|[^月\d])([\d一二三四五六七八九十两]{1,3})[日号](?!后)/);
       if (/明天|次日/.test(text)) return add(1);
+      if (/大后天/.test(text)) return add(3);
       if (/后天/.test(text)) return add(2);
       if (/今天|今晚/.test(text)) return add(0);
       if (afterDays) return add(cnNumberToInt(afterDays[1]));
@@ -2491,7 +2492,7 @@
       return [...document.querySelectorAll(".chip.active[data-mode]")].map(btn => btn.dataset.mode);
     }
     function hasExplicitDate(text) {
-      return /今天|明天|后天|周[一二三四五六日天]|星期[一二三四五六日天]|礼拜[一二三四五六日天]|下周|下星期|下礼拜|下个星期|下个礼拜|[\d一二三四五六七八九十两]+天后|(?:20\d{2})[年\/.-]\d{1,2}[月\/.-]\d{1,2}|[\d一二三四五六七八九十两]{1,3}月[\d一二三四五六七八九十两]{1,3}[日号]?|\d{1,2}[\/.-]\d{1,2}|(?:下个月|下月|本月|这个月)[\d一二三四五六七八九十两]{1,3}[日号]|[\d一二三四五六七八九十两]{1,3}[日号]/.test(text);
+      return /今天|明天|后天|大后天|周[一二三四五六日天]|星期[一二三四五六日天]|礼拜[一二三四五六日天]|下周|下星期|下礼拜|下个星期|下个礼拜|[\d一二三四五六七八九十两]+天后|(?:20\d{2})[年\/.-]\d{1,2}[月\/.-]\d{1,2}|[\d一二三四五六七八九十两]{1,3}月[\d一二三四五六七八九十两]{1,3}[日号]?|\d{1,2}[\/.-]\d{1,2}|(?:下个月|下月|本月|这个月)[\d一二三四五六七八九十两]{1,3}[日号]|[\d一二三四五六七八九十两]{1,3}[日号]/.test(text);
     }
     function promptModeLabel(mode) {
       return ({ extract: "提取纪要", continuous: "排连续日期", important: "重要提醒" })[mode] || mode;
@@ -2499,20 +2500,32 @@
     function clearPromptModes() {
       document.querySelectorAll(".chip.active[data-mode]").forEach(btn => btn.classList.remove("active"));
     }
+    function leadingDatePattern() {
+      return "明天|今天|后天|大后天|下周|下星期|下礼拜|下个星期|下个礼拜|本周|这周|这一周|周[一二三四五六日天]|星期[一二三四五六日天]|礼拜[一二三四五六日天]|[\d一二三四五六七八九十两]+天后|(?:20\d{2})[年\/.-]\d{1,2}[月\/.-]\d{1,2}[日号]?|[\d一二三四五六七八九十两]{1,3}月[\d一二三四五六七八九十两]{1,3}[日号]?|\d{1,2}[\/.-]\d{1,2}|(?:下个月|下月|本月|这个月)[\d一二三四五六七八九十两]{1,3}[日号]|[\d一二三四五六七八九十两]{1,3}[日号]";
+    }
+
     function splitWorkItems(text) {
+      const dateLead = leadingDatePattern();
       const marked = text
-        .replace(/第[一二三四五六七八九十\d]+件事/g, "\n$&")
-        .replace(/还有就是|另外|再就是/g, "\n$&")
-        .replace(/[，,](明天|今天|后天|下周|本周|这周|这一周|周[一二三四五六日天]|星期[一二三四五六日天])/g, "\n$1");
-      return marked.split(/\n|。|；|;/)
+        .replace(/第[一二三四五六七八九十\d]+件事/g, "
+$&")
+        .replace(/还有就是|另外|再就是/g, "
+$&")
+        .replace(new RegExp(`[，,、](?=(${dateLead}))`, "g"), "
+")
+        .replace(new RegExp(`(然后|再然后|接着)(?=(${dateLead}))`, "g"), "
+");
+      return marked.split(/
+|。|；|;/)
         .map(x => x.trim())
         .filter(Boolean)
-        .filter(x => /要|需要|整理|剪|复盘|确认|发布|安排|给|做|推进|咨询|办理|过户|转让书|录音|口播|调整|训练/.test(x))
+        .filter(x => /要|需要|整理|剪|复盘|确认|发布|安排|给|做|推进|咨询|办理|过户|转让书|录音|口播|调整|训练|买|取|填|缴|预约|寄|打电话|浇水|拍|收拾|清理|采购|报名/.test(x))
         .map(x => x.replace(/^第[一二三四五六七八九十\d]+件事(就是|是)?/, "").replace(/^还有就是/, "").trim());
     }
     function cleanTaskName(text) {
       return text
         .replace(/^(请|需要|要|把|给这个工程|我|明天我要|今天我要)/, "")
+        .replace(new RegExp(`^(${leadingDatePattern()})(以前|前)?吧?[，,]?(这个)?(要|把|去|安排|记得)?`), "")
         .replace(/^(下周|下星期|下礼拜|下个星期|下个礼拜|本周|这周|这一周|周|星期|礼拜)?[一二三四五六日天]?(以前|前)?吧?[，,]?(这个)?(要|把|去|安排)?/, "")
         .slice(0, 64);
     }
@@ -2952,7 +2965,7 @@
       resumeRecallPolling();
       setInterval(checkServiceHealth, 10000);
       if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-        navigator.serviceWorker.register("./sw.js?v=20260629-sync21").catch(() => {});
+        navigator.serviceWorker.register("./sw.js?v=20260629-sync22").catch(() => {});
       }
     })().catch(() => {});
   </script>
