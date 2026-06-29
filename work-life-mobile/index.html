@@ -7,7 +7,7 @@
   <title>清风显化 · 本身即美 生活本身</title>
   <link rel="icon" href="./icon.svg" type="image/svg+xml" />
   <link rel="manifest" href="./manifest.webmanifest" />
-  <script src="./cloud-config.js?v=20260629-sync27"></script>
+  <script src="./cloud-config.js?v=20260629-sync28"></script>
   <style>
     :root {
       --bg: #eef1ed;
@@ -925,13 +925,14 @@
 
     async function flushPendingStateSync() {
       if (STANDALONE_MOBILE_MODE && !isCloudSyncEnabled()) return true;
-      if (!stateSyncPending) return;
+      if (!stateSyncPending) return true;
       if (stateSyncPushTimer) {
         clearTimeout(stateSyncPushTimer);
         stateSyncPushTimer = null;
       }
       stateSyncPending = false;
-      await (stateSyncPromise = syncStateToServer().catch(() => false));
+      const synced = await (stateSyncPromise = syncStateToServer().catch(() => false));
+      return synced !== false;
     }
 
     function queueCloudRepairSweep() {
@@ -946,6 +947,30 @@
         }, delay + jitter);
         cloudRepairTimers.push(timer);
       });
+    }
+
+    async function confirmCloudWriteNow() {
+      if (!STANDALONE_MOBILE_MODE || !isCloudSyncEnabled()) return true;
+      ["syncStatus", "syncProbeStatus"].forEach(id => {
+        const el = $(id);
+        if (!el) return;
+        el.className = "service-status warn";
+        el.textContent = `正在确认写入云端… ${nowClock()}`;
+      });
+      const ok = stateSyncPending
+        ? await flushPendingStateSync()
+        : await syncStateToServer().catch(() => false);
+      if (ok) {
+        updateCloudSyncStatus("已确认写入云端");
+        return true;
+      }
+      ["syncStatus", "syncProbeStatus"].forEach(id => {
+        const el = $(id);
+        if (!el) return;
+        el.className = "service-status warn";
+        el.textContent = `云端确认暂未完成，本机已保存，稍后会继续复核。${nowClock()}`;
+      });
+      return false;
     }
 
     function getCloudClientId() {
@@ -2728,22 +2753,28 @@
         render();
       }
       if (STANDALONE_MOBILE_MODE) {
-        data.messages.unshift({
-          id: uid("m"),
-          entryId: `手机本地-${Date.now()}`,
-          status: draftTasks.length ? "本地已生成" : "未生成任务",
-          categoryIds: selectedCategories,
-          categoryId: selectedCategories[0],
-          projectId: inferProject(text),
-          time: iso(today),
-          text,
-          receipt: generatedTaskReceipt(draftTasks)
-        });
-        $("messageText").value = "";
-        clearPromptModes();
-        save();
-        render();
-        jumpToPlan();
+        $("sendMessage").disabled = true;
+        try {
+          data.messages.unshift({
+            id: uid("m"),
+            entryId: `手机本地-${Date.now()}`,
+            status: draftTasks.length ? "本地已生成" : "未生成任务",
+            categoryIds: selectedCategories,
+            categoryId: selectedCategories[0],
+            projectId: inferProject(text),
+            time: iso(today),
+            text,
+            receipt: generatedTaskReceipt(draftTasks)
+          });
+          $("messageText").value = "";
+          clearPromptModes();
+          save();
+          render();
+          jumpToPlan();
+          await confirmCloudWriteNow();
+        } finally {
+          $("sendMessage").disabled = false;
+        }
         return;
       }
       $("sendMessage").disabled = true;
@@ -2985,7 +3016,7 @@
       resumeRecallPolling();
       setInterval(checkServiceHealth, 10000);
       if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-        navigator.serviceWorker.register("./sw.js?v=20260629-sync27").catch(() => {});
+        navigator.serviceWorker.register("./sw.js?v=20260629-sync28").catch(() => {});
       }
     })().catch(() => {});
   </script>
