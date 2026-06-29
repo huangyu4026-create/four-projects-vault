@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#2f6f62" />
   <title>清风显化 · 本身即美 生活本身</title>
   <link rel="manifest" href="./manifest.webmanifest" />
-  <script src="./cloud-config.js?v=20260629-sync22"></script>
+  <script src="./cloud-config.js?v=20260629-sync23"></script>
   <style>
     :root {
       --bg: #eef1ed;
@@ -2501,22 +2501,17 @@
       document.querySelectorAll(".chip.active[data-mode]").forEach(btn => btn.classList.remove("active"));
     }
     function leadingDatePattern() {
-      return "明天|今天|后天|大后天|下周|下星期|下礼拜|下个星期|下个礼拜|本周|这周|这一周|周[一二三四五六日天]|星期[一二三四五六日天]|礼拜[一二三四五六日天]|[\d一二三四五六七八九十两]+天后|(?:20\d{2})[年\/.-]\d{1,2}[月\/.-]\d{1,2}[日号]?|[\d一二三四五六七八九十两]{1,3}月[\d一二三四五六七八九十两]{1,3}[日号]?|\d{1,2}[\/.-]\d{1,2}|(?:下个月|下月|本月|这个月)[\d一二三四五六七八九十两]{1,3}[日号]|[\d一二三四五六七八九十两]{1,3}[日号]";
+      return "明天|今天|后天|大后天|下周|下星期|下礼拜|下个星期|下个礼拜|本周|这周|这一周|周[一二三四五六日天]|星期[一二三四五六日天]|礼拜[一二三四五六日天]|[\\d一二三四五六七八九十两]+天后|(?:20\\d{2})[年\\/.-]\\d{1,2}[月\\/.-]\\d{1,2}[日号]?|[\\d一二三四五六七八九十两]{1,3}月[\\d一二三四五六七八九十两]{1,3}[日号]?|\\d{1,2}[\\/.-]\\d{1,2}|(?:下个月|下月|本月|这个月)[\\d一二三四五六七八九十两]{1,3}[日号]|[\\d一二三四五六七八九十两]{1,3}[日号]";
     }
 
     function splitWorkItems(text) {
       const dateLead = leadingDatePattern();
       const marked = text
-        .replace(/第[一二三四五六七八九十\d]+件事/g, "
-$&")
-        .replace(/还有就是|另外|再就是/g, "
-$&")
-        .replace(new RegExp(`[，,、](?=(${dateLead}))`, "g"), "
-")
-        .replace(new RegExp(`(然后|再然后|接着)(?=(${dateLead}))`, "g"), "
-");
-      return marked.split(/
-|。|；|;/)
+        .replace(/第[一二三四五六七八九十\d]+件事/g, "\\n$&")
+        .replace(/还有就是|另外|再就是/g, "\\n$&")
+        .replace(new RegExp(`[，,、](?=(${dateLead}))`, "g"), "\\n")
+        .replace(new RegExp(`(然后|再然后|接着)(?=(${dateLead}))`, "g"), "\\n");
+      return marked.split(/\\n|。|；|;/)
         .map(x => x.trim())
         .filter(Boolean)
         .filter(x => /要|需要|整理|剪|复盘|确认|发布|安排|给|做|推进|咨询|办理|过户|转让书|录音|口播|调整|训练|买|取|填|缴|预约|寄|打电话|浇水|拍|收拾|清理|采购|报名/.test(x))
@@ -2965,7 +2960,7 @@ $&")
       resumeRecallPolling();
       setInterval(checkServiceHealth, 10000);
       if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-        navigator.serviceWorker.register("./sw.js?v=20260629-sync22").catch(() => {});
+        navigator.serviceWorker.register("./sw.js?v=20260629-sync23").catch(() => {});
       }
     })().catch(() => {});
   </script>
