@@ -7,7 +7,7 @@
   <title>清风显化 · 本身即美 生活本身</title>
   <link rel="icon" href="./icon.svg" type="image/svg+xml" />
   <link rel="manifest" href="./manifest.webmanifest" />
-  <script src="./cloud-config.js?v=20260629-sync35"></script>
+  <script src="./cloud-config.js?v=20260630-sync36"></script>
   <style>
     :root {
       --bg: #eef1ed;
@@ -1069,8 +1069,10 @@
       return Number.isFinite(parsed) ? parsed : 0;
     }
 
-    function mergeSharedTask(remoteTask, localTask) {
-      const next = { ...(remoteTask || {}), ...(localTask || {}) };
+    function mergeSharedTask(remoteTask, localTask, prefer = "local") {
+      const next = prefer === "remote"
+        ? { ...(localTask || {}), ...(remoteTask || {}) }
+        : { ...(remoteTask || {}), ...(localTask || {}) };
       if (remoteTask?.status === "已完成" || localTask?.status === "已完成") {
         next.status = "已完成";
         next.completedAt = localTask?.completedAt || remoteTask?.completedAt || iso(today);
@@ -1080,15 +1082,37 @@
       return next;
     }
 
-    function mergeSharedState(remoteState, localState) {
+    function taskMergeKeys(task) {
+      const keys = [];
+      const id = String(task?.id || "").trim();
+      const name = String(task?.name || "").trim();
+      const due = String(task?.due || "").trim();
+      if (id) keys.push(`id:${id}`);
+      if (name && due) keys.push(`task:${name}||${due}`);
+      if (!keys.length) keys.push(`anon:${Math.random().toString(36).slice(2)}`);
+      return keys;
+    }
+
+    function mergeSharedState(remoteState, localState, options = {}) {
+      const prefer = options.prefer === "remote" ? "remote" : "local";
       const remote = normalize(remoteState || {});
       const local = normalize(localState || {});
       const taskMap = new Map();
-      remote.tasks.forEach(task => taskMap.set(taskMergeKey(task), task));
+      const taskIndex = new Map();
+      function registerTask(task, value) {
+        const keys = taskMergeKeys(task);
+        const existingKey = keys.find(key => taskIndex.has(key));
+        const key = existingKey ? taskIndex.get(existingKey) : keys[0];
+        taskMap.set(key, value);
+        keys.forEach(item => taskIndex.set(item, key));
+      }
+      remote.tasks.forEach(task => registerTask(task, task));
       local.tasks.forEach(task => {
-        const key = taskMergeKey(task);
+        const keys = taskMergeKeys(task);
+        const existingKey = keys.find(key => taskIndex.has(key));
+        const key = existingKey ? taskIndex.get(existingKey) : keys[0];
         const existing = taskMap.get(key);
-        taskMap.set(key, existing ? mergeSharedTask(existing, task) : task);
+        registerTask(task, existing ? mergeSharedTask(existing, task, prefer) : task);
       });
       remote.tasks = [...taskMap.values()].sort((a, b) => {
         return String(a.due || "").localeCompare(String(b.due || "")) || String(a.name || "").localeCompare(String(b.name || ""));
@@ -1103,7 +1127,8 @@
       remote.messages.forEach(msg => messageMap.set(sharedMessageKey(msg), msg));
       localMessages.forEach(msg => {
         const key = sharedMessageKey(msg);
-        messageMap.set(key, { ...(messageMap.get(key) || {}), ...msg });
+        const existing = messageMap.get(key) || {};
+        messageMap.set(key, prefer === "remote" ? { ...msg, ...existing } : { ...existing, ...msg });
       });
       remote.messages = [...messageMap.values()].sort((a, b) => String(b.time || "").localeCompare(String(a.time || "")));
       remote.inboxAutoClearEpoch = Math.max(remoteClear, localClear);
@@ -1241,7 +1266,7 @@
     async function refreshStateFromCloud() {
       const remote = await fetchCloudState();
       if (!remote?.state) return false;
-      data = mergeSharedState(remote.state, data);
+      data = mergeSharedState(remote.state, data, { prefer: "remote" });
       cloudSyncLastAt = Date.now();
       localStorage.setItem(storageKey, JSON.stringify(data));
       writeLocalStateFallback();
@@ -3072,7 +3097,7 @@
       resumeRecallPolling();
       setInterval(checkServiceHealth, 10000);
       if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-        navigator.serviceWorker.register("./sw.js?v=20260629-sync35").catch(() => {});
+        navigator.serviceWorker.register("./sw.js?v=20260630-sync36").catch(() => {});
       }
     })().catch(() => {});
   </script>
