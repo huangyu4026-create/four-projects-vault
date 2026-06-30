@@ -7,7 +7,7 @@
   <title>清风显化 · 本身即美 生活本身</title>
   <link rel="icon" href="./icon.svg" type="image/svg+xml" />
   <link rel="manifest" href="./manifest.webmanifest" />
-  <script src="./cloud-config.js?v=20260629-sync34"></script>
+  <script src="./cloud-config.js?v=20260629-sync35"></script>
   <style>
     :root {
       --bg: #eef1ed;
@@ -2061,6 +2061,16 @@
     function visibleDates(tasks) {
       return [...new Set(tasks.map(t => t.due))].sort((a, b) => dateDisplayRank(a) - dateDisplayRank(b) || String(a).localeCompare(String(b)));
     }
+    function compactText(text, max = 26) {
+      const value = String(text || "").trim();
+      return value.length > max ? `${value.slice(0, max)}…` : value;
+    }
+    function latestCloudMessageSummary() {
+      const rows = (data.messages || []).filter(item => item?.text).slice(0, 2).map(item => compactText(item.text));
+      if (rows.length) return `最近云端消息：${rows.join("；")}`;
+      const task = data.tasks.filter(t => !closed(t)).sort((a, b) => taskDisplayRank(a) - taskDisplayRank(b) || String(a.name || "").localeCompare(String(b.name || "")))[0];
+      return task ? `待处理：${compactText(task.name)}（${taskDueLine(task)}）` : "";
+    }
     function taskCard(t) {
         return `<div class="task">
           <input type="checkbox" ${t.status === "已完成" ? "checked" : ""} onchange="toggleDone('${t.id}', this.checked)" title="完成后从当前计划消失" />
@@ -2312,10 +2322,13 @@
         }
         try {
           const ok = await refreshStateFromServer();
+          activeRange = "all";
+          viewMode = "date";
+          const latest = latestCloudMessageSummary();
           if (syncStatus) {
             syncStatus.className = ok ? "service-status ok" : "service-status warn";
             syncStatus.textContent = isCloudSyncEnabled()
-              ? (ok ? `已从云端刷新：${data.tasks.length} 项。${nowClock()}` : `云端暂不可用，仍使用本机数据。${nowClock()}`)
+              ? (ok ? `已从云端刷新：${data.tasks.length} 项。${latest ? `${latest}。` : ""}${nowClock()}` : `云端暂不可用，仍使用本机数据。${nowClock()}`)
               : `已刷新手机本地数据：${data.tasks.length} 项。${nowClock()}`;
           }
           if (btn) btn.textContent = ok ? `已刷新 ${data.tasks.length} 项` : "使用本机数据";
@@ -3059,7 +3072,7 @@
       resumeRecallPolling();
       setInterval(checkServiceHealth, 10000);
       if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-        navigator.serviceWorker.register("./sw.js?v=20260629-sync34").catch(() => {});
+        navigator.serviceWorker.register("./sw.js?v=20260629-sync35").catch(() => {});
       }
     })().catch(() => {});
   </script>
