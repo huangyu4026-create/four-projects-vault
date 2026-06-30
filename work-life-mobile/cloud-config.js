@@ -84,8 +84,15 @@ window.WORK_LIFE_CLOUD_SYNC_URL = "";
     }
   }
 
-  function taskKey(task) {
-    return String(task?.id || `${task?.name || ""}||${task?.due || ""}`);
+  function taskKeys(task) {
+    const keys = [];
+    const id = String(task?.id || "").trim();
+    const name = String(task?.name || "").trim();
+    const due = String(task?.due || "").trim();
+    if (id) keys.push(`id:${id}`);
+    if (name && due) keys.push(`task:${name}||${due}`);
+    if (!keys.length) keys.push(`anon:${Math.random().toString(36).slice(2)}`);
+    return keys;
   }
 
   function messageKey(message) {
@@ -105,13 +112,36 @@ window.WORK_LIFE_CLOUD_SYNC_URL = "";
     return Number.isFinite(parsed) ? parsed : 0;
   }
 
-  function mergeTask(remoteTask, localTask) {
-    const next = { ...(remoteTask || {}), ...(localTask || {}) };
+  function mergeTask(remoteTask, localTask, prefer = "local") {
+    const next = prefer === "remote"
+      ? { ...(localTask || {}), ...(remoteTask || {}) }
+      : { ...(remoteTask || {}), ...(localTask || {}) };
     if (remoteTask?.status === "已完成" || localTask?.status === "已完成") {
       next.status = "已完成";
       next.completedAt = localTask?.completedAt || remoteTask?.completedAt || next.completedAt || "";
     }
     return next;
+  }
+
+  function mergeTasks(remoteItems, localItems, prefer = "local") {
+    const map = new Map();
+    const index = new Map();
+    function register(task, value) {
+      const keys = taskKeys(task);
+      const existingKey = keys.find(key => index.has(key));
+      const key = existingKey ? index.get(existingKey) : keys[0];
+      map.set(key, value);
+      keys.forEach(item => index.set(item, key));
+    }
+    (Array.isArray(remoteItems) ? remoteItems : []).forEach(item => register(item, item));
+    (Array.isArray(localItems) ? localItems : []).forEach(item => {
+      const keys = taskKeys(item);
+      const existingKey = keys.find(key => index.has(key));
+      const key = existingKey ? index.get(existingKey) : keys[0];
+      const existing = map.get(key);
+      register(item, existing ? mergeTask(existing, item, prefer) : item);
+    });
+    return [...map.values()];
   }
 
   function mergeArray(remoteItems, localItems, keyFn, mergeFn) {
@@ -124,25 +154,26 @@ window.WORK_LIFE_CLOUD_SYNC_URL = "";
     return [...map.values()];
   }
 
-  function mergeState(remoteState, localState) {
+  function mergeState(remoteState, localState, options = {}) {
+    const prefer = options.prefer === "remote" ? "remote" : "local";
     const remote = remoteState && typeof remoteState === "object" ? remoteState : {};
     const local = localState && typeof localState === "object" ? localState : {};
-    const next = { ...remote, ...local };
-    next.tasks = mergeArray(remote.tasks, local.tasks, taskKey, mergeTask).sort((a, b) => {
+    const next = prefer === "remote" ? { ...local, ...remote } : { ...remote, ...local };
+    next.tasks = mergeTasks(remote.tasks, local.tasks, prefer).sort((a, b) => {
       return String(a.due || "").localeCompare(String(b.due || "")) || String(a.name || "").localeCompare(String(b.name || ""));
     });
     const remoteClear = Number(remote.inboxAutoClearEpoch || 0);
     const localClear = Number(local.inboxAutoClearEpoch || 0);
-    if (localClear > remoteClear) {
+    if (localClear > remoteClear && prefer !== "remote") {
       next.messages = Array.isArray(local.messages) ? local.messages : [];
     } else if (remoteClear > localClear) {
       const remoteMessages = Array.isArray(remote.messages) ? remote.messages : [];
       const localMessages = (Array.isArray(local.messages) ? local.messages : []).filter(message => messageEpoch(message) > remoteClear);
-      next.messages = mergeArray(remoteMessages, localMessages, messageKey, (a, b) => ({ ...(a || {}), ...(b || {}) }))
+      next.messages = mergeArray(remoteMessages, localMessages, messageKey, (a, b) => prefer === "remote" ? ({ ...(b || {}), ...(a || {}) }) : ({ ...(a || {}), ...(b || {}) }))
         .sort((a, b) => String(b.time || "").localeCompare(String(a.time || "")));
       next.inboxAutoClearEpoch = remoteClear;
     } else {
-      next.messages = mergeArray(remote.messages, local.messages, messageKey, (a, b) => ({ ...(a || {}), ...(b || {}) }))
+      next.messages = mergeArray(remote.messages, local.messages, messageKey, (a, b) => prefer === "remote" ? ({ ...(b || {}), ...(a || {}) }) : ({ ...(a || {}), ...(b || {}) }))
         .sort((a, b) => String(b.time || "").localeCompare(String(a.time || "")));
     }
     next.dailyCheckin = {
@@ -221,12 +252,12 @@ window.WORK_LIFE_CLOUD_SYNC_URL = "";
     });
   }
 
-  async function pullAndMerge({ pushMerged = true } = {}) {
+  async function pullAndMerge({ pushMerged = false } = {}) {
     if (!hasSync()) return false;
     const remote = await fetchRemoteState();
     if (!remote) return false;
     const local = readLocalState();
-    const merged = mergeState(remote, local);
+    const merged = mergeState(remote, local, { prefer: "remote" });
     emitLocalState(merged);
     if (pushMerged) await postRemoteState(merged);
     setSyncStatus(`云同步已连接：${(merged.tasks || []).length} 项，${(merged.messages || []).length} 条消息。${new Date().toLocaleTimeString("zh-CN", { hour12: false })}`);
@@ -241,7 +272,7 @@ window.WORK_LIFE_CLOUD_SYNC_URL = "";
       try {
         const local = value ? JSON.parse(keepMessagesReadable(value)) : readLocalState();
         const remote = await fetchRemoteState().catch(() => null);
-        const merged = mergeState(remote, local);
+        const merged = mergeState(remote, local, { prefer: "local" });
         await postRemoteState(merged);
         emitLocalState(merged);
         setSyncStatus(`已同步到云端：${(merged.tasks || []).length} 项，${(merged.messages || []).length} 条消息。${new Date().toLocaleTimeString("zh-CN", { hour12: false })}`);
