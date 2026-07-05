@@ -187,6 +187,18 @@
     const STORE_LOCAL_OUTBOX = "digitalLifePublicLocalOutbox";
     const params = new URLSearchParams(location.search);
     const configuredToken = () => params.get("token") || window.DIGITAL_LIFE_PUBLIC_TOKEN || localStorage.getItem(STORE_TOKEN) || "";
+    function sanitizeCloudUrl(raw) {
+      try {
+        const url = new URL(String(raw || "").trim());
+        if (url.protocol !== "https:" && url.protocol !== "http:") return "";
+        if (!/\/macros\/s\//.test(url.pathname)) return "";
+        url.search = "";
+        url.hash = "";
+        return url.toString().replace(/\/$/, "");
+      } catch (_) {
+        return "";
+      }
+    }
     const configuredUrlCandidates = () => {
       const list = [];
       if (params.get("cloud")) list.push(String(params.get("cloud")).trim());
@@ -202,7 +214,7 @@
       const deduped = [];
       const seen = new Set();
       for (const item of list) {
-        const next = String(item || "").trim();
+        const next = sanitizeCloudUrl(item);
         if (next && !seen.has(next)) {
           deduped.push(next);
           seen.add(next);
@@ -269,7 +281,8 @@
           throw new Error(`云端收件箱${transport}请求失败 HTTP ${response ? response.status : "unknown"}`);
         }
         try {
-          const data = await response.json();
+          const text = await response.text();
+          const data = JSON.parse(text);
           if (!data.ok) throw new Error(data.error || "云端收件箱返回失败");
           return data;
         } catch (err) {
@@ -391,7 +404,7 @@
     $("refreshBtn").addEventListener("click", refreshEntries);
     $("toggleConfig").addEventListener("click", () => $("configPanel").classList.toggle("open"));
     $("saveConfig").addEventListener("click", () => {
-      localStorage.setItem(STORE_URL, $("cloudUrl").value.trim());
+      localStorage.setItem(STORE_URL, sanitizeCloudUrl($("cloudUrl").value.trim()));
       localStorage.setItem(STORE_TOKEN, $("cloudToken").value.trim());
       setStatus("状态：配置已保存在当前浏览器。注意：不要把 OpenAI API key 填在这里。");
       refreshEntries();
