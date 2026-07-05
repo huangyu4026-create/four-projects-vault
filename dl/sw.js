@@ -1,4 +1,4 @@
-const CACHE_NAME = "digital-life-public-v2";
+const CACHE_NAME = "digital-life-public-v3";
 const ASSETS = ["./", "index.html", "cloud-config.js", "manifest.webmanifest"];
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
