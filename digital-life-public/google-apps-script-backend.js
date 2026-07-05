@@ -11,7 +11,7 @@ function doGet(e) {
   if (!auth.ok) return json_(auth);
   const action = ((e && e.parameter && e.parameter.action) || "list").toLowerCase();
   const state = loadState_();
-  if (action === "ping") return json_({ ok: true, updatedAt: state.updatedAt || "", count: (state.items || []).length });
+  if (action === "ping" || action === "pin") return json_({ ok: true, updatedAt: state.updatedAt || "", count: (state.items || []).length });
   return json_({ ok: true, state });
 }
 
@@ -38,7 +38,7 @@ function doPost(e) {
       saveState_(state);
       return json_({ ok: true, item, state: publicState_(state) });
     }
-    if (action === "bulkUpdate") {
+    if (action === "bulkupdate" || action === "bulkUpdate") {
       const patches = Array.isArray(body.items) ? body.items : [];
       const updated = patches.map((patch) => patch && patch.id ? updateItem_(state, patch) : null).filter(Boolean);
       saveState_(state);
