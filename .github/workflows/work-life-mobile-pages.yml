@@ -7,6 +7,7 @@ on:
     paths:
       - "work-life-mobile/**"
       - "digital-life-public/**"
+      - "dl/**"
       - ".github/workflows/work-life-mobile-pages.yml"
       - ".nojekyll"
   workflow_dispatch:
@@ -30,13 +31,15 @@ jobs:
           sparse-checkout: |
             work-life-mobile
             digital-life-public
+            dl
           sparse-checkout-cone-mode: true
 
       - name: Prepare static site
         run: |
-          mkdir -p _site/work-life-mobile _site/digital-life-public
+          mkdir -p _site/work-life-mobile _site/digital-life-public _site/dl
           cp -R work-life-mobile/. _site/work-life-mobile/
           cp -R digital-life-public/. _site/digital-life-public/
+          cp -R dl/. _site/dl/
           touch _site/.nojekyll
 
       - name: Upload artifact
