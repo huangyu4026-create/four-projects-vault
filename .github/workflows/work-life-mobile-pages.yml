@@ -8,6 +8,7 @@ on:
       - "work-life-mobile/**"
       - "digital-life-public/**"
       - "dl/**"
+      - "index.html"
       - ".github/workflows/work-life-mobile-pages.yml"
       - ".nojekyll"
   workflow_dispatch:
@@ -32,6 +33,7 @@ jobs:
             work-life-mobile
             digital-life-public
             dl
+            index.html
           sparse-checkout-cone-mode: true
 
       - name: Prepare static site
@@ -40,6 +42,7 @@ jobs:
           cp -R work-life-mobile/. _site/work-life-mobile/
           cp -R digital-life-public/. _site/digital-life-public/
           cp -R dl/. _site/dl/
+          cp index.html _site/index.html
           touch _site/.nojekyll
 
       - name: Upload artifact

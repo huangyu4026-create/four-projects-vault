@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#efe6d3" />
+  <title>四项目公网入口</title>
+  <style>
+    :root {
+      --paper: #f7efe1;
+      --ink: #1f211d;
+      --muted: #716755;
+      --line: rgba(31, 33, 29, 0.16);
+      --green: #214d38;
+      --green2: #3f7a52;
+      --gold: #c99a4d;
+      --clay: #a85b43;
+      --white: rgba(255, 252, 245, 0.9);
+      --shadow: 0 24px 70px rgba(45, 35, 19, 0.18);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: "Songti SC", "STSong", "Noto Serif CJK SC", Georgia, serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 14% 10%, rgba(63, 122, 82, 0.22), transparent 30rem),
+        radial-gradient(circle at 86% 4%, rgba(168, 91, 67, 0.18), transparent 28rem),
+        linear-gradient(135deg, #fbf2df 0%, #eadbc0 54%, #d3bd98 100%);
+      padding: env(safe-area-inset-top) 16px 30px;
+    }
+    main { max-width: 920px; margin: 0 auto; padding: 26px 0 40px; }
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      padding: 28px 22px;
+      background: linear-gradient(160deg, rgba(255,252,245,0.96), rgba(247,239,225,0.76));
+      box-shadow: var(--shadow);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      right: -70px;
+      top: -82px;
+      border-radius: 999px;
+      background: repeating-linear-gradient(38deg, rgba(33,77,56,0.15) 0 7px, transparent 7px 17px);
+    }
+    .eyebrow { color: var(--green); letter-spacing: 0.18em; font-size: 12px; font-weight: 800; }
+    h1 { margin: 12px 0 10px; font-size: clamp(34px, 9vw, 70px); line-height: 1.02; }
+    .lead { margin: 0; color: var(--muted); font-size: 17px; line-height: 1.75; max-width: 40em; }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 18px; }
+    .card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      padding: 20px;
+      background: var(--white);
+      box-shadow: 0 16px 44px rgba(45, 35, 19, 0.1);
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+    }
+    .card:active, .card:hover { transform: translateY(-2px); box-shadow: 0 20px 54px rgba(45, 35, 19, 0.16); border-color: rgba(33,77,56,0.35); }
+    .tag { display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; padding: 7px 11px; color: var(--green); background: rgba(33,77,56,0.1); font-size: 12px; font-weight: 800; }
+    .card h2 { margin: 14px 0 8px; font-size: 26px; }
+    .card p { margin: 0; color: var(--muted); line-height: 1.7; font-size: 15px; }
+    .arrow { margin-top: 16px; color: var(--clay); font-weight: 900; }
+    .note {
+      margin-top: 16px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.48);
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 13px;
+    }
+    @media (min-width: 760px) {
+      body { padding-left: 28px; padding-right: 28px; }
+      main { padding-top: 42px; }
+      .hero { padding: 42px; }
+      .grid { grid-template-columns: 1fr 1fr; gap: 18px; }
+      .card { padding: 26px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <div class="eyebrow">FOUR PROJECTS · PUBLIC PORTAL</div>
+      <h1>四项目公网入口</h1>
+      <p class="lead">这是公网导航页，只负责把手机带到正确入口。这里不保存密钥，不处理日记，不替代本地工程主链。</p>
+    </section>
+
+    <section class="grid" aria-label="公网入口列表">
+      <a class="card" href="./dl/">
+        <span class="tag">数字生命</span>
+        <h2>今日日志远程投递口</h2>
+        <p>从手机提交今日日志，进入云端收件箱，等待 Mac 数字生命主链拉回处理。</p>
+        <div class="arrow">进入 /dl/</div>
+      </a>
+
+      <a class="card" href="./work-life-mobile/">
+        <span class="tag">工作生活计划</span>
+        <h2>工作生活计划手机入口</h2>
+        <p>查看和推进工作生活计划、任务状态与手机端轻量工作台。</p>
+        <div class="arrow">进入 /work-life-mobile/</div>
+      </a>
+    </section>
+
+    <section class="note">
+      固定地址：数字生命使用 <strong>/dl/</strong>，工作生活计划使用 <strong>/work-life-mobile/</strong>。如果手机打不开，请优先使用 Safari，并确认网络能访问 github.io。
+    </section>
+  </main>
+</body>
+</html>
