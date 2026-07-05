@@ -170,6 +170,7 @@
             <input id="cloudToken" placeholder="如果 Apps Script 设置了口令，就填这里" />
           </div>
           <button id="saveConfig" type="button">保存到本机浏览器</button>
+          <button class="secondary" id="clearOutbox" type="button">清空本机暂存</button>
         </div>
       </div>
     </section>
@@ -234,6 +235,11 @@
     }
     function writeLocalOutbox(items) {
       localStorage.setItem(STORE_LOCAL_OUTBOX, JSON.stringify(items.slice(0, 80)));
+    }
+    function clearLocalOutbox() {
+      localStorage.removeItem(STORE_LOCAL_OUTBOX);
+      renderEntries([]);
+      setStatus("状态：本机暂存已清空。");
     }
     function renderEntries(items) {
       if (!items || !items.length) {
@@ -390,6 +396,7 @@
       setStatus("状态：配置已保存在当前浏览器。注意：不要把 OpenAI API key 填在这里。");
       refreshEntries();
     });
+    $("clearOutbox").addEventListener("click", clearLocalOutbox);
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("sw.js").catch(() => {});
     }
