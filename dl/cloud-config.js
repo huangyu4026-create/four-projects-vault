@@ -1,5 +1,5 @@
 (function () {
-  const APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzyVXeA4TQzi937k7Ndv0ALvhhxvgP5OtpBIVPp6GzwsOdRGfXxwWQYi4B0i6O1I1c2/exec";
+  const APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxNpxYB2dnufuahisV5PMD-8GbnoHbazsmZsr-SgBLx1-vKD3FBGwQeBdDm9VwEjVt8/exec";
   const APP_SCRIPT_TOKEN = "";
 
   window.DIGITAL_LIFE_PUBLIC_INBOX_URL = APP_SCRIPT_URL;
