@@ -185,8 +185,31 @@
     const STORE_TOKEN = "digitalLifePublicInboxToken";
     const STORE_LOCAL_OUTBOX = "digitalLifePublicLocalOutbox";
     const params = new URLSearchParams(location.search);
-    const configuredUrl = () => params.get("cloud") || window.DIGITAL_LIFE_PUBLIC_INBOX_URL || localStorage.getItem(STORE_URL) || "";
     const configuredToken = () => params.get("token") || window.DIGITAL_LIFE_PUBLIC_TOKEN || localStorage.getItem(STORE_TOKEN) || "";
+    const configuredUrlCandidates = () => {
+      const list = [];
+      if (params.get("cloud")) list.push(String(params.get("cloud")).trim());
+      if (window.DIGITAL_LIFE_PUBLIC_INBOX_URL) list.push(String(window.DIGITAL_LIFE_PUBLIC_INBOX_URL).trim());
+      const savedUrl = localStorage.getItem(STORE_URL);
+      if (savedUrl) list.push(String(savedUrl).trim());
+      const fallbackList = window.DIGITAL_LIFE_PUBLIC_INBOX_URLS;
+      if (Array.isArray(fallbackList)) {
+        fallbackList.forEach((item) => {
+          if (item) list.push(String(item).trim());
+        });
+      }
+      const deduped = [];
+      const seen = new Set();
+      for (const item of list) {
+        const next = String(item || "").trim();
+        if (next && !seen.has(next)) {
+          deduped.push(next);
+          seen.add(next);
+        }
+      }
+      return deduped;
+    };
+    const configuredUrl = () => configuredUrlCandidates()[0] || "";
     const $ = (id) => document.getElementById(id);
     const statusBox = $("statusBox");
     const entriesBox = $("entries");
@@ -231,8 +254,8 @@
       return ({ pending: "等待 Mac 拉取", processing: "Mac 已拉取处理中", done: "已入库并回写", error: "处理失败", local_only: "仅保存在本机" })[status] || status;
     }
     async function postCloud(body) {
-      const url = configuredUrl();
-      if (!url) throw new Error("尚未配置云端收件箱 URL");
+      const urls = configuredUrlCandidates();
+      if (!urls.length) throw new Error("尚未配置云端收件箱 URL");
       const token = configuredToken();
       const payload = { token, ...body };
       const parseResponse = async (response, transport) => {
@@ -247,36 +270,58 @@
           throw new Error(`云端收件箱${transport}返回格式异常：${err.message || err}`);
         }
       };
-      try {
-        const response = await fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify(payload)
-        });
-        return await parseResponse(response, "POST");
-      } catch (err) {
-        if (!body || String(body.action || "submit") !== "submit" || !body.item) {
-          throw err;
+
+      let lastErr = null;
+      for (const url of urls) {
+        try {
+          const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify(payload)
+          });
+          const data = await parseResponse(response, "POST");
+          localStorage.setItem(STORE_URL, url);
+          return data;
+        } catch (err) {
+          lastErr = err;
+          if (!body || String(body.action || "submit") !== "submit" || !body.item) continue;
+          try {
+            const fallbackUrl = new URL(url);
+            fallbackUrl.searchParams.set("action", "submit");
+            fallbackUrl.searchParams.set("item", JSON.stringify(body.item));
+            if (token) fallbackUrl.searchParams.set("token", token);
+            const response = await fetch(fallbackUrl.toString());
+            const data = await parseResponse(response, "GET");
+            localStorage.setItem(STORE_URL, url);
+            return data;
+          } catch (fallbackErr) {
+            lastErr = fallbackErr;
+          }
         }
-        const fallbackUrl = new URL(url);
-        fallbackUrl.searchParams.set("action", "submit");
-        fallbackUrl.searchParams.set("item", JSON.stringify(body.item));
-        if (token) fallbackUrl.searchParams.set("token", token);
-        const response = await fetch(fallbackUrl.toString());
-        return await parseResponse(response, "GET");
       }
+      throw lastErr || new Error("提交失败：所有云端收件箱地址均不可用。");
     }
     async function fetchCloud() {
-      const url = configuredUrl();
-      if (!url) throw new Error("尚未配置云端收件箱 URL");
-      const requestUrl = new URL(url);
-      requestUrl.searchParams.set("action", "list");
+      const urls = configuredUrlCandidates();
+      if (!urls.length) throw new Error("尚未配置云端收件箱 URL");
       const token = configuredToken();
-      if (token) requestUrl.searchParams.set("token", token);
-      const response = await fetch(requestUrl.toString());
-      const data = await response.json();
-      if (!data.ok) throw new Error(data.error || "读取云端收件箱失败");
-      return data;
+      let lastErr = null;
+      for (const url of urls) {
+        try {
+          const requestUrl = new URL(url);
+          requestUrl.searchParams.set("action", "list");
+          if (token) requestUrl.searchParams.set("token", token);
+          const response = await fetch(requestUrl.toString());
+          if (!response.ok) throw new Error(`云端收件箱读取失败 HTTP ${response.status}`);
+          const data = await response.json();
+          if (!data.ok) throw new Error(data.error || "读取云端收件箱失败");
+          localStorage.setItem(STORE_URL, url);
+          return data;
+        } catch (err) {
+          lastErr = err;
+        }
+      }
+      throw lastErr || new Error("读取失败，所有云端收件箱地址均不可用。");
     }
     async function refreshEntries() {
       try {
