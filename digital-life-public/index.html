@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f2efe7" />
+  <title>数字生命｜公网今日日志</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <script src="cloud-config.js"></script>
+  <style>
+    :root {
+      --paper: #f7f1e5;
+      --ink: #20201d;
+      --muted: #6b6255;
+      --line: rgba(32, 32, 29, 0.16);
+      --green: #244f38;
+      --green-2: #3f7a52;
+      --sand: #d8c6a5;
+      --clay: #a6593d;
+      --white: rgba(255, 252, 245, 0.88);
+      --shadow: 0 24px 70px rgba(44, 35, 20, 0.18);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: "Songti SC", "STSong", "Noto Serif CJK SC", Georgia, serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 18% 12%, rgba(63, 122, 82, 0.22), transparent 32rem),
+        radial-gradient(circle at 88% 4%, rgba(166, 89, 61, 0.16), transparent 26rem),
+        linear-gradient(135deg, #f9f2e4 0%, #ede0c9 48%, #d8c6a5 100%);
+      padding: env(safe-area-inset-top) 16px 28px;
+    }
+    .shell { max-width: 760px; margin: 0 auto; padding-top: 18px; }
+    .hero {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 24px 22px;
+      background: linear-gradient(160deg, rgba(255,252,245,0.95), rgba(247,241,229,0.74));
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 999px;
+      right: -64px;
+      top: -72px;
+      background: repeating-linear-gradient(35deg, rgba(36,79,56,0.16) 0 7px, transparent 7px 16px);
+      opacity: 0.9;
+    }
+    .eyebrow { letter-spacing: 0.16em; font-size: 12px; color: var(--green); font-weight: 700; }
+    h1 { margin: 10px 0 8px; font-size: clamp(30px, 8vw, 56px); line-height: 1.02; font-weight: 800; }
+    .lead { margin: 0; color: var(--muted); font-size: 16px; line-height: 1.75; max-width: 35em; }
+    .card {
+      margin-top: 16px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 18px;
+      background: var(--white);
+      box-shadow: 0 16px 44px rgba(44, 35, 20, 0.10);
+    }
+    label { display: block; color: var(--muted); font-size: 13px; margin: 0 0 8px; font-weight: 700; }
+    input, textarea {
+      width: 100%;
+      border: 1px solid rgba(32,32,29,0.18);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.76);
+      color: var(--ink);
+      font: inherit;
+      padding: 14px 15px;
+      outline: none;
+    }
+    textarea { min-height: 240px; resize: vertical; line-height: 1.75; }
+    input:focus, textarea:focus { border-color: rgba(36,79,56,0.58); box-shadow: 0 0 0 4px rgba(63,122,82,0.12); }
+    .grid { display: grid; gap: 14px; grid-template-columns: 1fr; }
+    .row { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    .actions { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 14px; }
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 18px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--green), var(--green-2));
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 14px 30px rgba(36,79,56,0.24);
+    }
+    button.secondary { color: var(--green); background: rgba(36,79,56,0.10); box-shadow: none; }
+    button:disabled { opacity: 0.58; cursor: wait; }
+    .status {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: rgba(216,198,165,0.24);
+      color: var(--muted);
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .pill { border: 1px solid var(--line); border-radius: 999px; padding: 7px 10px; color: var(--muted); background: rgba(255,255,255,0.54); font-size: 12px; }
+    .entries { display: grid; gap: 12px; }
+    .entry {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 14px;
+      background: rgba(255,255,255,0.62);
+    }
+    .entry strong { display: block; margin-bottom: 6px; }
+    .entry small { color: var(--muted); display: block; margin-bottom: 8px; }
+    .entry pre { white-space: pre-wrap; word-break: break-word; margin: 8px 0 0; font: 14px/1.65 "Songti SC", "STSong", serif; color: #302d28; }
+    .config { display: none; }
+    .config.open { display: block; }
+    .fineprint { color: var(--muted); font-size: 12px; line-height: 1.65; }
+    @media (min-width: 720px) {
+      body { padding-left: 28px; padding-right: 28px; }
+      .row { grid-template-columns: 180px 1fr; align-items: end; }
+      .actions { grid-template-columns: 1fr 1fr; }
+      .hero { padding: 34px; }
+      .card { padding: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="eyebrow">DIGITAL LIFE · TODAY LOG</div>
+      <h1>今日日志远程投递口</h1>
+      <p class="lead">这里不做复杂分类，也不写 AI 点评。它只把今天的日志安全投递到云端收件箱，等待 Mac 上的数字生命正式工程拉回、入库、深度点评和回显。</p>
+      <div class="pill-row">
+        <span class="pill">project = digital_life</span>
+        <span class="pill">entry_type = today_log</span>
+        <span class="pill">source = public_web</span>
+      </div>
+    </section>
+
+    <form class="card" id="logForm">
+      <div class="row">
+        <div>
+          <label for="logDate">日期</label>
+          <input id="logDate" name="date" type="date" required />
+        </div>
+        <div>
+          <label for="logText">今日日志正文</label>
+          <textarea id="logText" name="text" placeholder="把今天的日志写在这里。提交后会进入云端收件箱，等待 Mac 数字生命主链拉回处理。" required></textarea>
+        </div>
+      </div>
+      <div class="actions">
+        <button id="submitBtn" type="submit">提交今日日志</button>
+        <button class="secondary" id="refreshBtn" type="button">查看处理结果</button>
+      </div>
+      <div class="status" id="statusBox">状态：等待填写。</div>
+    </form>
+
+    <section class="card">
+      <button class="secondary" id="toggleConfig" type="button">配置云端收件箱</button>
+      <div class="config" id="configPanel">
+        <p class="fineprint">只填 Google Apps Script Web App 的 /exec 地址和可选口令。不要在这里填 OpenAI API key。</p>
+        <div class="grid">
+          <div>
+            <label for="cloudUrl">云端收件箱 URL</label>
+            <input id="cloudUrl" placeholder="https://script.google.com/macros/s/xxxxx/exec" />
+          </div>
+          <div>
+            <label for="cloudToken">口令，可选</label>
+            <input id="cloudToken" placeholder="如果 Apps Script 设置了口令，就填这里" />
+          </div>
+          <button id="saveConfig" type="button">保存到本机浏览器</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>最近投递</h2>
+      <div class="entries" id="entries"></div>
+    </section>
+  </main>
+
+  <script>
+    const STORE_URL = "digitalLifePublicInboxUrl";
+    const STORE_TOKEN = "digitalLifePublicInboxToken";
+    const STORE_LOCAL_OUTBOX = "digitalLifePublicLocalOutbox";
+    const params = new URLSearchParams(location.search);
+    const configuredUrl = () => params.get("cloud") || window.DIGITAL_LIFE_PUBLIC_INBOX_URL || localStorage.getItem(STORE_URL) || "";
+    const configuredToken = () => params.get("token") || window.DIGITAL_LIFE_PUBLIC_TOKEN || localStorage.getItem(STORE_TOKEN) || "";
+    const $ = (id) => document.getElementById(id);
+    const statusBox = $("statusBox");
+    const entriesBox = $("entries");
+    const todayLocal = () => {
+      const now = new Date();
+      const offset = now.getTimezoneOffset() * 60000;
+      return new Date(now.getTime() - offset).toISOString().slice(0, 10);
+    };
+    $("logDate").value = todayLocal();
+    $("cloudUrl").value = configuredUrl();
+    $("cloudToken").value = configuredToken();
+
+    function setStatus(text) { statusBox.textContent = text; }
+    function escapeHtml(value) {
+      return String(value || "").replace(/[&<>"]/g, (ch) => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[ch]));
+    }
+    function makeId() {
+      return `dlp-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    }
+    function readLocalOutbox() {
+      try { return JSON.parse(localStorage.getItem(STORE_LOCAL_OUTBOX) || "[]"); } catch (_) { return []; }
+    }
+    function writeLocalOutbox(items) {
+      localStorage.setItem(STORE_LOCAL_OUTBOX, JSON.stringify(items.slice(0, 80)));
+    }
+    function renderEntries(items) {
+      if (!items || !items.length) {
+        entriesBox.innerHTML = "<p class='fineprint'>暂无投递记录。</p>";
+        return;
+      }
+      entriesBox.innerHTML = items.slice(0, 20).map((item) => {
+        const result = item.result && (item.result.ai_response || item.result.summary || item.result.message || item.result.localReceipt || "");
+        return `<article class="entry">
+          <strong>${escapeHtml(item.date || "")}${item.status ? `｜${escapeHtml(statusLabel(item.status))}` : ""}</strong>
+          <small>${escapeHtml(item.id || "")}｜${escapeHtml(item.updatedAt || item.createdAt || "")}</small>
+          <pre>${escapeHtml(item.text || "")}</pre>
+          ${result ? `<pre>${escapeHtml(String(result))}</pre>` : ""}
+        </article>`;
+      }).join("");
+    }
+    function statusLabel(status) {
+      return ({ pending: "等待 Mac 拉取", processing: "Mac 已拉取处理中", done: "已入库并回写", error: "处理失败", local_only: "仅保存在本机" })[status] || status;
+    }
+    async function postCloud(body) {
+      const url = configuredUrl();
+      if (!url) throw new Error("尚未配置云端收件箱 URL");
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ token: configuredToken(), ...body })
+      });
+      const data = await response.json();
+      if (!data.ok) throw new Error(data.error || "云端收件箱返回失败");
+      return data;
+    }
+    async function fetchCloud() {
+      const url = configuredUrl();
+      if (!url) throw new Error("尚未配置云端收件箱 URL");
+      const requestUrl = new URL(url);
+      requestUrl.searchParams.set("action", "list");
+      const token = configuredToken();
+      if (token) requestUrl.searchParams.set("token", token);
+      const response = await fetch(requestUrl.toString());
+      const data = await response.json();
+      if (!data.ok) throw new Error(data.error || "读取云端收件箱失败");
+      return data;
+    }
+    async function refreshEntries() {
+      try {
+        if (!configuredUrl()) {
+          const localItems = readLocalOutbox();
+          renderEntries(localItems);
+          setStatus("状态：云端 URL 未配置。当前只显示本机暂存记录。");
+          return;
+        }
+        const data = await fetchCloud();
+        const items = ((data.state && data.state.items) || []).filter((item) => item.project === "digital_life");
+        renderEntries(items);
+        setStatus(`状态：已读取云端收件箱，共 ${items.length} 条数字生命记录。`);
+      } catch (err) {
+        renderEntries(readLocalOutbox());
+        setStatus(`状态：读取失败，显示本机暂存。\n${err.message || err}`);
+      }
+    }
+    $("logForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const text = $("logText").value.trim();
+      const date = $("logDate").value || todayLocal();
+      if (!text) {
+        setStatus("状态：请先填写日志正文。");
+        return;
+      }
+      const item = {
+        id: makeId(),
+        project: "digital_life",
+        entry_type: "today_log",
+        source: "public_web",
+        date,
+        title: `公网今日日志｜${date}`,
+        text,
+        status: configuredUrl() ? "pending" : "local_only",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+      $("submitBtn").disabled = true;
+      try {
+        if (!configuredUrl()) {
+          const localItems = [item, ...readLocalOutbox()];
+          writeLocalOutbox(localItems);
+          renderEntries(localItems);
+          setStatus("状态：尚未配置云端收件箱，本条只保存在当前手机浏览器。配置 URL 后再正式投递。");
+        } else {
+          await postCloud({ action: "submit", item });
+          $("logText").value = "";
+          setStatus("状态：已提交到云端收件箱，等待 Mac 数字生命主链拉取。");
+          await refreshEntries();
+        }
+      } catch (err) {
+        const localItems = [item, ...readLocalOutbox()];
+        writeLocalOutbox(localItems);
+        renderEntries(localItems);
+        setStatus(`状态：云端提交失败，本条已本机暂存。\n${err.message || err}`);
+      } finally {
+        $("submitBtn").disabled = false;
+      }
+    });
+    $("refreshBtn").addEventListener("click", refreshEntries);
+    $("toggleConfig").addEventListener("click", () => $("configPanel").classList.toggle("open"));
+    $("saveConfig").addEventListener("click", () => {
+      localStorage.setItem(STORE_URL, $("cloudUrl").value.trim());
+      localStorage.setItem(STORE_TOKEN, $("cloudToken").value.trim());
+      setStatus("状态：配置已保存在当前浏览器。注意：不要把 OpenAI API key 填在这里。");
+      refreshEntries();
+    });
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js").catch(() => {});
+    }
+    refreshEntries();
+  </script>
+</body>
+</html>

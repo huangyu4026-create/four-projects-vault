@@ -1,4 +1,4 @@
-name: Deploy work-life mobile page
+name: Deploy public mobile pages
 
 on:
   push:
@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "work-life-mobile/**"
+      - "digital-life-public/**"
       - ".github/workflows/work-life-mobile-pages.yml"
       - ".nojekyll"
   workflow_dispatch:
@@ -26,13 +27,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
         with:
-          sparse-checkout: work-life-mobile
+          sparse-checkout: |
+            work-life-mobile
+            digital-life-public
           sparse-checkout-cone-mode: true
 
       - name: Prepare static site
         run: |
-          mkdir -p _site/work-life-mobile
+          mkdir -p _site/work-life-mobile _site/digital-life-public
           cp -R work-life-mobile/. _site/work-life-mobile/
+          cp -R digital-life-public/. _site/digital-life-public/
           touch _site/.nojekyll
 
       - name: Upload artifact

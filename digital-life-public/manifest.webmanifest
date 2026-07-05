@@ -1,0 +1,9 @@
+{
+  "name": "数字生命今日日志远程投递口",
+  "short_name": "今日日志",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f7f1e5",
+  "theme_color": "#f2efe7",
+  "icons": []
+}
