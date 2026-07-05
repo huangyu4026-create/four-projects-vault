@@ -12,6 +12,20 @@ function doGet(e) {
   const action = ((e && e.parameter && e.parameter.action) || "list").toLowerCase();
   const state = loadState_();
   if (action === "ping" || action === "pin") return json_({ ok: true, updatedAt: state.updatedAt || "", count: (state.items || []).length });
+  if (action === "submit") {
+    const rawItem = (e && e.parameter && e.parameter.item) || "";
+    if (!rawItem) return json_({ ok: false, error: "缺少 item 参数" });
+    let item;
+    try {
+      item = normalizeItem_(typeof rawItem === "string" ? JSON.parse(rawItem) : rawItem);
+    } catch (err) {
+      return json_({ ok: false, error: "item 参数不是有效 JSON" });
+    }
+    if (!item.text) return json_({ ok: false, error: "日志正文为空" });
+    upsertItem_(state, item);
+    saveState_(state);
+    return json_({ ok: true, item, state: publicState_(state) });
+  }
   return json_({ ok: true, state });
 }
 

@@ -233,14 +233,38 @@
     async function postCloud(body) {
       const url = configuredUrl();
       if (!url) throw new Error("尚未配置云端收件箱 URL");
-      const response = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({ token: configuredToken(), ...body })
-      });
-      const data = await response.json();
-      if (!data.ok) throw new Error(data.error || "云端收件箱返回失败");
-      return data;
+      const token = configuredToken();
+      const payload = { token, ...body };
+      const parseResponse = async (response, transport) => {
+        if (!response || !response.ok) {
+          throw new Error(`云端收件箱${transport}请求失败 HTTP ${response ? response.status : "unknown"}`);
+        }
+        try {
+          const data = await response.json();
+          if (!data.ok) throw new Error(data.error || "云端收件箱返回失败");
+          return data;
+        } catch (err) {
+          throw new Error(`云端收件箱${transport}返回格式异常：${err.message || err}`);
+        }
+      };
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+        return await parseResponse(response, "POST");
+      } catch (err) {
+        if (!body || String(body.action || "submit") !== "submit" || !body.item) {
+          throw err;
+        }
+        const fallbackUrl = new URL(url);
+        fallbackUrl.searchParams.set("action", "submit");
+        fallbackUrl.searchParams.set("item", JSON.stringify(body.item));
+        if (token) fallbackUrl.searchParams.set("token", token);
+        const response = await fetch(fallbackUrl.toString());
+        return await parseResponse(response, "GET");
+      }
     }
     async function fetchCloud() {
       const url = configuredUrl();
