@@ -5,9 +5,9 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
 import time
-import urllib.error
 import urllib.parse
 import urllib.request
 from pathlib import Path
@@ -15,6 +15,7 @@ from typing import Any, Dict, List
 
 DEFAULT_LOCAL_API = "http://127.0.0.1:8790/api/entries"
 DEFAULT_TIMEOUT = 300
+TELEGRAPH_API = "https://api.telegra.ph"
 
 
 def now_iso() -> str:
@@ -25,10 +26,12 @@ def load_json_file(path: str) -> Dict[str, Any]:
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
-def request_json(url: str, method: str = "GET", body: Dict[str, Any] | None = None, timeout: int = DEFAULT_TIMEOUT) -> Dict[str, Any]:
+def request_json(url: str, method: str = "GET", body: Dict[str, Any] | None = None, timeout: int = DEFAULT_TIMEOUT, form: Dict[str, str] | None = None) -> Dict[str, Any]:
     data = None
     headers = {"Accept": "application/json"}
-    if body is not None:
+    if form is not None:
+        data = urllib.parse.urlencode(form).encode("utf-8")
+    elif body is not None:
         data = json.dumps(body, ensure_ascii=False).encode("utf-8")
         headers["Content-Type"] = "text/plain;charset=utf-8"
     req = urllib.request.Request(url, data=data, headers=headers, method=method)
@@ -37,9 +40,77 @@ def request_json(url: str, method: str = "GET", body: Dict[str, Any] | None = No
     return json.loads(raw or "{}")
 
 
+def node_text(node: Any) -> str:
+    if isinstance(node, str):
+        return node
+    if isinstance(node, dict) and isinstance(node.get("children"), list):
+        return "".join(node_text(child) for child in node["children"])
+    return ""
+
+
+def content_text(content: Any) -> str:
+    if not isinstance(content, list):
+        return ""
+    return "\n".join(node_text(node) for node in content).strip()
+
+
+def normalize_state(payload: Dict[str, Any]) -> Dict[str, Any]:
+    state = payload.get("state") if isinstance(payload.get("state"), dict) else payload
+    return {
+        "updatedAt": state.get("updatedAt", "") if isinstance(state, dict) else "",
+        "items": state.get("items", []) if isinstance(state, dict) and isinstance(state.get("items"), list) else [],
+    }
+
+
+def telegraph_config(args: argparse.Namespace) -> tuple[str, str]:
+    path = args.telegraph_path or ""
+    token = args.telegraph_token or ""
+    if args.cloud_url.startswith("telegraph://"):
+        path = args.cloud_url.replace("telegraph://", "", 1).strip("/")
+    return path, token
+
+
+def fetch_telegraph_state(args: argparse.Namespace) -> Dict[str, Any]:
+    path, _ = telegraph_config(args)
+    if not path:
+        raise SystemExit("缺少 Telegraph path。请设置 DIGITAL_LIFE_PUBLIC_TELEGRAPH_PATH。")
+    data = request_json(f"{TELEGRAPH_API}/getPage/{urllib.parse.quote(path)}?return_content=true&t={int(time.time())}", timeout=args.timeout)
+    if data.get("ok") is False:
+        raise RuntimeError(data.get("error") or "Telegraph 读取失败")
+    text = content_text(data.get("result", {}).get("content"))
+    if not text:
+        return {"ok": True, "state": {"updatedAt": "", "items": []}}
+    return {"ok": True, "state": normalize_state(json.loads(text))}
+
+
+def save_telegraph_state(args: argparse.Namespace, state: Dict[str, Any]) -> None:
+    path, token = telegraph_config(args)
+    if not path or not token:
+        raise SystemExit("缺少 Telegraph path/token。请设置 DIGITAL_LIFE_PUBLIC_TELEGRAPH_PATH 和 DIGITAL_LIFE_PUBLIC_TELEGRAPH_TOKEN。")
+    payload = {"ok": True, "updatedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "state": normalize_state(state)}
+    payload["state"]["updatedAt"] = payload["updatedAt"]
+    content = json.dumps([{"tag": "pre", "children": [json.dumps(payload, ensure_ascii=False)]}], ensure_ascii=False)
+    data = request_json(f"{TELEGRAPH_API}/editPage/{urllib.parse.quote(path)}", method="POST", form={
+        "access_token": token,
+        "title": "digital-life-public-today-log-inbox",
+        "author_name": "Digital Life Public Inbox",
+        "content": content,
+        "return_content": "false",
+    }, timeout=args.timeout)
+    if data.get("ok") is False:
+        raise RuntimeError(data.get("error") or "Telegraph 保存失败")
+
+
+def use_telegraph(args: argparse.Namespace) -> bool:
+    path, token = telegraph_config(args)
+    return bool(path or token)
+
+
 def fetch_cloud_state(args: argparse.Namespace) -> Dict[str, Any]:
     if args.cloud_file:
         return load_json_file(args.cloud_file)
+    if use_telegraph(args):
+        return fetch_telegraph_state(args)
     if not args.cloud_url:
         raise SystemExit("缺少云端收件箱 URL。请设置 --cloud-url 或 DIGITAL_LIFE_PUBLIC_INBOX_URL。")
     query = {"action": "list"}
@@ -53,10 +124,25 @@ def fetch_cloud_state(args: argparse.Namespace) -> Dict[str, Any]:
     return data
 
 
+def update_state_object(state_data: Dict[str, Any], patch: Dict[str, Any]) -> Dict[str, Any]:
+    state = state_data.get("state", state_data)
+    items = list(state.get("items", []))
+    for index, item in enumerate(items):
+        if item.get("id") == patch.get("id"):
+            items[index] = {**item, **patch, "updatedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
+            state["items"] = items
+            state["updatedAt"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+            return {"ok": True, "state": state}
+    raise RuntimeError(f"未找到 item: {patch.get('id')}")
+
+
 def cloud_update(args: argparse.Namespace, patch: Dict[str, Any]) -> None:
-    if args.dry_run:
+    if args.dry_run or args.cloud_file:
         return
-    if args.cloud_file:
+    if use_telegraph(args):
+        data = fetch_telegraph_state(args)
+        updated = update_state_object(data, patch)
+        save_telegraph_state(args, updated["state"])
         return
     body = {"action": "update", "token": args.token, "item": patch}
     data = request_json(args.cloud_url, method="POST", body=body, timeout=args.timeout)
@@ -168,8 +254,10 @@ def run(args: argparse.Namespace) -> int:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="从数字生命公网今日日志收件箱拉取并送入本地 8790 数字生命入口。")
-    parser.add_argument("--cloud-url", default=os.environ.get("DIGITAL_LIFE_PUBLIC_INBOX_URL", ""), help="Google Apps Script Web App /exec URL")
+    parser.add_argument("--cloud-url", default=os.environ.get("DIGITAL_LIFE_PUBLIC_INBOX_URL", ""), help="Google Apps Script Web App /exec URL，或 telegraph://path")
     parser.add_argument("--token", default=os.environ.get("DIGITAL_LIFE_PUBLIC_TOKEN", ""), help="云端收件箱口令")
+    parser.add_argument("--telegraph-path", default=os.environ.get("DIGITAL_LIFE_PUBLIC_TELEGRAPH_PATH", ""), help="Telegraph 页面 path")
+    parser.add_argument("--telegraph-token", default=os.environ.get("DIGITAL_LIFE_PUBLIC_TELEGRAPH_TOKEN", ""), help="Telegraph access token")
     parser.add_argument("--local-api", default=os.environ.get("DIGITAL_LIFE_LOCAL_ENTRY_API", DEFAULT_LOCAL_API), help="本地数字生命手机入口 API")
     parser.add_argument("--limit", type=int, default=int(os.environ.get("DIGITAL_LIFE_PUBLIC_PULL_LIMIT", "5")), help="一次最多处理几条")
     parser.add_argument("--timeout", type=int, default=int(os.environ.get("DIGITAL_LIFE_PUBLIC_TIMEOUT", str(DEFAULT_TIMEOUT))))
