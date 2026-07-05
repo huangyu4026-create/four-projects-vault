@@ -1,0 +1,20 @@
+{
+  "ok": true,
+  "state": {
+    "updatedAt": "2026-07-04T08:00:00Z",
+    "items": [
+      {
+        "id": "dlp-test-001",
+        "project": "digital_life",
+        "entry_type": "today_log",
+        "source": "public_web",
+        "date": "2026-07-04",
+        "title": "公网今日日志｜2026-07-04",
+        "text": "这是一条用于验证公网今日日志入口的测试正文。它应该被 Mac 拉取器识别为数字生命今日日志，并送入本地 8790 入口。",
+        "status": "pending",
+        "createdAt": "2026-07-04T08:00:00Z",
+        "updatedAt": "2026-07-04T08:00:00Z"
+      }
+    ]
+  }
+}
