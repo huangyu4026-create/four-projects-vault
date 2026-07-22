@@ -49,6 +49,24 @@
     "latest_snapshot": "50_输出区/电脑全局工作判断/2026-07-22_首次试判.md",
     "next": "USER_CORRECTION_OR_NEXT_PERIODIC_REFRESH"
   },
+  "personal_health_state_observation": {
+    "formal_name": "个人健康与身体状态观察",
+    "status": "MATERIAL_PRESENT_STALE_NEEDS_REFRESH",
+    "cadence": "30_60_DAYS_OR_ON_NEW_HEALTH_EVENT",
+    "required_for": [
+      "PERSON_PORTRAIT",
+      "CURRENT_SELF_SUMMARY",
+      "BODY_HEALTH_RELATED_CONTEXT"
+    ],
+    "existing_semantic_assignments": 1196,
+    "existing_distinct_documents": 212,
+    "latest_semantic_date": "2026-06-08",
+    "medical_diagnosis_enabled": false,
+    "database_table_created": false,
+    "rule": "20_规则与流程/数字生命2.0_可演化个人模型层/09_个人健康与身体状态观察_v1.0.md",
+    "latest_snapshot": "50_输出区/个人健康与身体状态观察/2026-07-22_现状审计.md",
+    "next": "REFRESH_ONLY_FROM_NEW_USER_OR_MEDICAL_SOURCE_MATERIAL"
+  },
   "m4_protocol_validation": {
     "status": "PASS_WAITING_REAL_RECEIVER_REQUESTS",
     "tests": "22/22 PASS",
