@@ -670,6 +670,81 @@ def _context_item_payload(conn: sqlite3.Connection, item_type: str, item_ref: st
     return data
 
 
+def _context_source_manifest(conn: sqlite3.Connection, items: list[dict]) -> list[dict]:
+    """从已选记忆/假说反向生成来源清单，不信任请求方手写的 manifest。"""
+    manifest: list[dict] = []
+    seen: set[tuple] = set()
+
+    def append_memory(memory_id: str, via_hypothesis_id: str = "", relation_role: str = "") -> None:
+        memory = _one(conn, "SELECT current_version_id FROM dl2_memory_units WHERE memory_id=?", (memory_id,))
+        if not memory:
+            raise DL2Error(f"来源清单引用的记忆不存在: {memory_id}")
+        rows = conn.execute(
+            """SELECT evidence_role,source_type,source_id,source_sha256,source_anchor,char_start,char_end,fact_id
+                 FROM dl2_memory_evidence_links WHERE memory_id=? AND version_id=? ORDER BY created_at""",
+            (memory_id, memory["current_version_id"]),
+        ).fetchall()
+        for row in rows:
+            key = (
+                memory_id, memory["current_version_id"], row["evidence_role"], row["source_type"],
+                row["source_id"], row["source_sha256"], row["source_anchor"], via_hypothesis_id, relation_role,
+            )
+            if key in seen:
+                continue
+            seen.add(key)
+            manifest.append({
+                "memory_id": memory_id,
+                "memory_version_id": memory["current_version_id"],
+                "evidence_role": row["evidence_role"],
+                "source_type": row["source_type"],
+                "source_id": row["source_id"],
+                "source_sha256": row["source_sha256"],
+                "source_anchor": row["source_anchor"],
+                "char_start": row["char_start"],
+                "char_end": row["char_end"],
+                "fact_id": row["fact_id"],
+                "via_hypothesis_id": via_hypothesis_id or None,
+                "hypothesis_relation_role": relation_role or None,
+            })
+
+    for item in items:
+        if item["item_type"] == "MEMORY":
+            append_memory(item["item_ref"])
+            continue
+        hypothesis_id = item["item_ref"]
+        version_id = item["payload"]["current_version_id"]
+        links = conn.execute(
+            """SELECT memory_id,relation_role FROM dl2_hypothesis_memory_links
+                 WHERE hypothesis_id=? AND hypothesis_version_id=? ORDER BY created_at""",
+            (hypothesis_id, version_id),
+        ).fetchall()
+        for link in links:
+            append_memory(link["memory_id"], hypothesis_id, link["relation_role"])
+    if not manifest:
+        raise DL2Error("上下文包无法生成真实来源清单")
+    return manifest
+
+
+def _verify_context_artifact(package: sqlite3.Row) -> dict:
+    path = Path(str(package["artifact_path"] or ""))
+    try:
+        path.resolve().relative_to(CONTEXT_OUTBOX.resolve())
+    except (OSError, ValueError):
+        raise DL2Error("上下文包产物路径越界")
+    if not path.is_file():
+        raise DL2Error("上下文包产物不存在")
+    try:
+        artifact = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise DL2Error(f"上下文包产物无法校验: {exc}") from exc
+    embedded_hash = str(artifact.pop("package_hash", ""))
+    calculated_hash = json_hash(artifact)
+    if embedded_hash != package["package_hash"] or calculated_hash != package["package_hash"]:
+        raise DL2Error("上下文包产物哈希校验失败")
+    artifact["package_hash"] = embedded_hash
+    return artifact
+
+
 def preview_context_package(conn: sqlite3.Connection, payload: dict) -> dict:
     _require(payload, "requester", "purpose", "question", "authorization_id", "allowed_domains", "items")
     requester = str(payload["requester"]).upper()
@@ -691,7 +766,7 @@ def preview_context_package(conn: sqlite3.Connection, payload: dict) -> dict:
     prepared["requester"] = requester
     prepared["items"] = resolved_items
     prepared.setdefault("excluded_domains", [])
-    prepared.setdefault("source_manifest", [])
+    prepared["source_manifest"] = _context_source_manifest(conn, resolved_items)
     prepared.setdefault("uncertainties", [])
     prepared.setdefault("expires_at", (datetime.now(timezone.utc) + timedelta(days=7)).isoformat(timespec="seconds"))
     prepared.setdefault("revocable", True)
@@ -746,15 +821,32 @@ def issue_context_package(conn: sqlite3.Connection, preview_id: str) -> dict:
 
 
 def register_access_receipt(conn: sqlite3.Connection, payload: dict) -> dict:
-    _require(payload, "package_id", "receiver", "decision", "receipt_ref")
+    _require(payload, "package_id", "package_hash", "receiver", "decision", "receipt_ref")
     package = _one(conn, "SELECT * FROM dl2_context_packages WHERE package_id=?", (payload["package_id"],))
     if not package:
         raise DL2Error("上下文包不存在")
     if str(payload["receiver"]).upper() != package["requester"]:
         raise DL2Error("回执接收方与上下文包请求方不一致")
+    if str(payload["package_hash"]) != package["package_hash"]:
+        raise DL2Error("回执引用的上下文包哈希不匹配")
+    if payload["decision"] not in {"ACCEPTED", "REJECTED", "HELD", "REVOKED"}:
+        raise DL2Error("回执 decision 无效")
+    if datetime.fromisoformat(package["expires_at"]) < datetime.now(timezone.utc):
+        conn.execute("UPDATE dl2_context_packages SET status='EXPIRED' WHERE package_id=?", (payload["package_id"],))
+        raise DL2Error("上下文包已过期，拒绝接收回执")
+    _verify_context_artifact(package)
+    allowed_refs = {row["item_ref"] for row in conn.execute("SELECT item_ref FROM dl2_context_package_items WHERE package_id=?", (payload["package_id"],)).fetchall()}
+    actual_read = list(payload.get("actual_read") or [])
+    refused = list(payload.get("refused") or [])
+    unknown_refs = (set(actual_read) | set(refused)) - allowed_refs
+    if unknown_refs:
+        raise DL2Error(f"回执引用了包外对象: {', '.join(sorted(unknown_refs))}")
+    if payload["decision"] == "ACCEPTED" and not actual_read:
+        raise DL2Error("ACCEPTED 回执必须列出 actual_read")
     receipt_body = {
-        "package_id": payload["package_id"], "receiver": str(payload["receiver"]).upper(), "decision": payload["decision"],
-        "actual_read": payload.get("actual_read") or [], "refused": payload.get("refused") or [],
+        "package_id": payload["package_id"], "package_hash": package["package_hash"],
+        "receiver": str(payload["receiver"]).upper(), "decision": payload["decision"],
+        "actual_read": actual_read, "refused": refused,
         "returned": payload.get("returned") or {}, "target_writeback": bool(payload.get("target_writeback")), "receipt_ref": payload["receipt_ref"],
     }
     receipt_hash = json_hash(receipt_body)

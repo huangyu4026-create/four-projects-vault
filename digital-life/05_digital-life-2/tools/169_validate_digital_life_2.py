@@ -31,6 +31,7 @@ def main() -> int:
     parser.add_argument("--db", type=Path, required=True)
     args = parser.parse_args()
     checks: list[dict] = []
+    dl2.CONTEXT_OUTBOX = args.db.parent / "dl2-context-outbox"
     with sqlite3.connect(args.db, timeout=30) as conn:
         conn.row_factory = sqlite3.Row
         conn.execute("PRAGMA foreign_keys=ON")
@@ -78,9 +79,26 @@ def main() -> int:
         preview = dl2.preview_context_package(conn, good)
         issued = dl2.issue_context_package(conn, preview["preview_id"])
         checks.append({"id": "N11_NO_RECEIPT_NOT_ADOPTED", "pass": issued["status"] == "DELIVERED_NOT_ADOPTED", "evidence": issued["package_id"]})
+        detail = dl2.context_package_detail(conn, issued["package_id"])
+        checks.append({"id": "M4_AUTO_SOURCE_MANIFEST", "pass": bool(detail["package"]["source_manifest"]), "evidence": len(detail["package"]["source_manifest"])})
         expect_error("N12_RECEIVER_MISMATCH_REJECTED", lambda: dl2.register_access_receipt(conn, {
-            "package_id": issued["package_id"], "receiver": "LWG", "decision": "HELD", "receipt_ref": "test"}), checks)
-        receipt_payload = {"package_id": issued["package_id"], "receiver": "P05", "decision": "HELD", "receipt_ref": "test-idempotent"}
+            "package_id": issued["package_id"], "package_hash": issued["package_hash"], "receiver": "LWG", "decision": "HELD", "receipt_ref": "test"}), checks)
+        expect_error("M4_BAD_PACKAGE_HASH_REJECTED", lambda: dl2.register_access_receipt(conn, {
+            "package_id": issued["package_id"], "package_hash": "0" * 64, "receiver": "P05", "decision": "HELD", "receipt_ref": "bad-hash"}), checks)
+        artifact_path = Path(issued["artifact_path"])
+        artifact_original = artifact_path.read_text(encoding="utf-8")
+        artifact_tampered = json.loads(artifact_original)
+        artifact_tampered["question"] = "tampered"
+        artifact_path.write_text(json.dumps(artifact_tampered, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        expect_error("M4_TAMPERED_ARTIFACT_REJECTED", lambda: dl2.register_access_receipt(conn, {
+            "package_id": issued["package_id"], "package_hash": issued["package_hash"], "receiver": "P05", "decision": "HELD", "receipt_ref": "tampered-artifact"}), checks)
+        artifact_path.write_text(artifact_original, encoding="utf-8")
+        expect_error("M4_ACCEPTED_REQUIRES_ACTUAL_READ", lambda: dl2.register_access_receipt(conn, {
+            "package_id": issued["package_id"], "package_hash": issued["package_hash"], "receiver": "P05", "decision": "ACCEPTED", "receipt_ref": "empty-read"}), checks)
+        expect_error("M4_UNKNOWN_READ_REF_REJECTED", lambda: dl2.register_access_receipt(conn, {
+            "package_id": issued["package_id"], "package_hash": issued["package_hash"], "receiver": "P05", "decision": "ACCEPTED",
+            "actual_read": ["dlmem:not-in-package"], "receipt_ref": "bad-ref"}), checks)
+        receipt_payload = {"package_id": issued["package_id"], "package_hash": issued["package_hash"], "receiver": "P05", "decision": "HELD", "receipt_ref": "test-idempotent"}
         first_receipt = dl2.register_access_receipt(conn, receipt_payload)
         second_receipt = dl2.register_access_receipt(conn, receipt_payload)
         checks.append({"id": "N13_RECEIPT_IDEMPOTENT", "pass": second_receipt["status"] == "IDEMPOTENT" and first_receipt["receipt_id"] == second_receipt["receipt_id"], "evidence": second_receipt["receipt_id"]})

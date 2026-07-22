@@ -9,7 +9,7 @@
     "M0": "PASS",
     "M1": "PASS",
     "M2": "PASS",
-    "M3": "WAITING_REAL_USER_CALIBRATION",
+    "M3": "IN_PROGRESS_1_SEALED_0_COMPLETED",
     "M4": "WAITING_REAL_RECEIVER_REQUESTS",
     "M5": "DISABLED_REQUIRES_USER_AUTHORIZATION",
     "M6": "DISABLED_REQUIRES_M3_AND_USER_AUTHORIZATION"
@@ -28,5 +28,21 @@
     "branch": "agent/digital-life-2-20260722",
     "draft_pr": 1,
     "database_release_tag": "digital-life-2.0.0-20260722"
+  },
+  "active_calibration": {
+    "case_id": "dlcal:20260722-digital-life-core-value-01",
+    "status": "SEALED_WAITING_USER_ANSWER",
+    "system_answer_sha256": "459527b2b7a3cceccf77c209b24ed8416e71e09c9494e290bf30c123f82ea273"
+  },
+  "m4_protocol_validation": {
+    "status": "PASS_WAITING_REAL_RECEIVER_REQUESTS",
+    "tests": "22/22 PASS",
+    "automatic_source_manifest": true,
+    "package_artifact_hash_verification": true,
+    "receipt_package_hash_required": true,
+    "accepted_receipt_requires_actual_read": true,
+    "canonical_lwg_authorization_id": "P05-AUTH-LWG-DL-20260720",
+    "pre_dl2_real_call_classification": "REAL_PRE_DL2_NOT_COUNTED",
+    "audit_report": "40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/reports/170_pre_dl2_cross_project_call_audit.json"
   }
 }
