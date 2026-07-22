@@ -26,8 +26,17 @@
   "read_order": [
     "00_域门/README.md",
     "20_规则与流程/数字生命2.0_可演化个人模型层/00_数字生命2.0总纲_v0.1.md",
+    "20_规则与流程/数字生命2.0_可演化个人模型层/08_电脑全局工作判断_v1.0.md",
     "CURRENT_STATE.json"
   ],
+  "analysis_inputs": {
+    "computer_global_work_judgment": {
+      "formal_name": "电脑全局工作判断",
+      "role": "人物画像与阶段性自我概括的工作观察输入",
+      "rule": "20_规则与流程/数字生命2.0_可演化个人模型层/08_电脑全局工作判断_v1.0.md",
+      "latest_snapshot": "50_输出区/电脑全局工作判断/2026-07-22_首次试判.md"
+    }
+  },
   "hard_prohibitions": [
     "不得修改或覆盖原始日记和Notion母本",
     "不得生成合成记忆",

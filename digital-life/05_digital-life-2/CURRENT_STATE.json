@@ -34,6 +34,21 @@
     "status": "SEALED_WAITING_USER_ANSWER",
     "system_answer_sha256": "459527b2b7a3cceccf77c209b24ed8416e71e09c9494e290bf30c123f82ea273"
   },
+  "computer_global_work_judgment": {
+    "formal_name": "电脑全局工作判断",
+    "status": "FIRST_TRIAL_COMPLETE_FILE_BACKED",
+    "cadence": "30_60_DAYS_OR_ON_DEMAND",
+    "required_for": [
+      "PERSON_PORTRAIT",
+      "CURRENT_SELF_SUMMARY",
+      "LIFE_POSITION_RELATED_CONTEXT"
+    ],
+    "screen_tracking": false,
+    "database_table_created": false,
+    "rule": "20_规则与流程/数字生命2.0_可演化个人模型层/08_电脑全局工作判断_v1.0.md",
+    "latest_snapshot": "50_输出区/电脑全局工作判断/2026-07-22_首次试判.md",
+    "next": "USER_CORRECTION_OR_NEXT_PERIODIC_REFRESH"
+  },
   "m4_protocol_validation": {
     "status": "PASS_WAITING_REAL_RECEIVER_REQUESTS",
     "tests": "22/22 PASS",
