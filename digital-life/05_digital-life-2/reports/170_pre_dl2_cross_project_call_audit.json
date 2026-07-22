@@ -1,7 +1,7 @@
 {
   "report_id": "DL2-PRE-PROTOCOL-CROSS-PROJECT-AUDIT-20260722",
-  "generated_at": "2026-07-22T14:45:05.764783+00:00",
-  "audit_scope": "P05 REAL-004 and its LWG downstream use",
+  "generated_at": "2026-07-22T15:12:44.893250+00:00",
+  "audit_scope": "P05 REAL-004 and its legacy LWG downstream use",
   "classification": "REAL_PRE_DL2_NOT_COUNTED",
   "m4_acceptance_credit": false,
   "reason": [
@@ -10,11 +10,15 @@
     "不存在由P01签发的dlctx包、package_hash与dl2_access_receipts回执。",
     "因此不得倒签、重命名或补造回执以凑足M4验收。"
   ],
-  "canonical_authorization_id": "P05-AUTH-LWG-DL-20260720",
+  "historical_authorization_id": "P05-AUTH-LWG-DL-20260720",
+  "historical_receiver": "LWG",
+  "current_receiver": "AI_CONTEXT",
+  "current_receiver_name": "AI上下文八面＋人物专页联邦载入系统",
+  "current_authorization_id": "COEX-AI-CONTEXT-DL-20260722",
   "authorization_alignment": {
-    "status": "ALIGNED_20260722",
+    "status": "LEGACY_PRESERVED_CURRENT_SEPARATED",
     "scope_changed": false,
-    "note": "仅将LWG运行配置中的旧别名对齐到P05授权总表与既有REAL-004使用的正式编号。"
+    "note": "旧LWG材料按历史名称保留；当前M4接收方改为AI_CONTEXT，不再用旧工具名称表示现行系统。"
   },
   "p05_evidence": [
     {
@@ -58,14 +62,14 @@
     {
       "path": "runtime/config.json",
       "exists": true,
-      "size_bytes": 5314,
-      "sha256": "3ed6b665ae05c03142ba23d09fec1f4bac6b5ad708f03f87aa1e1631e2fdbd58"
+      "size_bytes": 5310,
+      "sha256": "bbcd001c855af0751421d1fc93f5b54b52d1bb91060dbfcf4700e6d2e6bba325"
     },
     {
       "path": "00_域门/PROJECT_STATE.json",
       "exists": true,
-      "size_bytes": 2860,
-      "sha256": "804592f6f6c87198687b2a7ae8109a18dfa1ad9d98e2359d3f4e2e8a561ab7df"
+      "size_bytes": 2856,
+      "sha256": "28585aa93f07b29c99eb4fb1751ba0b18e2ab8ec5283b210d2cf1840efa36403"
     },
     {
       "path": "20_规则与流程/09_数字生命2.0最小上下文包接收契约_v1.json",
@@ -78,7 +82,7 @@
   "next_valid_closure": {
     "required_receiver_requests": [
       "P05",
-      "LWG"
+      "AI_CONTEXT"
     ],
     "required_chain": [
       "receiver_request",

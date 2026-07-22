@@ -63,7 +63,7 @@ def main() -> int:
     report = {
         "report_id": "DL2-PRE-PROTOCOL-CROSS-PROJECT-AUDIT-20260722",
         "generated_at": datetime.now(timezone.utc).isoformat(),
-        "audit_scope": "P05 REAL-004 and its LWG downstream use",
+        "audit_scope": "P05 REAL-004 and its legacy LWG downstream use",
         "classification": "REAL_PRE_DL2_NOT_COUNTED",
         "m4_acceptance_credit": False,
         "reason": [
@@ -72,17 +72,21 @@ def main() -> int:
             "不存在由P01签发的dlctx包、package_hash与dl2_access_receipts回执。",
             "因此不得倒签、重命名或补造回执以凑足M4验收。",
         ],
-        "canonical_authorization_id": "P05-AUTH-LWG-DL-20260720",
+        "historical_authorization_id": "P05-AUTH-LWG-DL-20260720",
+        "historical_receiver": "LWG",
+        "current_receiver": "AI_CONTEXT",
+        "current_receiver_name": "AI上下文八面＋人物专页联邦载入系统",
+        "current_authorization_id": "COEX-AI-CONTEXT-DL-20260722",
         "authorization_alignment": {
-            "status": "ALIGNED_20260722",
+            "status": "LEGACY_PRESERVED_CURRENT_SEPARATED",
             "scope_changed": False,
-            "note": "仅将LWG运行配置中的旧别名对齐到P05授权总表与既有REAL-004使用的正式编号。",
+            "note": "旧LWG材料按历史名称保留；当前M4接收方改为AI_CONTEXT，不再用旧工具名称表示现行系统。",
         },
         "p05_evidence": [evidence(path, args.p05_root) for path in p05_files],
         "lwg_evidence": [evidence(path, args.lwg_root) for path in lwg_files],
         "missing_evidence": missing,
         "next_valid_closure": {
-            "required_receiver_requests": ["P05", "LWG"],
+            "required_receiver_requests": ["P05", "AI_CONTEXT"],
             "required_chain": [
                 "receiver_request",
                 "P01_authorization_review",

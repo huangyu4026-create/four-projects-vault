@@ -40,14 +40,14 @@
       "evidence": "P05普通入口默认禁读，缺少明确授权"
     },
     {
-      "id": "N08_LWG_WRONG_AUTH_REJECTED",
+      "id": "N08_AI_CONTEXT_WRONG_AUTH_REJECTED",
       "pass": true,
-      "evidence": "人生漫游馆必须使用已登记的持续只读授权"
+      "evidence": "AI上下文八面必须使用已登记的最小读取授权"
     },
     {
       "id": "N09_UNKNOWN_RECEIVER_REJECTED",
       "pass": true,
-      "evidence": "首批只允许 P05 和 LWG 请求上下文包"
+      "evidence": "首批只允许 P05 和 AI_CONTEXT 请求上下文包"
     },
     {
       "id": "N10_S3_CROSS_PROJECT_REJECTED",
@@ -57,7 +57,7 @@
     {
       "id": "N11_NO_RECEIPT_NOT_ADOPTED",
       "pass": true,
-      "evidence": "dlctx:38b5675691ae85fe741a28b6"
+      "evidence": "dlctx:aea718cb15cdf0bcbf6128e8"
     },
     {
       "id": "M4_AUTO_SOURCE_MANIFEST",
@@ -92,7 +92,7 @@
     {
       "id": "N13_RECEIPT_IDEMPOTENT",
       "pass": true,
-      "evidence": "dlreceipt:318e6f675a3ada66fcb8002a"
+      "evidence": "dlreceipt:f0e49ea7d3e3e01bba827530"
     },
     {
       "id": "N14_M5_M6_DISABLED",

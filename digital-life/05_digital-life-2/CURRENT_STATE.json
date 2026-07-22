@@ -41,7 +41,10 @@
     "package_artifact_hash_verification": true,
     "receipt_package_hash_required": true,
     "accepted_receipt_requires_actual_read": true,
-    "canonical_lwg_authorization_id": "P05-AUTH-LWG-DL-20260720",
+    "current_federated_receiver": "AI_CONTEXT",
+    "current_federated_receiver_name": "AI上下文八面＋人物专页联邦载入系统",
+    "current_federated_authorization_id": "COEX-AI-CONTEXT-DL-20260722",
+    "legacy_lwg_is_current_receiver": false,
     "pre_dl2_real_call_classification": "REAL_PRE_DL2_NOT_COUNTED",
     "audit_report": "40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/reports/170_pre_dl2_cross_project_call_audit.json"
   }

@@ -65,8 +65,8 @@ def main() -> int:
             "requester": "P05", "purpose": "test", "question": "test", "authorization_id": "INVALID",
             "allowed_domains": ["test"], "items": [{"item_type": "MEMORY", "item_ref": "dlmem:seed-m01", "item_role": "CONTEXT"}]}
         expect_error("N07_P05_WITHOUT_AUTH_REJECTED", lambda: dl2.preview_context_package(conn, base_package), checks)
-        bad_lwg = dict(base_package, requester="LWG", authorization_id="WRONG")
-        expect_error("N08_LWG_WRONG_AUTH_REJECTED", lambda: dl2.preview_context_package(conn, bad_lwg), checks)
+        bad_ai_context = dict(base_package, requester="AI_CONTEXT", authorization_id="WRONG")
+        expect_error("N08_AI_CONTEXT_WRONG_AUTH_REJECTED", lambda: dl2.preview_context_package(conn, bad_ai_context), checks)
         unknown = dict(base_package, requester="UNKNOWN", authorization_id="USER-EXPLICIT-test")
         expect_error("N09_UNKNOWN_RECEIVER_REJECTED", lambda: dl2.preview_context_package(conn, unknown), checks)
 
@@ -82,7 +82,7 @@ def main() -> int:
         detail = dl2.context_package_detail(conn, issued["package_id"])
         checks.append({"id": "M4_AUTO_SOURCE_MANIFEST", "pass": bool(detail["package"]["source_manifest"]), "evidence": len(detail["package"]["source_manifest"])})
         expect_error("N12_RECEIVER_MISMATCH_REJECTED", lambda: dl2.register_access_receipt(conn, {
-            "package_id": issued["package_id"], "package_hash": issued["package_hash"], "receiver": "LWG", "decision": "HELD", "receipt_ref": "test"}), checks)
+            "package_id": issued["package_id"], "package_hash": issued["package_hash"], "receiver": "AI_CONTEXT", "decision": "HELD", "receipt_ref": "test"}), checks)
         expect_error("M4_BAD_PACKAGE_HASH_REJECTED", lambda: dl2.register_access_receipt(conn, {
             "package_id": issued["package_id"], "package_hash": "0" * 64, "receiver": "P05", "decision": "HELD", "receipt_ref": "bad-hash"}), checks)
         artifact_path = Path(issued["artifact_path"])

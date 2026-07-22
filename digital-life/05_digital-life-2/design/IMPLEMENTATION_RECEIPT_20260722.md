@@ -27,10 +27,10 @@
 
 - 上下文包的`source_manifest`改为由P01根据当前记忆版本及证据链自动生成，不接受请求方自报来源。
 - 回执必须携带`package_hash`；系统会重算文件规范化哈希，拒绝篡改文件、包外对象和没有`actual_read`的`ACCEPTED`回执。
-- 人生漫游馆两处运行配置已从旧别名`LWG-AUTH-DL-20260720`对齐为既有正式授权`P05-AUTH-LWG-DL-20260720`；未扩大授权范围。
-- P05 REAL-004及其LWG下游使用经证据哈希核定为`REAL_PRE_DL2_NOT_COUNTED`：真实存在，但无P01签发的`dlctx`包和DL2回执，不倒签计入M4。
-- 回归报告：`reports/169_dl2_validation_20260722.json`，SHA-256 `74c36b50fb007c6f4d713260f3545c97b5de7b306ed397f06ceb32407595008c`。
-- 旧调用审计：`reports/170_pre_dl2_cross_project_call_audit.json`，SHA-256 `9b9be29c8bba25c8b5d522cc506db5d69911157eef3bc55e2cdaecc4d9c63e58`。
+- 当前联邦接收方已核定为`AI_CONTEXT`，正式名称为“AI上下文八面＋人物专页联邦载入系统”，授权号为`COEX-AI-CONTEXT-DL-20260722`。旧LWG工具不再写作现行接收方。
+- P05 REAL-004及其旧LWG下游使用经证据哈希核定为`REAL_PRE_DL2_NOT_COUNTED`：真实存在，但无P01签发的`dlctx`包和DL2回执，不倒签计入M4。
+- 回归报告：`reports/169_dl2_validation_20260722.json`，SHA-256 `30a46f89ba2e42cb803a0167634dba81ec51b6deb14c4d7588cedbbcf52eec9a`。
+- 旧调用审计：`reports/170_pre_dl2_cross_project_call_audit.json`，SHA-256 `86955c305b948c9eece15fe9b73726359258ec50cc02df434735cdf7d0461138`。
 
 ## 回退点
 

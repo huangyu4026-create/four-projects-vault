@@ -751,10 +751,10 @@ def preview_context_package(conn: sqlite3.Connection, payload: dict) -> dict:
     authorization_id = str(payload["authorization_id"])
     if requester == "P05" and not (authorization_id.startswith("P05-AUTH-") or authorization_id.startswith("USER-EXPLICIT-")):
         raise DL2Error("P05普通入口默认禁读，缺少明确授权")
-    if requester == "LWG" and authorization_id != "P05-AUTH-LWG-DL-20260720":
-        raise DL2Error("人生漫游馆必须使用已登记的持续只读授权")
-    if requester not in {"P05", "LWG"}:
-        raise DL2Error("首批只允许 P05 和 LWG 请求上下文包")
+    if requester == "AI_CONTEXT" and authorization_id != "COEX-AI-CONTEXT-DL-20260722":
+        raise DL2Error("AI上下文八面必须使用已登记的最小读取授权")
+    if requester not in {"P05", "AI_CONTEXT"}:
+        raise DL2Error("首批只允许 P05 和 AI_CONTEXT 请求上下文包")
     resolved_items = []
     for raw in list(payload["items"]):
         _require(raw, "item_type", "item_ref", "item_role")
