@@ -22,5 +22,11 @@
     "full_corpus_external_upload_basis": "2026-07-22 user explicit authorization; credentials and runtime secrets remain excluded"
   },
   "truth_source": "PROJECT_ENTRY.json",
-  "latest_acceptance_receipt": "20_规则与流程/数字生命2.0_可演化个人模型层/IMPLEMENTATION_RECEIPT_20260722.md"
+  "latest_acceptance_receipt": "20_规则与流程/数字生命2.0_可演化个人模型层/IMPLEMENTATION_RECEIPT_20260722.md",
+  "latest_github_sync": {
+    "repository": "huangyu4026-create/four-projects-vault",
+    "branch": "agent/digital-life-2-20260722",
+    "draft_pr": 1,
+    "database_release_tag": "digital-life-2.0.0-20260722"
+  }
 }

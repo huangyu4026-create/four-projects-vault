@@ -16,6 +16,13 @@
   },
   "historical_queue_policy": "10_输入收件箱中的同名文件仅作来源历史，不得被运行时消费。",
   "formal_trigger_phrases": ["进入数字生命", "查数字生命", "数字生命："],
+  "github": {
+    "repository": "https://github.com/huangyu4026-create/four-projects-vault",
+    "project_path": "digital-life/05_digital-life-2",
+    "sync_branch": "agent/digital-life-2-20260722",
+    "draft_pr": "https://github.com/huangyu4026-create/four-projects-vault/pull/1",
+    "database_release": "https://github.com/huangyu4026-create/four-projects-vault/releases/tag/digital-life-2.0.0-20260722"
+  },
   "read_order": [
     "00_域门/README.md",
     "20_规则与流程/数字生命2.0_可演化个人模型层/00_数字生命2.0总纲_v0.1.md",
