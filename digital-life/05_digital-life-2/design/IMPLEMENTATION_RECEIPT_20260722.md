@@ -27,10 +27,10 @@
 
 - 上下文包的`source_manifest`改为由P01根据当前记忆版本及证据链自动生成，不接受请求方自报来源。
 - 回执必须携带`package_hash`；系统会重算文件规范化哈希，拒绝篡改文件、包外对象和没有`actual_read`的`ACCEPTED`回执。
-- 当前联邦接收方已核定为`AI_CONTEXT`，正式名称为“AI上下文八面＋人物专页联邦载入系统”，授权号为`COEX-AI-CONTEXT-DL-20260722`。旧LWG工具不再写作现行接收方。
+- 数字生命2.0仍属于P01“数字生命”，是在现有事实、日志与查询层上新增的可演化个人模型层，不是改名为其他项目。当前已确认的M4接收方是P05“煜个人生命立场系统”。`AI上下文八面＋人物专页`只是载入组件，不单独作为M4接收方。
 - P05 REAL-004及其旧LWG下游使用经证据哈希核定为`REAL_PRE_DL2_NOT_COUNTED`：真实存在，但无P01签发的`dlctx`包和DL2回执，不倒签计入M4。
-- 回归报告：`reports/169_dl2_validation_20260722.json`，SHA-256 `30a46f89ba2e42cb803a0167634dba81ec51b6deb14c4d7588cedbbcf52eec9a`。
-- 旧调用审计：`reports/170_pre_dl2_cross_project_call_audit.json`，SHA-256 `86955c305b948c9eece15fe9b73726359258ec50cc02df434735cdf7d0461138`。
+- 回归报告：`reports/169_dl2_validation_20260722.json`，SHA-256 `a63eed57a4e9fe89d8ccf9faf38e775d1ead42839badb7b4d0f8082557d8495b`。
+- 旧调用审计：`reports/170_pre_dl2_cross_project_call_audit.json`，SHA-256 `1e996bf4cfe970a09d966df87767747f7ebba5e284d8c053654c625044fed692`。
 
 ## 回退点
 
