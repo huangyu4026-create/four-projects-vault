@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "project_id": "P01",
+  "domain_code": "DL",
+  "design_name": "数字生命2.0｜可演化个人模型层",
+  "route": "OPEN_WORLD_POSITION",
+  "version": "1.0.0",
+  "as_of": "2026-07-22",
+  "state": "IMPLEMENTATION_M0_M4",
+  "direction_approved": true,
+  "design_frozen": true,
+  "implementation_authorized": true,
+  "sqlite_write_authorized": true,
+  "external_install_authorized": false,
+  "formal_root": "/Users/yu/Documents/Codex/coex项目总库/10-19_项目工程域/11_P01_数字生命_DL",
+  "design_root": "20_规则与流程/数字生命2.0_可演化个人模型层",
+  "read_order": [
+    "00_数字生命2.0总纲_v0.1.md",
+    "01_核心对象与状态契约_v0.1.md",
+    "02_跨工程对接总则_v0.1.md",
+    "03_阶段路线图_v0.1.md",
+    "04_垂直试跑与负面验收_v0.1.md",
+    "05_设计决策与未决项_v0.1.md",
+    "06_本轮原始需求与批准记录_v0.1.md",
+    "07_外部方法来源登记_v0.1.md"
+  ],
+  "first_gate": "M0_TRUTH_SOURCE_ARBITRATION_AND_DESIGN_FREEZE",
+  "hard_blocks": [
+    "no sqlite writes before M0",
+    "no synthetic memories",
+    "no automatic user impersonation",
+    "no bulk external tool installation",
+    "no full-corpus external upload",
+    "no cross-project direct database access"
+  ],
+  "next_decision": "M5_AND_M6_REQUIRE_SEPARATE_USER_AUTHORIZATION"
+}

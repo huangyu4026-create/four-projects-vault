@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "receiver": "P05",
+  "default_access": "DENY",
+  "required_authorization_prefixes": ["P05-AUTH-", "USER-EXPLICIT-"],
+  "transport": "artifact_json_only",
+  "direct_database_access": false,
+  "verify_package_hash": true,
+  "candidate_is_user_position": false,
+  "required_receipt_fields": ["package_id", "receiver", "decision", "actual_read", "refused", "receipt_ref"],
+  "no_receipt_status": "DELIVERED_NOT_ADOPTED"
+}

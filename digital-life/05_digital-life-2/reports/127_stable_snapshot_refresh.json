@@ -1,0 +1,46 @@
+{
+  "project": "数字生命 OS｜Mac 本地版",
+  "generated_at": "2026-07-22T13:09:46",
+  "status": "pass",
+  "passed": true,
+  "official_db": {
+    "path": "/Users/yu/Documents/Codex/coex项目总库/10-19_项目工程域/11_P01_数字生命_DL/40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/runtime/digital_life_os_core.sqlite",
+    "exists": true,
+    "integrity": "ok",
+    "counts": {
+      "source_documents": 1025,
+      "timeline_nodes": 119,
+      "timeline_days": 1114,
+      "qingfeng_logs": 124,
+      "people": 129,
+      "evidence_index": 1955,
+      "evidence_grade_index": 1877,
+      "workflow_definitions": 21,
+      "trigger_routes": 229
+    }
+  },
+  "stable_before": {
+    "path": "/Users/yu/Documents/Codex/coex项目总库/10-19_项目工程域/11_P01_数字生命_DL/40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/runtime/digital_life_os_core_stable_v1_20260722.sqlite",
+    "exists": false,
+    "integrity": "missing",
+    "counts": {}
+  },
+  "stable_after": {
+    "path": "/Users/yu/Documents/Codex/coex项目总库/10-19_项目工程域/11_P01_数字生命_DL/40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/runtime/digital_life_os_core_stable_v1_20260722.sqlite",
+    "exists": true,
+    "integrity": "ok",
+    "counts": {
+      "source_documents": 1025,
+      "timeline_nodes": 119,
+      "timeline_days": 1114,
+      "qingfeng_logs": 124,
+      "people": 129,
+      "evidence_index": 1955,
+      "evidence_grade_index": 1877,
+      "workflow_definitions": 21,
+      "trigger_routes": 229
+    }
+  },
+  "counts_matched": true,
+  "notion_mother_modified": false
+}

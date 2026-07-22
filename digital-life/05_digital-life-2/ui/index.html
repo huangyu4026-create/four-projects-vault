@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>数字生命 OS｜Mac 本地版</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">DL</div>
+          <div>
+            <h1>数字生命 OS</h1>
+            <p>Mac 本地版</p>
+          </div>
+        </div>
+        <nav class="nav" aria-label="主导航">
+          <button class="nav-item active" data-view="timeline">时空轴</button>
+          <button class="nav-item" data-view="chronicle">编年史</button>
+          <button class="nav-item" data-view="synthesis">阶段归纳</button>
+          <button class="nav-item" data-view="operations">运行中枢</button>
+          <button class="nav-item" data-view="dl2">数字生命2.0</button>
+          <button class="nav-item" data-view="log-intake">日志入库</button>
+          <button class="nav-item" data-view="search">全局搜索</button>
+          <button class="nav-item" data-view="entities">关系网络</button>
+          <button class="nav-item" data-view="evidence">原文证据</button>
+          <button class="nav-item" data-view="qingfeng">清风场域</button>
+          <button class="nav-item" data-view="rules">规则索引</button>
+          <button class="nav-item" data-view="flow">心流门禁</button>
+          <button class="nav-item" data-view="people">人物</button>
+          <button class="nav-item" data-view="events">事件</button>
+          <button class="nav-item" data-view="terms">术语</button>
+          <button class="nav-item" data-view="logs">日志</button>
+        </nav>
+        <div class="system-pill" id="systemState">加载中</div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">第六阶段 · 清风显化期</p>
+            <h2 id="viewTitle">时空轴总览</h2>
+          </div>
+          <div class="top-actions">
+            <button class="icon-button" id="refreshButton" title="刷新">↻</button>
+          </div>
+        </header>
+
+        <section class="view active" id="view-timeline">
+          <div class="summary-grid" id="statusSummary"></div>
+          <div class="filter-band synthesis-filters">
+            <label>
+              <span>日期</span>
+              <input id="timelineDate" type="date" />
+            </label>
+            <label>
+              <span>月份</span>
+              <input id="timelineMonth" type="month" value="2026-03" />
+            </label>
+            <label class="wide">
+              <span>关键词</span>
+              <input id="timelineKeyword" type="search" placeholder="清风别墅 / 北京 / 桐庐 / 陈斌" />
+            </label>
+            <label>
+              <span>阶段</span>
+              <input id="timelinePhase" type="search" placeholder="清风显化期 / 第六阶段" />
+            </label>
+            <label class="check-label">
+              <input id="timelineTrip" type="checkbox" />
+              <span>外出段</span>
+            </label>
+            <button class="primary" id="timelineRun">查询</button>
+          </div>
+          <div class="timeline-layout">
+            <section class="list-panel">
+              <div class="section-head">
+                <h3>节点</h3>
+                <span id="timelineCount"></span>
+              </div>
+              <div class="node-list" id="timelineNodes"></div>
+            </section>
+            <section class="detail-panel">
+              <div class="section-head">
+                <h3>详情</h3>
+                <span id="timelineRange"></span>
+              </div>
+              <div id="timelineDetail" class="detail-body"></div>
+              <div class="context-strip" id="contextNodes"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-chronicle">
+          <div class="summary-grid" id="chronicleSummary"></div>
+          <div class="filter-band synthesis-filters">
+            <label class="wide">
+              <span>关键词</span>
+              <input id="chronicleKeyword" type="search" placeholder="陈斌 / 清风 / 2010 / 论文" />
+            </label>
+            <label>
+              <span>阶段</span>
+              <input id="chroniclePhase" type="search" placeholder="第一阶段 / 第二阶段 / 第六阶段" />
+            </label>
+            <label>
+              <span>对象类型</span>
+              <select id="chronicleEntity">
+                <option value="">全部</option>
+                <option value="person">人物</option>
+                <option value="event">事件</option>
+                <option value="term">术语</option>
+                <option value="place">地点</option>
+                <option value="pattern">心理模式</option>
+                <option value="oral_session">口述</option>
+                <option value="collection">藏品</option>
+              </select>
+            </label>
+            <button class="primary" id="chronicleRun">查询</button>
+          </div>
+          <section class="list-panel">
+            <div class="section-head">
+              <h3>编年史对象</h3>
+              <span id="chronicleSummaryMeta"></span>
+            </div>
+            <div class="record-list" id="chroniclePanels"></div>
+          </section>
+        </section>
+
+        <section class="view" id="view-synthesis">
+          <div class="summary-grid" id="synthesisOverview"></div>
+          <div class="split-layout">
+            <section class="list-panel">
+              <div class="section-head">
+                <h3>阶段快照</h3>
+                <span id="synthesisStageCount"></span>
+              </div>
+              <div id="synthesisStages" class="record-list"></div>
+            </section>
+            <section class="detail-panel">
+              <div class="section-head">
+                <h3>阶段异常面板</h3>
+                <span id="synthesisStageRange"></span>
+              </div>
+              <div id="synthesisStageAnomalies" class="detail-body"></div>
+            </section>
+          </div>
+          <div class="filter-band synthesis-filters">
+            <label>
+              <span>起始日</span>
+              <input id="synthesisFrom" type="date" />
+            </label>
+            <label>
+              <span>结束日</span>
+              <input id="synthesisTo" type="date" />
+            </label>
+            <label class="wide">
+              <span>月份</span>
+              <input id="synthesisMonth" type="month" />
+            </label>
+            <label>
+              <span>阶段关键词</span>
+              <input id="synthesisPhase" type="search" placeholder="清风显化期 / 第三段" />
+            </label>
+            <label class="check-label">
+              <input id="synthesisTrip" type="checkbox" />
+              <span>仅外出段</span>
+            </label>
+            <button class="primary" id="synthesisRun">生成汇总</button>
+            <button id="synthesisExportJson">导出 JSON</button>
+            <button id="synthesisExportMd">导出 Markdown</button>
+          </div>
+          <div class="split-layout triple">
+            <section class="detail-panel">
+              <div class="section-head">
+                <h3>量化摘要</h3>
+                <span id="synthesisRange"></span>
+              </div>
+              <div class="detail-body" id="synthesisDetail"></div>
+            </section>
+            <section class="list-panel">
+              <div class="section-head">
+                <h3>相关节点</h3>
+                <span id="synthesisNodeCount"></span>
+              </div>
+              <div id="synthesisNodes" class="record-list"></div>
+            </section>
+          </div>
+          <div class="split-layout">
+            <section class="list-panel">
+              <div class="section-head">
+                <h3>城市/地点</h3>
+                <span>Top 12</span>
+              </div>
+              <div id="synthesisCities" class="record-list"></div>
+            </section>
+            <section class="list-panel">
+              <div class="section-head">
+                <h3>同行人物</h3>
+                <span>Top 12</span>
+              </div>
+              <div id="synthesisCompanions" class="record-list"></div>
+            </section>
+          </div>
+          <div class="split-layout">
+            <section class="list-panel">
+              <div class="section-head">
+                <h3>空间</h3>
+                <span>Top 12</span>
+              </div>
+              <div id="synthesisSpaces" class="record-list"></div>
+            </section>
+            <section class="list-panel">
+              <div class="section-head">
+                <h3>关系类型</h3>
+                <span>Top 24</span>
+              </div>
+              <div id="synthesisRelations" class="record-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-operations">
+          <div class="summary-grid" id="operationsSummary"></div>
+          <div class="split-layout triple">
+            <section class="list-panel">
+              <div class="section-head">
+                <h3>增量入库队列</h3>
+                <span id="opsQueueMeta"></span>
+              </div>
+              <div id="opsQueue" class="record-list"></div>
+            </section>
+            <section class="list-panel">
+              <div class="section-head">
+                <h3>时空轴统计</h3>
+                <span id="opsAnalyticsMeta"></span>
+              </div>
+              <div id="opsAnalytics" class="record-list"></div>
+            </section>
+            <section class="list-panel">
+              <div class="section-head">
+                <h3>运行审计</h3>
+                <span id="opsAuditMeta"></span>
+              </div>
+              <div id="opsAudit" class="record-list"></div>
+            </section>
+          </div>
+          <div class="split-layout">
+            <section class="list-panel">
+              <div class="section-head">
+                <h3>证据等级</h3>
+                <span id="opsEvidenceMeta"></span>
+              </div>
+              <div id="opsEvidence" class="record-list compact"></div>
+            </section>
+            <section class="list-panel">
+              <div class="section-head">
+                <h3>媒体附件</h3>
+                <span id="opsMediaMeta"></span>
+              </div>
+              <div id="opsMedia" class="record-list compact"></div>
+            </section>
+          </div>
+          <div class="split-layout">
+            <section class="list-panel">
+              <div class="section-head">
+                <h3>复原基线</h3>
+                <span id="opsAliasMeta"></span>
+              </div>
+              <div id="opsAliasHealth" class="record-list compact"></div>
+            </section>
+            <section class="list-panel">
+              <div class="section-head">
+                <h3>外部回源待办</h3>
+                <span id="opsAliasUnresolvedMeta"></span>
+              </div>
+              <div id="opsAliasUnresolved" class="record-list compact"></div>
+            </section>
+          </div>
+          <div class="split-layout">
+            <section class="list-panel">
+              <div class="section-head">
+                <h3>清风照片库</h3>
+                <span id="opsQingfengPhotoMeta"></span>
+              </div>
+              <div id="opsQingfengPhoto" class="record-list compact"></div>
+            </section>
+            <section class="list-panel">
+              <div class="section-head">
+                <h3>照片补全清单</h3>
+                <span id="opsQingfengPhotoTodoMeta"></span>
+              </div>
+              <div id="opsQingfengPhotoTodo" class="record-list compact"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-log-intake">
+          <div class="log-layout">
+            <section class="editor-panel">
+              <div class="section-head">
+                <h3>原话</h3>
+                <span id="draftState">未生成</span>
+              </div>
+              <textarea id="logText" spellcheck="false" placeholder="今日日志：2026年3月22日，今天……"></textarea>
+              <div class="action-row">
+                <input id="logDate" type="date" />
+                <button class="primary" id="previewLog">生成预览</button>
+                <button id="confirmLog" disabled>确认写入</button>
+                <button id="exportLogJson" disabled>导出草稿 JSON</button>
+                <button id="exportLogMd" disabled>导出草稿 Markdown</button>
+              </div>
+              <p id="logDraftNote" class="record-meta" style="margin-top: 8px;"></p>
+            </section>
+            <section class="preview-panel">
+              <div class="section-head">
+                <h3>预览</h3>
+                <span id="previewMeta"></span>
+              </div>
+              <div id="logPreview" class="preview-body"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-search">
+          <div class="filter-band single">
+            <label class="wide">
+              <span>搜索</span>
+              <input id="searchInput" type="search" value="清风" />
+            </label>
+            <button class="primary" id="searchRun">搜索</button>
+          </div>
+          <div class="list-panel full">
+            <div class="section-head">
+              <h3>结果</h3>
+              <span id="searchCount"></span>
+            </div>
+            <div id="searchResults" class="record-list"></div>
+          </div>
+        </section>
+
+        <section class="view" id="view-evidence">
+          <div class="filter-band single">
+            <label class="wide">
+              <span>证据搜索</span>
+              <input id="evidenceInput" type="search" value="清风" />
+            </label>
+            <button class="primary" id="evidenceRun">搜索证据</button>
+          </div>
+          <div class="evidence-layout">
+            <section class="list-panel">
+              <div class="section-head">
+                <h3>证据索引</h3>
+                <span id="evidenceCount"></span>
+              </div>
+              <div id="evidenceResults" class="record-list"></div>
+            </section>
+            <section class="detail-panel">
+              <div class="section-head">
+                <h3>来源详情</h3>
+                <span id="sourceMeta"></span>
+              </div>
+              <div id="sourceDetail" class="source-detail"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-entities">
+          <div class="filter-band">
+            <label class="wide">
+              <span>对象搜索</span>
+              <input id="entityInput" type="search" value="陈斌" />
+            </label>
+            <label>
+              <span>类型</span>
+              <select id="entityType">
+                <option value="">全部</option>
+                <option value="person">人物</option>
+                <option value="timeline_node">时空轴</option>
+                <option value="qingfeng_log">日志</option>
+                <option value="event">事件</option>
+                <option value="term">术语</option>
+                <option value="qingfeng_space">清风空间</option>
+                <option value="qingfeng_context">清风上下文</option>
+              </select>
+            </label>
+            <button class="primary" id="entityRun">搜索对象</button>
+          </div>
+          <div class="entity-layout">
+            <section class="list-panel">
+              <div class="section-head">
+                <h3>对象</h3>
+                <span id="entityCount"></span>
+              </div>
+              <div id="entityResults" class="record-list"></div>
+            </section>
+            <section class="detail-panel">
+              <div class="section-head">
+                <h3>对象详情</h3>
+                <span id="entityMeta"></span>
+              </div>
+              <div id="entityDetail" class="entity-detail"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-qingfeng">
+          <div class="split-layout">
+            <section class="list-panel">
+              <div class="section-head">
+                <h3>上下文</h3>
+                <span id="contextCount"></span>
+              </div>
+              <div id="contextItems" class="record-list"></div>
+            </section>
+            <section class="list-panel">
+              <div class="section-head">
+                <h3>空间</h3>
+                <span id="spaceCount"></span>
+              </div>
+              <div id="spaceItems" class="record-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-rules">
+          <div class="split-layout quad">
+            <section class="list-panel">
+              <div class="section-head">
+                <h3>权威源</h3>
+                <span id="ruleSourceCount"></span>
+              </div>
+              <div id="ruleSources" class="record-list"></div>
+            </section>
+            <section class="list-panel">
+              <div class="section-head">
+                <h3>触发词</h3>
+                <span id="triggerCount"></span>
+              </div>
+              <div id="triggers" class="record-list compact"></div>
+            </section>
+            <section class="list-panel">
+              <div class="section-head">
+                <h3>规则条目</h3>
+                <span id="ruleCount"></span>
+              </div>
+              <div id="rules" class="record-list"></div>
+            </section>
+            <section class="list-panel">
+              <div class="section-head">
+                <h3>规则约束</h3>
+                <span id="constraintCount"></span>
+              </div>
+              <div id="constraints" class="record-list compact"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-flow">
+          <div class="flow-gate">
+            <div>
+              <h3>一般心流</h3>
+              <button id="generalFlow">查看</button>
+            </div>
+            <div>
+              <h3>小哥 / 小鸽心流</h3>
+              <button class="danger" id="xiaogeFlow">显式进入</button>
+            </div>
+          </div>
+          <div id="flowResult" class="record-list"></div>
+        </section>
+
+        <section class="view" id="view-dl2">
+          <div class="summary-grid" id="dl2Summary"></div>
+          <div class="split-layout">
+            <section class="list-panel"><div class="section-head"><h3>活记忆</h3><span id="dl2MemoryMeta"></span></div><div class="record-list" id="dl2Memories"></div></section>
+            <section class="list-panel"><div class="section-head"><h3>模型与反证</h3><span id="dl2HypothesisMeta"></span></div><div class="record-list" id="dl2Hypotheses"></div></section>
+          </div>
+          <div class="split-layout">
+            <section class="list-panel"><div class="section-head"><h3>真人校准</h3><span id="dl2CalibrationMeta"></span></div><div class="record-list" id="dl2Calibrations"></div></section>
+            <section class="list-panel"><div class="section-head"><h3>跨工程包与回执</h3><span id="dl2PackageMeta"></span></div><div class="record-list" id="dl2Packages"></div></section>
+          </div>
+        </section>
+
+        <section class="view" id="view-people"><div class="record-list full" id="peopleList"></div></section>
+        <section class="view" id="view-events"><div class="record-list full" id="eventList"></div></section>
+        <section class="view" id="view-terms"><div class="record-list full" id="termList"></div></section>
+        <section class="view" id="view-logs">
+          <div class="flow-gate log-gate">
+            <div>
+              <div>
+                <h3>通用日志库</h3>
+                <p class="record-meta">默认查询，自动剔除小哥/小鸽心流记录</p>
+              </div>
+              <button id="generalLogScope">查看</button>
+            </div>
+            <div>
+              <div>
+                <h3>小哥 / 小鸽心流日志库</h3>
+                <p class="record-meta">需点击「显式进入」后显示</p>
+              </div>
+              <button class="danger" id="xiaogeLogScope">显式进入</button>
+            </div>
+          </div>
+          <div class="record-list full" id="logList"></div>
+        </section>
+      </main>
+    </div>
+    <script src="/app.js?v=20260722-dl2-v1"></script>
+  </body>
+</html>

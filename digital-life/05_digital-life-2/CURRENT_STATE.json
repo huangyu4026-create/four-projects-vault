@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "project": "P01_DL",
+  "version": "2.0.0",
+  "state": "M0_M2_ACTIVE_M3_M4_READY",
+  "design_state": "FROZEN_V1_0",
+  "as_of": "2026-07-22",
+  "milestones": {
+    "M0": "PASS",
+    "M1": "PASS",
+    "M2": "PASS",
+    "M3": "WAITING_REAL_USER_CALIBRATION",
+    "M4": "WAITING_REAL_RECEIVER_REQUESTS",
+    "M5": "DISABLED_REQUIRES_USER_AUTHORIZATION",
+    "M6": "DISABLED_REQUIRES_M3_AND_USER_AUTHORIZATION"
+  },
+  "authorizations": {
+    "m0_m4_implementation": true,
+    "activitywatch_install": false,
+    "read_only_agent_enable": false,
+    "full_corpus_external_upload": true,
+    "full_corpus_external_upload_basis": "2026-07-22 user explicit authorization; credentials and runtime secrets remain excluded"
+  },
+  "truth_source": "PROJECT_ENTRY.json",
+  "latest_acceptance_receipt": "20_规则与流程/数字生命2.0_可演化个人模型层/IMPLEMENTATION_RECEIPT_20260722.md"
+}

@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "asset_name": "digital_life_os_core_2.0.0_20260722.sqlite",
+  "source_file": "runtime/digital_life_os_core.sqlite",
+  "size_bytes": 266784768,
+  "sha256": "0f51f86697792df0df344954183865eae0474c52c26f5358e19bd65b6f965ad3",
+  "quick_check": "ok",
+  "dl2_foreign_key_violations": 0,
+  "excluded_from_git_reason": "GitHub ordinary Git blobs are limited to 100 MB; publish as a release asset.",
+  "excluded_adjacent_files": ["*.env", "*-wal", "*-shm", "__pycache__", "historical duplicate backups"]
+}
