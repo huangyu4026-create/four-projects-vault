@@ -28,3 +28,10 @@
 `runtime/backups/digital_life_os_core.pre_dl2_v1_20260722.sqlite`
 
 回退只需停止服务后以该备份恢复正式库；原始日记、Notion母本和现有事实表未被改写。
+
+## GitHub 同步
+
+- 分支：`agent/digital-life-2-20260722`
+- 草稿 PR：<https://github.com/huangyu4026-create/four-projects-vault/pull/1>
+- 数据库 Release：<https://github.com/huangyu4026-create/four-projects-vault/releases/tag/digital-life-2.0.0-20260722>
+- 用户已明确授权上传原始数据与数据库；仍排除令牌、密码、`.env`、WAL/SHM和缓存。
