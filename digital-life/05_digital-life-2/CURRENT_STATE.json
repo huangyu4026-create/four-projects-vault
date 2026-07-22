@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "project": "P01_DL",
+  "version": "2.0.0",
+  "state": "M0_M2_ACTIVE_M3_M4_READY",
+  "design_state": "FROZEN_V1_0",
+  "as_of": "2026-07-22",
+  "milestones": {
+    "M0": "PASS",
+    "M1": "PASS",
+    "M2": "PASS",
+    "M3": "IN_PROGRESS_1_SEALED_0_COMPLETED",
+    "M4": "WAITING_REAL_RECEIVER_REQUESTS",
+    "M5": "DISABLED_REQUIRES_USER_AUTHORIZATION",
+    "M6": "DISABLED_REQUIRES_M3_AND_USER_AUTHORIZATION"
+  },
+  "authorizations": {
+    "m0_m4_implementation": true,
+    "activitywatch_install": false,
+    "read_only_agent_enable": false,
+    "full_corpus_external_upload": true,
+    "full_corpus_external_upload_basis": "2026-07-22 user explicit authorization; credentials and runtime secrets remain excluded"
+  },
+  "truth_source": "PROJECT_ENTRY.json",
+  "latest_acceptance_receipt": "20_规则与流程/数字生命2.0_可演化个人模型层/IMPLEMENTATION_RECEIPT_20260722.md",
+  "latest_github_sync": {
+    "repository": "huangyu4026-create/four-projects-vault",
+    "branch": "agent/digital-life-2-20260722",
+    "draft_pr": 1,
+    "database_release_tag": "digital-life-2.0.0-20260722"
+  },
+  "active_calibration": {
+    "case_id": "dlcal:20260722-digital-life-core-value-01",
+    "status": "SEALED_WAITING_USER_ANSWER",
+    "system_answer_sha256": "459527b2b7a3cceccf77c209b24ed8416e71e09c9494e290bf30c123f82ea273"
+  },
+  "computer_global_work_judgment": {
+    "formal_name": "电脑全局工作判断",
+    "status": "FIRST_TRIAL_COMPLETE_FILE_BACKED",
+    "cadence": "30_60_DAYS_OR_ON_DEMAND",
+    "required_for": [
+      "PERSON_PORTRAIT",
+      "CURRENT_SELF_SUMMARY",
+      "LIFE_POSITION_RELATED_CONTEXT"
+    ],
+    "screen_tracking": false,
+    "database_table_created": false,
+    "rule": "20_规则与流程/数字生命2.0_可演化个人模型层/08_电脑全局工作判断_v1.0.md",
+    "latest_snapshot": "50_输出区/电脑全局工作判断/2026-07-22_首次试判.md",
+    "next": "USER_CORRECTION_OR_NEXT_PERIODIC_REFRESH"
+  },
+  "personal_health_state_observation": {
+    "formal_name": "个人健康与身体状态观察",
+    "status": "MATERIAL_PRESENT_STALE_NEEDS_REFRESH",
+    "cadence": "30_60_DAYS_OR_ON_NEW_HEALTH_EVENT",
+    "required_for": [
+      "PERSON_PORTRAIT",
+      "CURRENT_SELF_SUMMARY",
+      "BODY_HEALTH_RELATED_CONTEXT"
+    ],
+    "existing_semantic_assignments": 1196,
+    "existing_distinct_documents": 212,
+    "latest_semantic_date": "2026-06-08",
+    "medical_diagnosis_enabled": false,
+    "database_table_created": false,
+    "rule": "20_规则与流程/数字生命2.0_可演化个人模型层/09_个人健康与身体状态观察_v1.0.md",
+    "latest_snapshot": "50_输出区/个人健康与身体状态观察/2026-07-22_现状审计.md",
+    "next": "REFRESH_ONLY_FROM_NEW_USER_OR_MEDICAL_SOURCE_MATERIAL"
+  },
+  "m4_protocol_validation": {
+    "status": "PASS_WAITING_REAL_RECEIVER_REQUESTS",
+    "tests": "22/22 PASS",
+    "automatic_source_manifest": true,
+    "package_artifact_hash_verification": true,
+    "receipt_package_hash_required": true,
+    "accepted_receipt_requires_actual_read": true,
+    "current_federated_receiver": "P05",
+    "current_federated_receiver_name": "煜个人生命立场系统",
+    "current_federated_authorization_mode": "P05-AUTH-* or USER-EXPLICIT-* per real request",
+    "ai_context_surfaces_is_receiver": false,
+    "legacy_lwg_is_current_receiver": false,
+    "pre_dl2_real_call_classification": "REAL_PRE_DL2_NOT_COUNTED",
+    "audit_report": "40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/reports/170_pre_dl2_cross_project_call_audit.json"
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "suite": "DL2_N01_N15",
+  "passed": 22,
+  "total": 22,
+  "all_pass": true,
+  "checks": [
+    {
+      "id": "N01_NO_SOURCE_REJECTED",
+      "pass": true,
+      "evidence": "没有来源锚点，拒绝升级为活记忆"
+    },
+    {
+      "id": "N02_BAD_HASH_REJECTED",
+      "pass": true,
+      "evidence": "来源哈希不匹配: event:08332d65d53b1e34c1e0"
+    },
+    {
+      "id": "N03_MEMORY_VERSION_APPEND_ONLY",
+      "pass": true,
+      "evidence": "DL2 memory versions are append-only"
+    },
+    {
+      "id": "N04_HYPOTHESIS_REQUIRES_COUNTER",
+      "pass": true,
+      "evidence": "模型候选必须同时具有支持记忆和反方/例外记忆"
+    },
+    {
+      "id": "N05_SYSTEM_ANSWER_SEALED",
+      "pass": true,
+      "evidence": "6ad24180a2d6937b61fefcca12838347031074da2f6c58cefd1507cee450c926"
+    },
+    {
+      "id": "N06_COMPARE_BEFORE_USER_REJECTED",
+      "pass": true,
+      "evidence": "必须先收到本人回答才能比较"
+    },
+    {
+      "id": "N07_P05_WITHOUT_AUTH_REJECTED",
+      "pass": true,
+      "evidence": "P05普通入口默认禁读，缺少明确授权"
+    },
+    {
+      "id": "N08_LEGACY_LWG_NOT_CURRENT_RECEIVER",
+      "pass": true,
+      "evidence": "当前只允许已确认的接收方 P05 请求上下文包"
+    },
+    {
+      "id": "N09_UNKNOWN_RECEIVER_REJECTED",
+      "pass": true,
+      "evidence": "当前只允许已确认的接收方 P05 请求上下文包"
+    },
+    {
+      "id": "N10_S3_CROSS_PROJECT_REJECTED",
+      "pass": true,
+      "evidence": "对象不允许跨工程包含: dlmem:seed-m20"
+    },
+    {
+      "id": "N11_NO_RECEIPT_NOT_ADOPTED",
+      "pass": true,
+      "evidence": "dlctx:bbe884ce3b7caf03d4750957"
+    },
+    {
+      "id": "M4_AUTO_SOURCE_MANIFEST",
+      "pass": true,
+      "evidence": 1
+    },
+    {
+      "id": "N12_RECEIVER_MISMATCH_REJECTED",
+      "pass": true,
+      "evidence": "回执接收方与上下文包请求方不一致"
+    },
+    {
+      "id": "M4_BAD_PACKAGE_HASH_REJECTED",
+      "pass": true,
+      "evidence": "回执引用的上下文包哈希不匹配"
+    },
+    {
+      "id": "M4_TAMPERED_ARTIFACT_REJECTED",
+      "pass": true,
+      "evidence": "上下文包产物哈希校验失败"
+    },
+    {
+      "id": "M4_ACCEPTED_REQUIRES_ACTUAL_READ",
+      "pass": true,
+      "evidence": "ACCEPTED 回执必须列出 actual_read"
+    },
+    {
+      "id": "M4_UNKNOWN_READ_REF_REJECTED",
+      "pass": true,
+      "evidence": "回执引用了包外对象: dlmem:not-in-package"
+    },
+    {
+      "id": "N13_RECEIPT_IDEMPOTENT",
+      "pass": true,
+      "evidence": "dlreceipt:094ef88190fb20da87fc0c41"
+    },
+    {
+      "id": "N14_M5_M6_DISABLED",
+      "pass": true,
+      "evidence": {
+        "M5_ACTIVITYWATCH": "DISABLED",
+        "M6_READ_ONLY_AGENT": "DISABLED"
+      }
+    },
+    {
+      "id": "N15_SOURCE_TABLES_UNCHANGED",
+      "pass": true,
+      "evidence": {
+        "qingfeng_logs": "c41a6556fe9d82ef3eda4cc2a9f8a72802fbca11d87d0aa4cd83a6c6f55f2308",
+        "events": "7f8b1f33a50e6f4ec0b442aa90fc2333d94bbbd0487ee184ca9fe7687b959c68",
+        "fact_assertions": "f95765356c6f383f08a50a703470be57ced22077211104a7f2b8771b2c6180b9",
+        "psychological_patterns": "7f0ca2814be313ebd01e9769e78dab38a1e2649e7843bf582d92c8671b7abd72"
+      }
+    },
+    {
+      "id": "DB_QUICK_CHECK",
+      "pass": true,
+      "evidence": "ok"
+    },
+    {
+      "id": "DL2_FOREIGN_KEYS",
+      "pass": true,
+      "evidence": []
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "domain_id": "P01",
+  "domain_code": "DL",
+  "formal_name": "数字生命",
+  "canonical_root": "/Users/yu/Documents/Codex/coex项目总库/10-19_项目工程域/11_P01_数字生命_DL",
+  "compatibility_roots": [
+    "/Users/yu/Documents/Codex/coex项目总库/10-19_四项目工程域/11_P01_数字生命_DL"
+  ],
+  "runtime_root": "/Users/yu/Documents/Codex/coex项目总库/10-19_项目工程域/11_P01_数字生命_DL/40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core",
+  "official_database": "/Users/yu/Documents/Codex/coex项目总库/10-19_项目工程域/11_P01_数字生命_DL/40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/runtime/digital_life_os_core.sqlite",
+  "stable_database": "/Users/yu/Documents/Codex/coex项目总库/10-19_项目工程域/11_P01_数字生命_DL/40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/runtime/digital_life_os_core_stable_v1_20260722.sqlite",
+  "active_queues": {
+    "mobile_intake": "/Users/yu/Documents/Codex/coex项目总库/10-19_项目工程域/11_P01_数字生命_DL/40_加工区/来源路径保留/2026-06-05/new-chat/work/digital-life-os-core/runtime/mobile_inbox/待处理队列.md",
+    "codex_recall": "/Users/yu/Documents/Codex/coex项目总库/10-19_项目工程域/11_P01_数字生命_DL/40_加工区/来源路径保留/2026-06-05/new-chat/outputs/数字生命OS_Codex召回队列.md"
+  },
+  "historical_queue_policy": "10_输入收件箱中的同名文件仅作来源历史，不得被运行时消费。",
+  "formal_trigger_phrases": ["进入数字生命", "查数字生命", "数字生命："],
+  "github": {
+    "repository": "https://github.com/huangyu4026-create/four-projects-vault",
+    "project_path": "digital-life/05_digital-life-2",
+    "sync_branch": "agent/digital-life-2-20260722",
+    "draft_pr": "https://github.com/huangyu4026-create/four-projects-vault/pull/1",
+    "database_release": "https://github.com/huangyu4026-create/four-projects-vault/releases/tag/digital-life-2.0.0-20260722"
+  },
+  "read_order": [
+    "00_域门/README.md",
+    "20_规则与流程/数字生命2.0_可演化个人模型层/00_数字生命2.0总纲_v0.1.md",
+    "20_规则与流程/数字生命2.0_可演化个人模型层/08_电脑全局工作判断_v1.0.md",
+    "20_规则与流程/数字生命2.0_可演化个人模型层/09_个人健康与身体状态观察_v1.0.md",
+    "CURRENT_STATE.json"
+  ],
+  "analysis_inputs": {
+    "computer_global_work_judgment": {
+      "formal_name": "电脑全局工作判断",
+      "role": "人物画像与阶段性自我概括的工作观察输入",
+      "rule": "20_规则与流程/数字生命2.0_可演化个人模型层/08_电脑全局工作判断_v1.0.md",
+      "latest_snapshot": "50_输出区/电脑全局工作判断/2026-07-22_首次试判.md"
+    },
+    "personal_health_state_observation": {
+      "formal_name": "个人健康与身体状态观察",
+      "role": "人物画像与阶段性自我概括的健康观察输入",
+      "rule": "20_规则与流程/数字生命2.0_可演化个人模型层/09_个人健康与身体状态观察_v1.0.md",
+      "latest_snapshot": "50_输出区/个人健康与身体状态观察/2026-07-22_现状审计.md"
+    }
+  },
+  "hard_prohibitions": [
+    "不得修改或覆盖原始日记和Notion母本",
+    "不得生成合成记忆",
+    "不得把系统候选自动登记为用户立场",
+    "不得让其他工程直连P01数据库",
+    "不得在未授权时启用M5行为观察或M6数字代理"
+  ]
+}
