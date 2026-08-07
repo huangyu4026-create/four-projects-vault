@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#f2efe7" />
   <title>数字生命｜公网今日日志</title>
   <link rel="manifest" href="manifest.webmanifest" />
-  <script src="cloud-config.js?v=20260706-appscript"></script>
+  <script src="cloud-config.js?v=20260807-mobile-retry"></script>
   <style>
     :root {
       --paper: #f7f1e5;
@@ -170,6 +170,7 @@
             <input id="cloudToken" placeholder="如果 Apps Script 设置了口令，就填这里" />
           </div>
           <button id="saveConfig" type="button">保存到本机浏览器</button>
+          <button class="secondary" id="retryOutbox" type="button">重试发送本机暂存</button>
           <button class="secondary" id="clearOutbox" type="button">清空本机暂存</button>
         </div>
       </div>
@@ -248,6 +249,16 @@
     function writeLocalOutbox(items) {
       localStorage.setItem(STORE_LOCAL_OUTBOX, JSON.stringify(items.slice(0, 80)));
     }
+    function upsertLocalItem(item) {
+      const items = readLocalOutbox().filter((entry) => entry.id !== item.id);
+      writeLocalOutbox([item, ...items]);
+      return [item, ...items];
+    }
+    function removeLocalItem(id) {
+      const items = readLocalOutbox().filter((entry) => entry.id !== id);
+      writeLocalOutbox(items);
+      return items;
+    }
     function clearLocalOutbox() {
       localStorage.removeItem(STORE_LOCAL_OUTBOX);
       renderEntries([]);
@@ -269,53 +280,72 @@
       }).join("");
     }
     function statusLabel(status) {
-      return ({ pending: "等待 Mac 拉取", processing: "Mac 已拉取处理中", done: "已入库并回写", error: "处理失败", local_only: "仅保存在本机" })[status] || status;
+      return ({
+        pending: "本机暂存·准备补发",
+        pending_unverified: "已发出·等待云端确认",
+        processing: "Mac 已拉取处理中",
+        done: "已入库并回写",
+        error: "处理失败",
+        local_only: "本机暂存·等待补发",
+        local_retry: "本机暂存·等待重试"
+      })[status] || status;
+    }
+    async function fetchWithTimeout(url, options = {}, timeoutMs = 7000) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeoutMs);
+      try {
+        return await fetch(url, { ...options, signal: controller.signal });
+      } finally {
+        clearTimeout(timer);
+      }
     }
     async function postCloud(body) {
       const urls = configuredUrlCandidates();
       if (!urls.length) throw new Error("尚未配置云端收件箱 URL");
       const token = configuredToken();
       const payload = { token, ...body };
-      const parseResponse = async (response, transport) => {
-        if (!response || !response.ok) {
-          throw new Error(`云端收件箱${transport}请求失败 HTTP ${response ? response.status : "unknown"}`);
-        }
-        try {
-          const text = await response.text();
-          const data = JSON.parse(text);
-          if (!data.ok) throw new Error(data.error || "云端收件箱返回失败");
-          return data;
-        } catch (err) {
-          throw new Error(`云端收件箱${transport}返回格式异常：${err.message || err}`);
-        }
-      };
-
+      const payloadText = JSON.stringify(payload);
       let lastErr = null;
       for (const url of urls) {
         try {
-          const response = await fetch(url, {
+          let queued = false;
+          if (navigator.sendBeacon) {
+            queued = navigator.sendBeacon(url, payloadText) || queued;
+          }
+          fetch(url, {
             method: "POST",
+            mode: "no-cors",
             headers: { "Content-Type": "text/plain;charset=utf-8" },
-            body: JSON.stringify(payload)
-          });
-          const data = await parseResponse(response, "POST");
+            body: payloadText,
+            cache: "no-store",
+            keepalive: true
+          }).catch(() => {});
+          queued = true;
+
+          // A hidden image request is not subject to CORS response-reading rules.
+          // It also gives short and medium-sized logs a second, independently
+          // reliable path through Apps Script's existing doGet submit action.
+          if (body && String(body.action || "submit") === "submit" && body.item) {
+            const submitUrl = new URL(url);
+            submitUrl.searchParams.set("action", "submit");
+            submitUrl.searchParams.set("item", JSON.stringify(body.item));
+            if (token) submitUrl.searchParams.set("token", token);
+            if (submitUrl.toString().length <= 60000) {
+              const signalImage = document.createElement("img");
+              signalImage.alt = "";
+              signalImage.setAttribute("aria-hidden", "true");
+              signalImage.style.cssText = "position:absolute;width:1px;height:1px;opacity:0;pointer-events:none";
+              signalImage.src = submitUrl.toString();
+              document.body.appendChild(signalImage);
+              setTimeout(() => signalImage.remove(), 60000);
+              queued = true;
+            }
+          }
+          if (!queued) throw new Error("浏览器没有接受投递请求");
           localStorage.setItem(STORE_URL, url);
-          return data;
+          return { ok: true, transport: "queued", unverified: true };
         } catch (err) {
           lastErr = err;
-          if (!body || String(body.action || "submit") !== "submit" || !body.item) continue;
-          try {
-            const fallbackUrl = new URL(url);
-            fallbackUrl.searchParams.set("action", "submit");
-            fallbackUrl.searchParams.set("item", JSON.stringify(body.item));
-            if (token) fallbackUrl.searchParams.set("token", token);
-            const response = await fetch(fallbackUrl.toString());
-            const data = await parseResponse(response, "GET");
-            localStorage.setItem(STORE_URL, url);
-            return data;
-          } catch (fallbackErr) {
-            lastErr = fallbackErr;
-          }
         }
       }
       throw lastErr || new Error("提交失败：所有云端收件箱地址均不可用。");
@@ -330,7 +360,7 @@
           const requestUrl = new URL(url);
           requestUrl.searchParams.set("action", "list");
           if (token) requestUrl.searchParams.set("token", token);
-          const response = await fetch(requestUrl.toString());
+          const response = await fetchWithTimeout(requestUrl.toString(), { cache: "no-store" }, 7000);
           if (!response.ok) throw new Error(`云端收件箱读取失败 HTTP ${response.status}`);
           const data = await response.json();
           if (!data.ok) throw new Error(data.error || "读取云端收件箱失败");
@@ -342,6 +372,39 @@
       }
       throw lastErr || new Error("读取失败，所有云端收件箱地址均不可用。");
     }
+    async function flushLocalOutbox({ silent = false } = {}) {
+      const items = readLocalOutbox();
+      const retryable = new Set(["pending", "pending_unverified", "local_only", "local_retry"]);
+      let sent = 0;
+      let failed = 0;
+      if (!configuredUrl() || !items.some((item) => retryable.has(item.status))) {
+        return { sent, failed };
+      }
+      const nextItems = [];
+      for (const item of items) {
+        if (!retryable.has(item.status)) {
+          nextItems.push(item);
+          continue;
+        }
+        try {
+          const normalized = { ...item, status: "pending", updatedAt: new Date().toISOString() };
+          const result = await postCloud({ action: "submit", item: normalized });
+          sent += 1;
+          if (result.unverified) {
+            nextItems.push({ ...normalized, status: "pending_unverified", updatedAt: new Date().toISOString() });
+          }
+        } catch (_) {
+          failed += 1;
+          nextItems.push({ ...item, status: "local_retry", updatedAt: new Date().toISOString() });
+        }
+      }
+      writeLocalOutbox(nextItems);
+      renderEntries(nextItems);
+      if (!silent) {
+        setStatus(`状态：补发完成。已发出 ${sent} 条，仍在本机等待重试 ${failed} 条。`);
+      }
+      return { sent, failed };
+    }
     async function refreshEntries() {
       try {
         if (!configuredUrl()) {
@@ -352,11 +415,16 @@
         }
         const data = await fetchCloud();
         const items = ((data.state && data.state.items) || []).filter((item) => item.project === "digital_life");
+        const cloudIds = new Set(items.map((item) => item.id));
+        writeLocalOutbox(readLocalOutbox().filter((item) => !cloudIds.has(item.id)));
         renderEntries(items);
         setStatus(`状态：已读取云端收件箱，共 ${items.length} 条数字生命记录。`);
       } catch (err) {
-        renderEntries(readLocalOutbox());
-        setStatus(`状态：读取失败，显示本机暂存。\n${err.message || err}`);
+        const localItems = readLocalOutbox();
+        const waiting = localItems.filter((item) => item.status === "pending_unverified").length;
+        const retrying = localItems.filter((item) => ["pending", "local_only", "local_retry"].includes(item.status)).length;
+        renderEntries(localItems);
+        setStatus(`状态：手机暂时不能读取云端回执；投递功能仍可使用。\n已发出待确认 ${waiting} 条，本机待重试 ${retrying} 条；正文仍安全保存在本机。`);
       }
     }
     $("logForm").addEventListener("submit", async (event) => {
@@ -382,21 +450,26 @@
       $("submitBtn").disabled = true;
       try {
         if (!configuredUrl()) {
-          const localItems = [item, ...readLocalOutbox()];
-          writeLocalOutbox(localItems);
+          const localItems = upsertLocalItem(item);
           renderEntries(localItems);
           setStatus("状态：尚未配置云端收件箱，本条只保存在当前手机浏览器。配置 URL 后再正式投递。");
         } else {
-          await postCloud({ action: "submit", item });
+          const result = await postCloud({ action: "submit", item });
           $("logText").value = "";
-          setStatus("状态：已提交到云端收件箱，等待 Mac 数字生命主链拉取。");
-          await refreshEntries();
+          if (result.unverified) {
+            const localItems = upsertLocalItem({ ...item, status: "pending_unverified", updatedAt: new Date().toISOString() });
+            renderEntries(localItems);
+            setStatus("状态：投递请求已经发出。手机暂时读不到云端回执，因此本机保留一份副本，等待下一次同步确认。");
+          } else {
+            removeLocalItem(item.id);
+            setStatus("状态：已提交到云端收件箱，等待 Mac 数字生命主链拉取。");
+            await refreshEntries();
+          }
         }
       } catch (err) {
-        const localItems = [item, ...readLocalOutbox()];
-        writeLocalOutbox(localItems);
+        const localItems = upsertLocalItem({ ...item, status: "local_retry", updatedAt: new Date().toISOString() });
         renderEntries(localItems);
-        setStatus(`状态：云端提交失败，本条已本机暂存。\n${err.message || err}`);
+        setStatus(`状态：当前网络没有发出投递，本条已安全暂存在手机，并会自动重试。\n${err.message || err}`);
       } finally {
         $("submitBtn").disabled = false;
       }
@@ -407,13 +480,23 @@
       localStorage.setItem(STORE_URL, sanitizeCloudUrl($("cloudUrl").value.trim()));
       localStorage.setItem(STORE_TOKEN, $("cloudToken").value.trim());
       setStatus("状态：配置已保存在当前浏览器。注意：不要把 OpenAI API key 填在这里。");
-      refreshEntries();
+      flushLocalOutbox({ silent: true }).then(refreshEntries);
+    });
+    $("retryOutbox").addEventListener("click", async () => {
+      $("retryOutbox").disabled = true;
+      try {
+        await flushLocalOutbox();
+        await refreshEntries();
+      } finally {
+        $("retryOutbox").disabled = false;
+      }
     });
     $("clearOutbox").addEventListener("click", clearLocalOutbox);
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("sw.js").catch(() => {});
     }
-    refreshEntries();
+    window.addEventListener("online", () => flushLocalOutbox({ silent: true }).then(refreshEntries));
+    flushLocalOutbox({ silent: true }).then(refreshEntries);
   </script>
 </body>
 </html>

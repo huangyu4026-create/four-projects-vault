@@ -101,8 +101,19 @@ function normalizeItem_(raw) {
 function upsertItem_(state, item) {
   state.items = Array.isArray(state.items) ? state.items : [];
   const index = state.items.findIndex((entry) => entry.id === item.id);
-  if (index >= 0) state.items[index] = Object.assign({}, state.items[index], item, { updatedAt: new Date().toISOString() });
-  else state.items.unshift(item);
+  if (index >= 0) {
+    const existing = state.items[index];
+    const terminalStatuses = ["processing", "awaiting_result", "done", "debug_done", "validation_confirmed"];
+    const retryStatuses = ["pending", "pending_unverified", "retry"];
+    if (terminalStatuses.indexOf(existing.status) >= 0 && retryStatuses.indexOf(item.status) >= 0) {
+      item.status = existing.status;
+      item.result = existing.result || null;
+      item.error = existing.error || "";
+    }
+    state.items[index] = Object.assign({}, existing, item, { updatedAt: new Date().toISOString() });
+  } else {
+    state.items.unshift(item);
+  }
   state.items = state.items.slice(0, MAX_ITEMS);
   state.updatedAt = new Date().toISOString();
 }
