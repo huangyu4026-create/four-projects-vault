@@ -14,6 +14,12 @@ class BrowserEntryTransportTests(unittest.TestCase):
 
     def test_mobile_transport_queues_and_retries_local_copy(self):
         source = (ROOT / "dl" / "index.html").read_text(encoding="utf-8")
+        config = (ROOT / "dl" / "cloud-config.js").read_text(encoding="utf-8")
+        self.assertIn("yu-digital-life.huangyu4026.chatgpt.site/api/public-inbox", config)
+        self.assertIn("isVerifiedRelayUrl", source)
+        self.assertIn('transport: "verified"', source)
+        self.assertIn("unverified: !data.forwarded", source)
+        self.assertIn("本入口采用只写保护", source)
         self.assertIn('submitUrl.searchParams.set("action", "submit")', source)
         self.assertIn("signalImage.src = submitUrl.toString()", source)
         self.assertIn('"pending_unverified", "local_only"', source)

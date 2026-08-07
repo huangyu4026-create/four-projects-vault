@@ -188,11 +188,14 @@
     const STORE_LOCAL_OUTBOX = "digitalLifePublicLocalOutbox";
     const params = new URLSearchParams(location.search);
     const configuredToken = () => params.get("token") || window.DIGITAL_LIFE_PUBLIC_TOKEN || localStorage.getItem(STORE_TOKEN) || "";
+    function isVerifiedRelayUrl(url) {
+      return url.hostname === "yu-digital-life.huangyu4026.chatgpt.site" && url.pathname === "/api/public-inbox";
+    }
     function sanitizeCloudUrl(raw) {
       try {
         const url = new URL(String(raw || "").trim());
         if (url.protocol !== "https:" && url.protocol !== "http:") return "";
-        if (!/\/macros\/s\//.test(url.pathname)) return "";
+        if (!isVerifiedRelayUrl(url) && !/\/macros\/s\//.test(url.pathname)) return "";
         url.search = "";
         url.hash = "";
         return url.toString().replace(/\/$/, "");
@@ -308,6 +311,21 @@
       let lastErr = null;
       for (const url of urls) {
         try {
+          const parsedUrl = new URL(url);
+          if (isVerifiedRelayUrl(parsedUrl)) {
+            const response = await fetchWithTimeout(url, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ item: body.item }),
+              cache: "no-store"
+            }, 15000);
+            const data = await response.json();
+            if (!response.ok || !data.ok || !data.accepted) {
+              throw new Error(data.error || `公网中继投递失败 HTTP ${response.status}`);
+            }
+            localStorage.setItem(STORE_URL, url);
+            return { ...data, transport: "verified", unverified: !data.forwarded };
+          }
           let queued = false;
           if (navigator.sendBeacon) {
             queued = navigator.sendBeacon(url, payloadText) || queued;
@@ -365,6 +383,7 @@
           const data = await response.json();
           if (!data.ok) throw new Error(data.error || "读取云端收件箱失败");
           localStorage.setItem(STORE_URL, url);
+          if (data.readable === false) return data;
           return data;
         } catch (err) {
           lastErr = err;
@@ -414,6 +433,11 @@
           return;
         }
         const data = await fetchCloud();
+        if (data.readable === false) {
+          renderEntries(readLocalOutbox());
+          setStatus("状态：公网投递通道正常。本入口采用只写保护，不在手机端读取日志正文。");
+          return;
+        }
         const items = ((data.state && data.state.items) || []).filter((item) => item.project === "digital_life");
         const cloudIds = new Set(items.map((item) => item.id));
         writeLocalOutbox(readLocalOutbox().filter((item) => !cloudIds.has(item.id)));
