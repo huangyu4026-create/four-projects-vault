@@ -8,6 +8,7 @@ on:
       - "work-life-mobile/**"
       - "digital-life-public/**"
       - "dl/**"
+      - "dl-fresh/**"
       - "index.html"
       - ".github/workflows/work-life-mobile-pages.yml"
       - ".nojekyll"
@@ -33,15 +34,17 @@ jobs:
             work-life-mobile
             digital-life-public
             dl
+            dl-fresh
             index.html
           sparse-checkout-cone-mode: true
 
       - name: Prepare static site
         run: |
-          mkdir -p _site/work-life-mobile _site/digital-life-public _site/dl
+          mkdir -p _site/work-life-mobile _site/digital-life-public _site/dl _site/dl-fresh
           cp -R work-life-mobile/. _site/work-life-mobile/
           cp -R digital-life-public/. _site/digital-life-public/
           cp -R dl/. _site/dl/
+          cp -R dl-fresh/. _site/dl-fresh/
           cp index.html _site/index.html
           touch _site/.nojekyll
 
