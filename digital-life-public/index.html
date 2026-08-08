@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#f2efe7" />
   <title>数字生命｜公网今日日志</title>
   <link rel="manifest" href="manifest.webmanifest" />
-  <script src="cloud-config.js?v=20260808-status-window"></script>
+  <script src="cloud-config.js?v=20260808-receipt-v8"></script>
   <style>
     :root {
       --paper: #f7f1e5;
@@ -55,6 +55,18 @@
     .eyebrow { letter-spacing: 0.16em; font-size: 12px; color: var(--green); font-weight: 700; }
     h1 { margin: 10px 0 8px; font-size: clamp(30px, 8vw, 56px); line-height: 1.02; font-weight: 800; }
     .lead { margin: 0; color: var(--muted); font-size: 16px; line-height: 1.75; max-width: 35em; }
+    .release-banner {
+      position: relative;
+      z-index: 1;
+      margin-top: 16px;
+      border: 1px solid rgba(36,79,56,0.32);
+      border-radius: 18px;
+      padding: 12px 14px;
+      color: var(--green);
+      background: rgba(63,122,82,0.12);
+      font: 800 14px/1.55 system-ui, sans-serif;
+    }
+    .release-banner small { display: block; margin-top: 2px; color: var(--muted); font-weight: 600; }
     .card {
       margin-top: 16px;
       border: 1px solid var(--line);
@@ -131,6 +143,11 @@
     .config { display: none; }
     .config.open { display: block; }
     .fineprint { color: var(--muted); font-size: 12px; line-height: 1.65; }
+    .receipt-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .receipt-heading h2 { margin: 0 0 4px; }
+    .receipt-heading p { margin: 0; }
+    .version-mark { flex: 0 0 auto; border-radius: 999px; padding: 7px 10px; color: #fff; background: var(--green); font: 800 12px/1 system-ui, sans-serif; }
+    .receipt-updated { margin: 8px 2px 0; color: var(--muted); font: 12px/1.5 system-ui, sans-serif; }
     @media (min-width: 720px) {
       body { padding-left: 28px; padding-right: 28px; }
       .row { grid-template-columns: 180px 1fr; align-items: end; }
@@ -146,11 +163,31 @@
       <div class="eyebrow">DIGITAL LIFE · TODAY LOG</div>
       <h1>今日日志远程投递口</h1>
       <p class="lead">这里不做复杂分类，也不写 AI 点评。它只把今天的日志安全投递到云端收件箱，等待 Mac 上的数字生命正式工程拉回、入库、深度点评和回显。</p>
+      <div class="release-banner">✓ 新版回执页面已经打开
+        <small>本页会显示：云端已收到 → Mac 处理中 → 处理完成 → 回信内容。页面版本：回执版 v8。</small>
+      </div>
       <div class="pill-row">
         <span class="pill">project = digital_life</span>
         <span class="pill">entry_type = today_log</span>
         <span class="pill">source = public_web</span>
       </div>
+    </section>
+
+    <section class="card" id="receiptPanel">
+      <div class="receipt-heading">
+        <div>
+          <h2>收件回执与回信</h2>
+          <p class="fineprint">你不需要离开本页；处理结果返回后会直接显示在这里。</p>
+        </div>
+        <span class="version-mark">新版 v8</span>
+      </div>
+      <div class="status" id="statusBox">状态：正在检查手机暂存和云端回执……</div>
+      <div class="actions">
+        <button class="secondary" id="refreshBtn" type="button">立即检查回执</button>
+        <button class="secondary" id="retryOutboxTop" type="button">补发本机暂存</button>
+      </div>
+      <p class="receipt-updated" id="receiptUpdatedAt">尚未完成第一次检查。</p>
+      <div class="entries" id="entries"></div>
     </section>
 
     <form class="card" id="logForm">
@@ -166,9 +203,7 @@
       </div>
       <div class="actions">
         <button id="submitBtn" type="submit">提交今日日志</button>
-        <button class="secondary" id="refreshBtn" type="button">查看处理结果</button>
       </div>
-      <div class="status" id="statusBox">状态：等待填写。</div>
     </form>
 
     <section class="card">
@@ -191,13 +226,11 @@
       </div>
     </section>
 
-    <section class="card">
-      <h2>最近投递</h2>
-      <div class="entries" id="entries"></div>
-    </section>
   </main>
 
   <script>
+    const BUILD_ID = "20260808-receipt-v8";
+    const STORE_BUILD = "digitalLifePublicBuild";
     const STORE_URL = "digitalLifePublicInboxUrl";
     const STORE_TOKEN = "digitalLifePublicInboxToken";
     const STORE_LOCAL_OUTBOX = "digitalLifePublicLocalOutbox";
@@ -254,7 +287,11 @@
     $("cloudUrl").value = configuredUrl();
     $("cloudToken").value = configuredToken();
 
-    function setStatus(text) { statusBox.textContent = text; }
+    function setStatus(text) {
+      statusBox.textContent = text;
+      const updated = $("receiptUpdatedAt");
+      if (updated) updated.textContent = `最近检查：${new Date().toLocaleString("zh-CN", { hour12: false })}`;
+    }
     function escapeHtml(value) {
       return String(value || "").replace(/[&<>"]/g, (ch) => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[ch]));
     }
@@ -474,6 +511,14 @@
           sent += 1;
           if (result.unverified) {
             nextItems.push({ ...normalized, status: "pending_unverified", updatedAt: new Date().toISOString() });
+          } else {
+            const receipt = result.item || {};
+            nextItems.push({
+              ...normalized,
+              status: receipt.status || "pending_local_pull",
+              message: receipt.message || "已进入数字生命云收件箱，等待家中 Mac 本地主链拉取。",
+              updatedAt: new Date().toISOString()
+            });
           }
         } catch (_) {
           failed += 1;
@@ -544,13 +589,14 @@
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
       };
+      const firstLocalItems = upsertLocalItem(item);
+      renderEntries(firstLocalItems);
       $("submitBtn").disabled = true;
       try {
         if (!configuredUrl()) {
-          const localItems = upsertLocalItem(item);
-          renderEntries(localItems);
           setStatus("状态：尚未配置云端收件箱，本条只保存在当前手机浏览器。配置 URL 后再正式投递。");
         } else {
+          setStatus("状态：原文已先保存在手机，正在向云端投递……");
           const result = await postCloud({ action: "submit", item });
           $("logText").value = "";
           if (result.unverified) {
@@ -586,18 +632,29 @@
       setStatus("状态：配置已保存在当前浏览器。注意：不要把 OpenAI API key 填在这里。");
       flushLocalOutbox({ silent: true }).then(refreshEntries);
     });
-    $("retryOutbox").addEventListener("click", async () => {
-      $("retryOutbox").disabled = true;
+    async function retryOutboxNow() {
+      const buttons = [$("retryOutbox"), $("retryOutboxTop")].filter(Boolean);
+      buttons.forEach((button) => { button.disabled = true; });
       try {
         await flushLocalOutbox();
         await refreshEntries();
       } finally {
-        $("retryOutbox").disabled = false;
+        buttons.forEach((button) => { button.disabled = false; });
       }
-    });
+    }
+    $("retryOutbox").addEventListener("click", retryOutboxNow);
+    $("retryOutboxTop").addEventListener("click", retryOutboxNow);
     $("clearOutbox").addEventListener("click", clearLocalOutbox);
+    if (localStorage.getItem(STORE_BUILD) !== BUILD_ID) {
+      localStorage.setItem(STORE_BUILD, BUILD_ID);
+      if ("caches" in window) {
+        caches.keys().then((keys) => Promise.all(keys
+          .filter((key) => key.startsWith("digital-life-public-") && key !== "digital-life-public-v8-receipt")
+          .map((key) => caches.delete(key)))).catch(() => {});
+      }
+    }
     if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("sw.js").catch(() => {});
+      navigator.serviceWorker.register("sw.js?v=20260808-receipt-v8").then((registration) => registration.update()).catch(() => {});
     }
     window.addEventListener("online", () => flushLocalOutbox({ silent: true }).then(refreshEntries));
     window.setInterval(() => {

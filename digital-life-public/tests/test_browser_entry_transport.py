@@ -37,12 +37,24 @@ class BrowserEntryTransportTests(unittest.TestCase):
         self.assertIn('}, 30000);', source)
         self.assertIn('upsertLocalItem({', source)
         self.assertNotIn('removeLocalItem(item.id);', source)
+        self.assertIn('const firstLocalItems = upsertLocalItem(item);', source)
+        self.assertIn('status: receipt.status || "pending_local_pull"', source)
+        self.assertIn('id="retryOutboxTop"', source)
+        self.assertIn('新版回执页面已经打开', source)
 
     def test_service_worker_cache_version_is_mirrored(self):
         public_worker = (ROOT / "digital-life-public" / "sw.js").read_text(encoding="utf-8")
         short_worker = (ROOT / "dl" / "sw.js").read_text(encoding="utf-8")
         self.assertEqual(public_worker, short_worker)
-        self.assertIn("digital-life-public-v7-status-window", public_worker)
+        self.assertIn("digital-life-public-v8-receipt", public_worker)
+
+    def test_fresh_entry_removes_only_old_page_cache(self):
+        source = (ROOT / "dl-fresh" / "index.html").read_text(encoding="utf-8")
+        self.assertIn('navigator.serviceWorker.getRegistrations()', source)
+        self.assertIn('key.startsWith("digital-life-public-")', source)
+        self.assertIn('../dl/?fresh=20260808-receipt-v8', source)
+        self.assertNotIn('localStorage.clear', source)
+        self.assertNotIn('localStorage.removeItem', source)
 
     def test_apps_script_mirrors_match_and_preserve_terminal_status(self):
         public_backend = (ROOT / "digital-life-public" / "google-apps-script-backend.js").read_text(encoding="utf-8")

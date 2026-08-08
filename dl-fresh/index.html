@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#244f38" />
+  <title>数字生命｜进入新版回执页</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 22px; color: #20201d; background: linear-gradient(145deg, #f8f0df, #d9c7a6); font-family: "Songti SC", "STSong", Georgia, serif; }
+    main { width: min(100%, 620px); border: 1px solid rgba(32,32,29,.16); border-radius: 28px; padding: 28px 22px; background: rgba(255,252,245,.94); box-shadow: 0 24px 70px rgba(44,35,20,.18); }
+    .mark { display: inline-block; border-radius: 999px; padding: 8px 11px; color: #fff; background: #244f38; font: 800 13px/1 system-ui, sans-serif; }
+    h1 { margin: 16px 0 10px; font-size: clamp(30px, 8vw, 48px); line-height: 1.08; }
+    p { color: #6b6255; line-height: 1.75; }
+    .status { margin-top: 18px; border-radius: 18px; padding: 14px; color: #244f38; background: rgba(63,122,82,.12); font: 700 14px/1.65 system-ui, sans-serif; white-space: pre-wrap; }
+    button { width: 100%; margin-top: 14px; border: 0; border-radius: 999px; padding: 15px 18px; color: #fff; background: linear-gradient(135deg, #244f38, #3f7a52); font: 800 16px/1.2 system-ui, sans-serif; }
+  </style>
+</head>
+<body>
+  <main>
+    <span class="mark">新版入口 · 回执版 v8</span>
+    <h1>正在切换到新版回执页</h1>
+    <p>这个入口只清除旧网页缓存，不会删除你手机中尚未发出的日志原文。完成后会自动进入能显示“已收到、处理中、处理完成和回信内容”的新版页面。</p>
+    <div class="status" id="status">正在解除旧页面缓存控制……</div>
+    <button id="continueBtn" type="button" hidden>进入新版回执页</button>
+  </main>
+  <script>
+    const statusBox = document.getElementById("status");
+    const continueBtn = document.getElementById("continueBtn");
+    const destination = "../dl/?fresh=20260808-receipt-v8";
+    async function resetOldPage() {
+      let registrationsRemoved = 0;
+      let cachesRemoved = 0;
+      try {
+        if ("serviceWorker" in navigator) {
+          const registrations = await navigator.serviceWorker.getRegistrations();
+          for (const registration of registrations) {
+            if (/\/(dl|digital-life-public)\//.test(registration.scope)) {
+              if (await registration.unregister()) registrationsRemoved += 1;
+            }
+          }
+        }
+        if ("caches" in window) {
+          const keys = await caches.keys();
+          for (const key of keys) {
+            if (key.startsWith("digital-life-public-")) {
+              if (await caches.delete(key)) cachesRemoved += 1;
+            }
+          }
+        }
+        statusBox.textContent = `旧页面缓存已解除（服务 ${registrationsRemoved}，缓存 ${cachesRemoved}）。\n正在进入新版回执页……`;
+        setTimeout(() => location.replace(destination), 500);
+      } catch (error) {
+        statusBox.textContent = `自动切换遇到限制，但不会删除手机原文。\n请点击下面按钮继续。`;
+        continueBtn.hidden = false;
+      }
+    }
+    continueBtn.addEventListener("click", () => location.replace(destination));
+    resetOldPage();
+  </script>
+</body>
+</html>
