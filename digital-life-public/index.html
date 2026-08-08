@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#f2efe7" />
   <title>数字生命｜公网今日日志</title>
   <link rel="manifest" href="manifest.webmanifest" />
-  <script src="cloud-config.js?v=20260807-verified-relay"></script>
+  <script src="cloud-config.js?v=20260808-status-window"></script>
   <style>
     :root {
       --paper: #f7f1e5;
@@ -113,6 +113,21 @@
     .entry strong { display: block; margin-bottom: 6px; }
     .entry small { color: var(--muted); display: block; margin-bottom: 8px; }
     .entry pre { white-space: pre-wrap; word-break: break-word; margin: 8px 0 0; font: 14px/1.65 "Songti SC", "STSong", serif; color: #302d28; }
+    .entry-progress { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 12px 0; }
+    .entry-progress span { min-height: 52px; display: grid; place-items: center; align-content: center; gap: 3px; border: 1px solid var(--line); border-radius: 14px; color: var(--muted); background: rgba(255,255,255,0.54); font: 700 11px/1.25 system-ui, sans-serif; text-align: center; }
+    .entry-progress b { display: block; font-size: 13px; }
+    .entry-progress .done { color: var(--green); border-color: rgba(36,79,56,0.34); background: rgba(63,122,82,0.12); }
+    .entry-progress .active { color: #72511f; border-color: rgba(166,112,35,0.38); background: rgba(216,198,165,0.30); }
+    .entry-progress .problem { color: var(--clay); border-color: rgba(166,89,61,0.38); background: rgba(166,89,61,0.09); }
+    .receipt-message { margin: 10px 0 0; color: var(--muted); font: 13px/1.65 system-ui, sans-serif; }
+    .result-reader, .source-reader { margin-top: 12px; border: 1px solid rgba(36,79,56,0.24); border-radius: 16px; background: rgba(63,122,82,0.08); overflow: hidden; }
+    .result-reader summary, .source-reader summary { padding: 12px 14px; color: var(--green); cursor: pointer; font: 800 13px/1.4 system-ui, sans-serif; }
+    .result-body { padding: 0 14px 14px; border-top: 1px solid rgba(36,79,56,0.16); }
+    .result-body h3 { margin: 14px 0 8px; font-size: 17px; }
+    .result-body pre { margin-top: 0; font-size: 15px; line-height: 1.8; }
+    .result-body small { margin-top: 10px; }
+    .source-reader { border-color: var(--line); background: rgba(255,255,255,0.38); }
+    .source-reader summary { color: var(--muted); font-weight: 700; }
     .config { display: none; }
     .config.open { display: block; }
     .fineprint { color: var(--muted); font-size: 12px; line-height: 1.65; }
@@ -244,7 +259,10 @@
       return String(value || "").replace(/[&<>"]/g, (ch) => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[ch]));
     }
     function makeId() {
-      return `dlp-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      const randomPart = window.crypto && typeof window.crypto.randomUUID === "function"
+        ? window.crypto.randomUUID()
+        : `${Math.random().toString(36).slice(2)}-${Math.random().toString(36).slice(2)}`;
+      return `dlp-${Date.now()}-${randomPart}`;
     }
     function readLocalOutbox() {
       try { return JSON.parse(localStorage.getItem(STORE_LOCAL_OUTBOX) || "[]"); } catch (_) { return []; }
@@ -257,11 +275,6 @@
       writeLocalOutbox([item, ...items]);
       return [item, ...items];
     }
-    function removeLocalItem(id) {
-      const items = readLocalOutbox().filter((entry) => entry.id !== id);
-      writeLocalOutbox(items);
-      return items;
-    }
     function clearLocalOutbox() {
       localStorage.removeItem(STORE_LOCAL_OUTBOX);
       renderEntries([]);
@@ -273,21 +286,46 @@
         return;
       }
       entriesBox.innerHTML = items.slice(0, 20).map((item) => {
-        const result = item.result && (item.result.ai_response || item.result.summary || item.result.message || item.result.localReceipt || "");
+        const result = item.resultText || (item.result && (item.result.ai_response || item.result.summary || item.result.message || item.result.localReceipt || ""));
+        const progress = progressForStatus(item.status);
+        const updatedAt = item.resultUpdatedAt || item.updatedAt || item.createdAt || "";
         return `<article class="entry">
           <strong>${escapeHtml(item.date || "")}${item.status ? `｜${escapeHtml(statusLabel(item.status))}` : ""}</strong>
-          <small>${escapeHtml(item.id || "")}｜${escapeHtml(item.updatedAt || item.createdAt || "")}</small>
-          <pre>${escapeHtml(item.text || "")}</pre>
-          ${result ? `<pre>${escapeHtml(String(result))}</pre>` : ""}
+          <small>${escapeHtml(item.id || "")}｜更新 ${escapeHtml(updatedAt)}</small>
+          <div class="entry-progress" role="list" aria-label="处理进度">
+            <span class="${progress.received ? "done" : progress.problem ? "problem" : "active"}" role="listitem"><b>${progress.received ? "✓" : "1"}</b>${progress.received ? "云端已收到" : "等待送达"}</span>
+            <span class="${progress.processed ? "done" : progress.processing ? "active" : progress.problem ? "problem" : ""}" role="listitem"><b>${progress.processed ? "✓" : progress.processing ? "…" : "2"}</b>${progress.processed ? "本地已处理" : progress.processing ? "本地处理中" : "等待处理"}</span>
+            <span class="${progress.resultReady ? "done" : progress.problem ? "problem" : ""}" role="listitem"><b>${progress.resultReady ? "✓" : progress.problem ? "!" : "3"}</b>${progress.resultReady ? "结果已返回" : progress.problem ? "处理待重试" : "等待结果"}</span>
+          </div>
+          ${item.message ? `<p class="receipt-message">${escapeHtml(item.message)}</p>` : ""}
+          ${result ? `<details class="result-reader" open><summary>处理结果已经返回 · 点此阅读</summary><div class="result-body"><h3>${escapeHtml(item.resultTitle || "每日日志处理结果")}</h3><pre>${escapeHtml(String(result))}</pre>${item.resultUpdatedAt ? `<small>回传时间：${escapeHtml(item.resultUpdatedAt)}</small>` : ""}</div></details>` : ""}
+          <details class="source-reader"><summary>查看本条原文</summary><div class="result-body"><pre>${escapeHtml(item.text || "")}</pre></div></details>
         </article>`;
       }).join("");
+    }
+    function progressForStatus(status) {
+      const received = new Set(["forwarding", "pending_local_pull", "saved_waiting_route", "saved_route_retry", "processing", "done", "result_ready", "result_error"]);
+      const processing = new Set(["processing", "done"]);
+      return {
+        received: received.has(status),
+        processing: processing.has(status),
+        processed: status === "result_ready",
+        resultReady: status === "result_ready",
+        problem: ["error", "result_error", "local_retry"].includes(status)
+      };
     }
     function statusLabel(status) {
       return ({
         pending: "本机暂存·准备补发",
         pending_unverified: "已发出·等待云端确认",
+        forwarding: "云端已收到·正在转交",
+        pending_local_pull: "云端已收到·等待 Mac 拉取",
+        saved_waiting_route: "公网已安全保存",
+        saved_route_retry: "公网已保存·等待转交重试",
         processing: "Mac 已拉取处理中",
-        done: "已入库并回写",
+        done: "Mac 已接收·等待结果回传",
+        result_ready: "处理完成·结果已返回",
+        result_error: "处理未完成·等待重试",
         error: "处理失败",
         local_only: "本机暂存·等待补发",
         local_retry: "本机暂存·等待重试"
@@ -391,6 +429,31 @@
       }
       throw lastErr || new Error("读取失败，所有云端收件箱地址均不可用。");
     }
+    async function fetchPublicStatuses(localItems) {
+      const relay = configuredUrlCandidates().map((value) => new URL(value)).find(isVerifiedRelayUrl);
+      if (!relay) return null;
+      const ids = localItems.map((item) => item.id).filter((id) => /^dlp-[A-Za-z0-9._:-]{8,180}$/.test(String(id || ""))).slice(0, 20);
+      if (!ids.length) return { ok: true, entries: [] };
+      const statusUrl = new URL("/api/public-status", relay.origin);
+      const response = await fetchWithTimeout(statusUrl.toString(), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids }),
+        cache: "no-store"
+      }, 9000);
+      const data = await response.json();
+      if (!response.ok || !data.ok) throw new Error(data.error || `状态读取失败 HTTP ${response.status}`);
+      return data;
+    }
+    function statusSummary(items) {
+      const latest = items[0];
+      if (!latest) return "状态：入口正常。提交后会在这里显示送达、处理和结果。";
+      if (latest.status === "result_ready") return "状态：最新一条已经处理完成，结果已返回手机，可在下方直接阅读。";
+      if (["processing", "done"].includes(latest.status)) return "状态：最新一条已被 Mac 收到，正在处理或等待结果回传。页面每 30 秒自动更新。";
+      if (["forwarding", "pending_local_pull", "saved_waiting_route", "saved_route_retry"].includes(latest.status)) return "状态：最新一条已安全送达云端，正在等待 Mac 拉取处理。页面每 30 秒自动更新。";
+      if (["error", "result_error", "local_retry"].includes(latest.status)) return "状态：最新一条当前需要重试；原文仍保存在手机或公网收件库。";
+      return "状态：最新一条正在等待云端确认。页面每 30 秒自动更新。";
+    }
     async function flushLocalOutbox({ silent = false } = {}) {
       const items = readLocalOutbox();
       const retryable = new Set(["pending", "pending_unverified", "local_only", "local_retry"]);
@@ -430,6 +493,16 @@
           const localItems = readLocalOutbox();
           renderEntries(localItems);
           setStatus("状态：云端 URL 未配置。当前只显示本机暂存记录。");
+          return;
+        }
+        const localItems = readLocalOutbox();
+        const publicStatuses = await fetchPublicStatuses(localItems);
+        if (publicStatuses) {
+          const remoteById = new Map((publicStatuses.entries || []).map((entry) => [entry.id, entry]));
+          const merged = localItems.map((item) => remoteById.has(item.id) ? { ...item, ...remoteById.get(item.id) } : item);
+          writeLocalOutbox(merged);
+          renderEntries(merged);
+          setStatus(statusSummary(merged));
           return;
         }
         const data = await fetchCloud();
@@ -485,8 +558,15 @@
             renderEntries(localItems);
             setStatus("状态：投递请求已经发出。手机暂时读不到云端回执，因此本机保留一份副本，等待下一次同步确认。");
           } else {
-            removeLocalItem(item.id);
-            setStatus("状态：已提交到云端收件箱，等待 Mac 数字生命主链拉取。");
+            const receipt = result.item || {};
+            const localItems = upsertLocalItem({
+              ...item,
+              status: receipt.status || "pending_local_pull",
+              message: receipt.message || "已进入数字生命云收件箱，等待家中 Mac 本地主链拉取。",
+              updatedAt: new Date().toISOString()
+            });
+            renderEntries(localItems);
+            setStatus("状态：云端已经收到。下方会持续显示处理进度，完成后直接显示结果。");
             await refreshEntries();
           }
         }
@@ -520,6 +600,9 @@
       navigator.serviceWorker.register("sw.js").catch(() => {});
     }
     window.addEventListener("online", () => flushLocalOutbox({ silent: true }).then(refreshEntries));
+    window.setInterval(() => {
+      if (document.visibilityState === "visible") refreshEntries();
+    }, 30000);
     flushLocalOutbox({ silent: true }).then(refreshEntries);
   </script>
 </body>
